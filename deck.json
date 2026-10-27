@@ -49,27 +49,27 @@
   "categories": {
     "money": {
       "label": "Money",
-      "color": "#f3c969"
+      "color": "#E9C46A"
     },
     "timing": {
       "label": "Timing",
-      "color": "#8b7cf6"
+      "color": "#6FA8F7"
     },
     "people": {
       "label": "Decision maker",
-      "color": "#c48bf6"
+      "color": "#B7A8FF"
     },
     "fear": {
       "label": "Trust & fear",
-      "color": "#ef6b7b"
+      "color": "#F08A7E"
     },
     "fit": {
       "label": "Fit & value",
-      "color": "#4cd38a"
+      "color": "#5CCB9A"
     },
     "early": {
       "label": "Early in the call",
-      "color": "#9a97b3"
+      "color": "#9AA3B2"
     }
   },
   "phases": {

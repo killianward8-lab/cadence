@@ -45,7 +45,7 @@ async function checkForUpdate() {
     const r = await fetch("build.json", { cache: "reload" }); const j = await r.json();
     if (j && j.v && j.v !== BUILD) {
       let pill = $("#update");
-      if (!pill) { pill = document.createElement("button"); pill.id = "update"; pill.className = "pill update"; document.querySelector(".top").append(pill); }
+      if (!pill) { pill = document.createElement("button"); pill.id = "update"; pill.className = "cd-prac update"; document.querySelector(".cd-top").append(pill); }
       pill.textContent = "⬆ New version · tap to update";
       pill.onclick = async () => { pill.textContent = "Updating…"; await Promise.all(FILES.map(f => fetch(f, { cache: "reload" }).catch(() => {}))); location.reload(); };
     }
@@ -54,12 +54,12 @@ async function checkForUpdate() {
 
 function render() {
   document.querySelectorAll("#tabs button").forEach(b => b.classList.toggle("on", b.dataset.tab === S.tab));
-  const edit = $("#edit"); edit.classList.toggle("on", S.editing); edit.textContent = S.editing ? "✓ Done" : "✎ Edit";
+  const edit = $("#edit"); edit.classList.toggle("on", S.editing); edit.lastChild.textContent = S.editing ? "Done" : "Edit";
   edit.hidden = !(S.tab === "script" || S.tab === "objections");
   $("#editbar").hidden = !S.editing;
   const pr = $("#practice"); pr.classList.toggle("on", S.practice); pr.textContent = S.practice ? "🧪 Practice · Exit" : "🧪 Practice";
   $("#pracbar").hidden = !S.practice;
-  const pp = $("#poppy"); pp.classList.toggle("on", hasKey()); pp.textContent = hasKey() ? "● Poppy" : "○ Poppy"; pp.title = hasKey() ? "Connected to Poppy. Click to disconnect." : "Connect to Poppy with your machine key";
+  const pp = $("#poppy"); pp.classList.toggle("on", hasKey()); pp.classList.toggle("live", hasKey()); pp.textContent = hasKey() ? "● Poppy" : "○ Poppy"; pp.title = hasKey() ? "Connected to Poppy. Click to disconnect." : "Connect to Poppy with your machine key";
   const main = $("#main"); main.innerHTML = "";
   if (S.tab === "precall") main.append(renderPrecall());
   if (S.tab === "script") main.append(renderScript());

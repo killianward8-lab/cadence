@@ -11,75 +11,80 @@ export function renderDeck() {
   const d = S.deck, c = S.call, o = offer();
   const P = S.practice;
   const price = dealPrice();
+  const f = (label, key, type = "text", ph = "") => h("label", { class: "cl-f" }, h("small", {}, label), h("input", { type, value: c[key] || "", placeholder: ph, onchange: (e) => setCall({ [key]: e.target.value }) }));
+  const moneyF = (label, key, val, ph = "") => h("label", { class: "cl-f money" }, h("small", {}, label), h("i", {}, "$"), h("input", { inputmode: "numeric", value: val, placeholder: ph, onchange: (e) => setCall({ [key]: e.target.value }) }));
 
-  // 1 · calls (or the practice call)
-  const todays = S.calls.filter(x => x.date === todayISO());
-  const step1 = h("section", { class: "card step" }, h("h3", {}, h("i", {}, "1"), P ? "Practice call" : "Your calls"),
-    P ? h("div", { class: "prac" },
+  // 1 · your calls (or the practice call)
+  const upcoming = [...S.calls].filter(x => x.date >= todayISO()).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0, 8);
+  const days = [...new Set(upcoming.map(x => x.date))];
+  const dayLabel = (dt) => { const t = todayISO(); if (dt === t) return "Today"; const tm = new Date(t + "T12:00:00"); tm.setDate(tm.getDate() + 1); return dt === tm.toISOString().slice(0, 10) ? "Tomorrow" : dt; };
+  const kind = (t) => /group/i.test(t) ? ["group", "Group OB"] : /1-on-1/i.test(t) ? ["ob", "1-on-1 OB"] : /clos/i.test(t) ? ["close", "Closing"] : ["set", "Set"];
+  const step1 = h("section", { class: "cl-card step" }, h("h3", {}, h("i", {}, "1"), P ? "Practice call" : "Your calls"),
+    P ? h("div", { class: "cl-prac" },
       h("p", {}, "A made-up group call. Run the whole close: offer, bonuses, pay, celebrate. Test money only, nobody real is charged, emailed or logged."),
-      h("div", { class: "who" }, d.practice.people.map(p => h("span", {}, p.name))),
-      h("p", { class: "fake" }, "Fake card: ", h("b", {}, d.practice.card)),
-      h("button", { class: "pill", onclick: startPractice }, "↺ Start the practice call over"))
-    : h("div", {},
-      todays.length ? todays.map(x => h("button", { class: "callBtn" + (x.id === c.id ? " on" : ""), onclick: () => { setCall({ id: x.id, name: x.name, email: x.email, trialStart: x.trialStart, renews: x.renews, offerId: x.offerId || c.offerId, mode: /group/i.test(x.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "" }); lookupCard(); } },
-          h("b", {}, x.time || "—"), h("span", {}, x.name, h("small", {}, x.type)), h("em", {}, "prep →")))
-        : h("p", { class: "muted"}, "No calls loaded for today. Add them on the Pre-call tab, or fill the call in below."),
-      h("button", { class: "chip small", onclick: () => setTab("precall") }, "Pre-call tab →")));
+      h("div", { class: "who" }, d.practice.people.map(pp => h("span", {}, pp.name))),
+      h("p", { class: "card" }, "Fake card: ", h("b", {}, d.practice.card)),
+      h("button", { class: "lnk", onclick: startPractice }, "↺ Start the practice call over"))
+    : [h("div", { class: "cl-search" }, h("span", {}, "🔎"), h("input", { placeholder: "Search your calls, or anyone by name or email", value: S.callQ || "", oninput: (e) => { S.callQ = e.target.value; render(); } })),
+      h("div", { class: "cl-calls" }, days.length ? days.map(dt => h("div", { class: "cl-day" }, h("small", {}, dayLabel(dt)),
+        upcoming.filter(x => x.date === dt && (!S.callQ || (x.name + " " + x.email).toLowerCase().includes(S.callQ.toLowerCase()))).map(x => {
+          const [k, kl] = kind(x.type);
+          return h("button", { class: "cl-callrow" + (x.id === c.id ? " on" : ""), onclick: () => { setCall({ id: x.id, name: x.name, email: x.email, phone: x.phone || "", trialStart: x.trialStart, renews: x.renews, offerId: x.offerId || c.offerId, mode: /group/i.test(x.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "", showLinks: false, linkTried: false }); lookupCard(); } },
+            h("span", { class: "t" }, h("b", {}, x.time || "—"), h("i", { class: "kind " + k }, kl)),
+            h("span", { class: "who" }, h("b", {}, x.name || "(no name)"), h("em", {}, x.email || "")),
+            h("span", { class: "st" }, h("i", { class: "go" }, x.id === c.id ? "on deck" : "prep →")));
+        })))
+        : h("p", { class: "cl-hint" }, hasKey() ? "No calls loaded yet. Pre-call → Check again." : "Connect Poppy (○ Poppy, top right) and your calls show up here."))]);
 
   // 2 · the call
-  const step2 = h("section", { class: "card step" }, h("h3", {}, h("i", {}, "2"), "The call"),
-    h("div", { class: "row" },
-      field("Their name", c.name, (v) => setCall({ name: v }), { ph: "First name" }),
-      field("Email", c.email, (v) => setCall({ email: v }), { ph: "optional" })),
-    h("div", { class: "row" },
-      field("Trial started", c.trialStart, (v) => setCall({ trialStart: v }), { type: "date" }),
-      field("Renews on", c.renews, (v) => setCall({ renews: v }), { type: "date" })),
-    field("The deal, in your words", c.deal, (v) => setCall({ deal: v }), { textarea: true, rows: 3, ph: "VCS at 8k with Malu, she needs her course built, already paid 997" }),
-    h("div", { class: "muted small" }, "Lines you write here show on the Offer slide as \"For you\". Mo's page writes these from the transcript; here you write them."));
+  const step2 = h("section", { class: "cl-card step" }, h("h3", {}, h("i", {}, "2"), "The call"),
+    h("div", { class: "cl-tq" + (c.name ? " has" : "") }, h("span", { class: "dot" + (c.name ? " on" : "") }), h("span", { class: "m" }, h("b", {}, c.name ? `${c.name}${c.email ? " · " + c.email : ""}` : "No call picked yet"), h("em", {}, c.name ? `${c.mode === "group" ? "Group" : "1-on-1"}${c.trialStart ? " · trial started " + fmtDay(c.trialStart) : ""}${c.renews ? " · renews " + fmtDay(c.renews) : ""}` : "pick one above, or type it in"))),
+    h("div", { class: "cl-row" }, f("Their name", "name", "text", "First name"), f("Email", "email", "text", "optional")),
+    h("div", { class: "cl-row" }, f("Trial started", "trialStart", "date"), f("Renews on", "renews", "date")),
+    h("label", { class: "cl-f" }, h("small", {}, "The deal, in your words"), h("textarea", { rows: 2, placeholder: "VCS at 8k with Malu, she needs her course built, already paid 997", onchange: (e) => setCall({ deal: e.target.value }) }, c.deal || "")),
+    h("div", { class: "cl-under" }, h("span", { class: "ok" }, "✓ Deck ready · 5 slides"), h("span", { class: "lnk dim" }, "lines you write show on the Offer slide as \"For you\"")));
 
   // 3 · the deal
-  const step3 = h("section", { class: "card step" }, h("h3", {}, h("i", {}, "3"), "The deal"),
-    eyebrow("Presentation"),
-    seg([["group", "Group · generic, share the screen"], ["one", "1-on-1 · their info on the slides"]], c.mode, (v) => setCall({ mode: v }), "col"),
-    eyebrow("Offer"),
-    h("div", { class: "offers" }, content().offers.map(x => h("button", { class: "offerBtn" + (x.id === o.id ? " on" : ""), onclick: () => setCall({ offerId: x.id, list: "", today: "", paid: "" }) },
-      h("span", {}, h("b", {}, x.name), h("small", {}, x.who || "")), h("span", { class: "price" }, money(x.today))))),
-    h("div", { class: "row three" },
-      field("Full price", c.list !== "" ? c.list : o.list, (v) => setCall({ list: v }), { type: "number" }),
-      field("Paid", c.paid, (v) => setCall({ paid: v }), { type: "number", ph: "0" }),
-      field("Today", c.today !== "" ? c.today : o.today, (v) => setCall({ today: v }), { type: "number" })),
-    h("div", { class: "muted" }, price.paid ? `${money(price.today)} today, ${money(price.paid)} already paid → ${money(price.due)} due` : `${money(price.today)} today`),
-    h("div", { class: "row" }, eyebrow("Pay plan"), planSeg()),
+  const full = c.list !== "" && c.list != null ? c.list : o.list;
+  const today = c.today !== "" && c.today != null ? c.today : o.today;
+  const step3 = h("section", { class: "cl-card step" }, h("h3", {}, h("i", {}, "3"), "The deal"),
+    h("label", { class: "cl-f" }, h("small", {}, "Presentation"), h("div", { class: "cl-seg" },
+      h("button", { class: c.mode === "group" ? "on" : "", onclick: () => setCall({ mode: "group" }) }, "Group · generic, share the screen"),
+      h("button", { class: c.mode === "one" ? "on" : "", onclick: () => setCall({ mode: "one" }) }, "1-on-1 · their info on the slides"))),
+    h("label", { class: "cl-f" }, h("small", {}, "Offer"), h("select", { onchange: (e) => setCall({ offerId: e.target.value, list: "", today: "", paid: "" }) }, content().offers.map(x => h("option", { value: x.id, selected: x.id === o.id }, x.name)))),
+    h("div", { class: "cl-row" }, moneyF("Full price", "list", full), moneyF("Paid", "paid", c.paid || "", "0"), moneyF("Today", "today", today)),
+    h("div", { class: "cl-line" }, h("label", { class: "cl-check" }, h("input", { type: "checkbox", checked: +today === +full, onchange: (e) => setCall({ today: e.target.checked ? full : o.today }) }), " Full price today"), h("b", {}, `${money(price.due)} today`)),
+    h("label", { class: "cl-f" }, h("small", {}, "Pay plan"), h("div", { class: "cl-seg" }, Object.entries(d.plans).map(([id, pl]) => h("button", { class: c.payPlan === id ? "on" : "", onclick: () => setCall({ payPlan: id }) }, pl.label)))),
     moneyBlock());
 
   // 4 · log the call
-  const step4 = h("section", { class: "card step" }, h("h3", {}, h("i", {}, "4"), "Log the call"),
-    h("p", { class: "muted" }, "Who showed, what happened, what's next. Mo's page logs straight to the tracker. Here it keeps a note in this browser and copies a line you can paste into the tracker."),
-    h("div", { class: "chips" }, d.outcomes.map(x => h("button", { class: "chip small" + (c.outcome === x ? " on" : ""), onclick: () => setCall({ outcome: x }) }, x))),
-    h("div", { class: "row" }, field("Cash collected", c.cc, (v) => setCall({ cc: v }), { type: "number", ph: "0" }), field("Follow-up date", c.fu, (v) => setCall({ fu: v }), { type: "date" })),
-    field("Note", c.note, (v) => setCall({ note: v }), { textarea: true, rows: 2, ph: "What held them back, what you promised" }),
-    h("div", { class: "row" },
-      h("button", { class: "pill", disabled: P, onclick: logCall }, P ? "Not logged in practice" : "Log it"),
-      h("button", { class: "chip small", onclick: () => copy(logLine(), "Copied for the tracker") }, "⧉ copy a line")),
-    S.log.length ? h("div", { class: "loglist" }, eyebrow("Logged in this browser"), S.log.slice(-5).reverse().map(l => h("div", { class: "muted small" }, l))) : null);
+  const step4 = h("section", { class: "cl-card step cl-log" }, h("h3", {}, h("i", {}, "4"), "Log the call"),
+    h("p", { class: "cl-hint" }, "Who showed, what happened, what's next. Kept in this browser, and a line you can paste into the tracker."),
+    h("div", { class: "cl-seg wrap" }, d.outcomes.map(x => h("button", { class: c.outcome === x ? "on" : "", onclick: () => setCall({ outcome: x }) }, x))),
+    h("div", { class: "cl-row" }, moneyF("Cash collected", "cc", c.cc || "", "0"), f("Follow-up date", "fu", "date")),
+    h("label", { class: "cl-f" }, h("small", {}, "Note"), h("textarea", { rows: 2, placeholder: "What held them back, what you promised", onchange: (e) => setCall({ note: e.target.value }) }, c.note || "")),
+    h("div", { class: "cl-under" }, h("button", { class: "cl-go", disabled: P, onclick: logCall }, P ? "Not logged in practice" : "Log it"), h("button", { class: "lnk", onclick: () => copy(logLine(), "Copied for the tracker") }, "copy a line")),
+    S.log.length ? h("div", { class: "cl-loglist" }, S.log.slice(-5).reverse().map(l => h("small", {}, l))) : null);
 
   const left = h("div", { class: "cl-side" }, step1, step2, step3, step4);
 
   const brief = S.calls.find(x => x.id === c.id);
-  const before = brief && (brief.sections.close || brief.sections.putOut) ? h("details", { class: "before" }, h("summary", {}, "Before you join ", h("small", {}, brief.sections.who || "")),
-    h("p", {}, h("b", {}, "The problem: "), brief.sections.putOut), h("p", {}, h("b", {}, "To close: "), brief.sections.close)) : null;
+  const hasBrief = brief && (brief.sections.close || brief.sections.putOut);
+  const briefOpen = !!S.briefOpen;
+  const before = hasBrief ? h("section", { class: "cl-card brief" + (briefOpen ? "" : " closed") },
+    h("h3", { class: "cl-fold", onclick: () => { S.briefOpen = !briefOpen; render(); } }, h("i", {}, briefOpen ? "▾" : "▸"), "Before you join", h("small", {}, [brief.brief && brief.brief.problem ? "problem" : "", brief.brief && brief.brief.flags.length ? `${brief.brief.flags.length} flags` : "", brief.sections.who ? brief.sections.who.split("\n")[0] : ""].filter(Boolean).join(" · "))),
+    briefOpen ? h("div", { class: "cl-briefbody" }, h("p", {}, h("b", {}, "The problem: "), brief.sections.putOut), h("p", {}, h("b", {}, "To close: "), brief.sections.close)) : null) : null;
 
-  const right = h("div", {},
-    h("div", { class: "row" },
-      seg(slideList().map((id, i) => [i, { cover: "Cover", offer: "Offer", pay: "Pay", gameplan: "Gameplan", celebrate: "Celebrate", review: "Review" }[id]]), S.slide, (i) => jump(i)),
-      h("button", { class: "presentBtn", onclick: openPresent }, "▶ Present")),
+  const labels = { cover: "cover", offer: "offer", pay: "pay", gameplan: "gameplan", celebrate: "celebrate", review: "review" };
+  const right = h("div", { class: "cl-main" },
     before,
-    c.mode === "one" && !c.name ? h("div", { class: "notice" }, h("b", {}, "Standard pitch: "), "no name yet, so the slides use your standard version. Fill in the call to make it theirs.") : null,
+    h("div", { class: "cl-bar" },
+      h("div", { class: "cl-thumbs" }, slideList().map((id, i) => h("button", { class: i === S.slide ? "on" : "", onclick: () => jump(i) }, labels[id]))),
+      h("button", { class: "cl-present", onclick: openPresent }, "▶ Present")),
+    c.mode === "one" && !c.name ? h("p", { class: "cl-notes" }, h("b", {}, "Standard pitch: "), "no name yet, so the slides use your standard version. Fill in the call to make it theirs.") : null,
     h("div", { class: "dk-frame", onclick: (e) => { const r = e.currentTarget.getBoundingClientRect(); step(e.clientX - r.left > r.width / 2 ? 1 : -1); } }, renderMoSlide(S.slide)),
-    h("div", { class: "sayit" }, h("b", {}, "Say it: "), d.sayIt[slideId()] || ""),
-    h("div", { class: "hint" }, "In Present: ", h("kbd", {}, "←"), h("kbd", {}, "→"), " slides · ", h("kbd", {}, "O"), " offer · ",
-      Object.values(d.plans).map(p => [h("kbd", {}, p.key), " " + p.label + " · "]), h("kbd", {}, "D"), " draw · ", h("kbd", {}, "E"), " text · ", h("kbd", {}, "C"), " clear · ", h("kbd", {}, "M"), " music · ", h("kbd", {}, "G"), " party · ", h("kbd", {}, "F"), " fullscreen · ", h("kbd", {}, "Esc"), " close"));
-  return h("div", { class: "deck" }, left, right);
+    h("p", { class: "cl-notes" }, h("b", {}, "Say it: "), d.sayIt[slideId()] || ""));
+  return h("div", { class: "cl-grid" }, left, right);
 }
 
 // ---------- money (card on file, charge, link) ----------
@@ -115,20 +120,20 @@ export async function link() {
 }
 function moneyBlock() {
   const c = S.call, ci = cardInfo(), live = hasKey();
-  return h("div", { class: "moneyblock" },
-    eyebrow("Card on file"),
-    live ? h("div", { class: "row tight" },
-      c.cardBusy ? h("span", { class: "muted small" }, "Looking in Stripe…")
-        : ci ? (ci.has ? h("span", { class: "st ok small" }, "💳 " + (ci.label || "card on file") + (ci.trialing ? ` · trial day ${ci.day}` : "")) : h("span", { class: "st bad small" }, ci.error ? ci.error : "No card on file"))
-        : h("span", { class: "muted small" }, c.email ? "Not checked yet" : "Add their email"),
-      h("button", { class: "chip small", disabled: !c.email || c.cardBusy, onclick: lookupCard }, ci ? "Check again" : "Find the card"))
-      : seg([[true, "Yes"], [false, "No"]], c.card, (v) => setCall({ card: v })),
-    live ? h("div", { class: "row tight" },
-      h("button", { class: "chip small", disabled: c.linkBusy, onclick: link }, c.linkBusy ? "Making the link…" : "🔗 Make the link"),
-      h("button", { class: "chip small danger", disabled: c.payBusy || c.paidNow, onclick: charge }, c.payBusy ? "Charging…" : c.paidNow ? "Paid ✓" : "💳 Charge the card")) : null,
-    c.payErr ? h("div", { class: "st bad small" }, c.payErr) : null,
-    c.payNote ? h("div", { class: "muted small" }, c.payNote) : null,
-    field("Pay link", c.payUrl, (v) => setCall({ payUrl: v, payFix: false, payNote: "" }), { ph: live ? "Make the link, or paste one" : "https://…" }));
+  return h("div", { class: "cl-money" },
+    h("label", { class: "cl-f" }, h("small", {}, "Card on file"),
+      live ? h("div", { class: "cl-line" },
+        c.cardBusy ? h("span", { class: "dim" }, "Looking in Stripe…")
+          : ci ? (ci.has ? h("span", { class: "ok" }, "💳 " + (ci.label || "card on file") + (ci.trialing ? ` · trial day ${ci.day}` : "")) : h("span", { class: "bad" }, ci.error ? ci.error : "No card on file"))
+          : h("span", { class: "dim" }, c.email ? "Not checked yet" : "Add their email"),
+        h("button", { class: "lnk", disabled: !c.email || c.cardBusy, onclick: lookupCard }, ci ? "check again" : "find the card"))
+      : h("div", { class: "cl-seg" }, h("button", { class: c.card ? "on" : "", onclick: () => setCall({ card: true }) }, "Yes"), h("button", { class: !c.card ? "on" : "", onclick: () => setCall({ card: false }) }, "No"))),
+    live ? h("div", { class: "cl-row" },
+      h("button", { class: "cl-go ghost", disabled: c.linkBusy, onclick: link }, c.linkBusy ? "Making the link…" : "🔗 Make the link"),
+      h("button", { class: "cl-go", disabled: c.payBusy || c.paidNow, onclick: charge }, c.payBusy ? "Charging…" : c.paidNow ? "Paid ✓" : "💳 Charge the card")) : null,
+    c.payErr ? h("p", { class: "cl-hint bad" }, c.payErr) : null,
+    c.payNote ? h("p", { class: "cl-hint" }, c.payNote) : null,
+    h("label", { class: "cl-f" }, h("small", {}, "Pay link"), h("input", { value: c.payUrl || "", placeholder: live ? "Make the link, or paste one" : "https://…", onchange: (e) => setCall({ payUrl: e.target.value, payFix: false, payNote: "" }) })));
 }
 
 function startPractice() {
