@@ -1,5 +1,6 @@
 import { h, $, S, content, save, render, setTab, setCall, offer, coachName, dealPrice, planMonths, money, fmtDay, firstName, todayISO, field, seg, copy, toast, eyebrow, uid } from "./core.js";
 import { hasKey, findCard, chargeCard, makeLink, isOb, clean } from "./poppy.js";
+import { renderSlide as renderMoSlide, slideList, slideId, step, jump } from "./slides.js";
 
 export const SLIDES = [
   { id: "cover", label: "Cover" }, { id: "offer", label: "Offer" }, { id: "pay", label: "Pay" }, { id: "gameplan", label: "Gameplan" }, { id: "review", label: "Review" },
@@ -70,19 +71,19 @@ export function renderDeck() {
 
   const right = h("div", {},
     h("div", { class: "row" },
-      seg(SLIDES.map((s, i) => [i, s.label]), S.slide, (i) => { S.slide = i; render(); }),
+      seg(slideList().map((id, i) => [i, { cover: "Cover", offer: "Offer", pay: "Pay", gameplan: "Gameplan", celebrate: "Celebrate", review: "Review" }[id]]), S.slide, (i) => jump(i)),
       h("button", { class: "presentBtn", onclick: openPresent }, "▶ Present")),
     before,
     c.mode === "one" && !c.name ? h("div", { class: "notice" }, h("b", {}, "Standard pitch: "), "no name yet, so the slides use your standard version. Fill in the call to make it theirs.") : null,
-    h("div", { class: "slideWrap" }, renderSlide(S.slide)),
-    h("div", { class: "sayit" }, h("b", {}, "Say it: "), d.sayIt[SLIDES[S.slide].id] || ""),
+    h("div", { class: "dk-frame", onclick: (e) => { const r = e.currentTarget.getBoundingClientRect(); step(e.clientX - r.left > r.width / 2 ? 1 : -1); } }, renderMoSlide(S.slide)),
+    h("div", { class: "sayit" }, h("b", {}, "Say it: "), d.sayIt[slideId()] || ""),
     h("div", { class: "hint" }, "In Present: ", h("kbd", {}, "←"), h("kbd", {}, "→"), " slides · ", h("kbd", {}, "O"), " offer · ",
       Object.values(d.plans).map(p => [h("kbd", {}, p.key), " " + p.label + " · "]), h("kbd", {}, "D"), " draw · ", h("kbd", {}, "E"), " text · ", h("kbd", {}, "C"), " clear · ", h("kbd", {}, "M"), " music · ", h("kbd", {}, "G"), " party · ", h("kbd", {}, "F"), " fullscreen · ", h("kbd", {}, "Esc"), " close"));
   return h("div", { class: "deck" }, left, right);
 }
 
 // ---------- money (card on file, charge, link) ----------
-const cardInfo = () => (S.call.cardInfo && S.call.cardFor === clean(S.call.email)) ? S.call.cardInfo : null;
+export const cardInfo = () => (S.call.cardInfo && S.call.cardFor === clean(S.call.email)) ? S.call.cardInfo : null;
 export async function lookupCard() {
   const c = S.call; if (!hasKey() || !c.email) return;
   setCall({ cardBusy: true, payErr: "" });
@@ -95,10 +96,10 @@ export async function charge() {
   if (c.payPlan !== "full") return toast("Payment plans go through a Whop link, not the card. Make the link.");
   if (!c.email) return toast("Add their email first");
   if (!confirm(`Charge ${money(price.due)} to the card on file for ${c.email}?${S.practice ? " (Practice: nothing is charged)" : ""}`)) return;
-  setCall({ payBusy: true, payErr: "" });
+  setCall({ payBusy: true, payErr: "", chargeStep: 0, payFix: false });
   try {
     const r = await chargeCard({ offer: o, email: c.email, name: c.name, amount: price.due, card: cardInfo() });
-    if (r.ok) { setCall({ payBusy: false, paidNow: true, party: true, payErr: r.practice ? "🧪 Practice: no real charge" : "" }); toast(r.practice ? "Practice: charge skipped" : "Paid ✓"); }
+    if (r.ok) { setTimeout(() => { setCall({ payBusy: false, paidNow: true, party: true, paidHow: r.practice ? "practice, nothing charged" : "card on file", payErr: "" }); toast(r.practice ? "Practice: charge skipped" : "Paid ✓"); }, 1500); }
     else { setCall({ payBusy: false, payErr: r.error || "Card declined", payUrl: r.fix || c.payUrl, payFix: !!r.fix }); toast(r.error || "Declined"); }
   } catch (e) { setCall({ payBusy: false, payErr: String(e.message || e) }); }
 }
@@ -231,9 +232,9 @@ const stat = (l, v) => h("div", { class: "stat" }, h("small", {}, l), h("b", {},
 // ---------- present mode ----------
 const PR = { draw: false, text: false, color: "#F5C64F", strokes: {}, texts: {}, music: false, track: 0 };
 const COLORS = ["#F5C64F", "#A78BFA", "#4ADE97", "#FF8FA3"];
-export function openPresent() { S.present = true; S.slide = 0; render(); }
+export function openPresent() { S.present = true; S.slide = 0; S.step = 0; S.zoom = null; render(); }
 export function closePresent() { S.present = false; PR.draw = PR.text = false; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); render(); }
-export const go = (d) => { S.slide = (S.slide + d + SLIDES.length) % SLIDES.length; render(); };
+export const go = (d) => step(d);
 export const toggleDraw = () => { PR.draw = !PR.draw; PR.text = false; render(); };
 export const toggleText = () => { PR.text = !PR.text; PR.draw = false; render(); };
 export const clearInk = () => { PR.strokes[S.slide] = []; PR.texts[S.slide] = []; render(); };
@@ -241,72 +242,76 @@ export const setColor = (i) => { PR.color = COLORS[i]; render(); };
 export const toggleMusic = () => { PR.music = !PR.music; render(); };
 export const nextTrack = () => { const n = (S.deck.music.playlists || []).filter(p => p.url).length; if (n) { PR.track = (PR.track + 1) % n; PR.music = true; render(); } };
 export const toggleParty = () => setCall({ party: !S.call.party });
-export const markPaid = () => { setCall({ paidNow: true, party: true }); };
+export const markPaid = () => { setCall({ paidNow: true, party: true, paidHow: "marked by hand" }); };
 export function toggleFull() { try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); } catch {} }
 
 export function renderPresent() {
   const p = $("#present");
   p.hidden = !S.present;
-  p.innerHTML = "";
-  if (!S.present) return;
-  const n = SLIDES.length;
-  const frame = h("div", { class: "frame" + (PR.draw ? " drawing" : "") + (PR.text ? " texting" : "") }, renderSlide(S.slide));
-  frame.append(inkLayer(frame));
+  if (!S.present) { p.innerHTML = ""; p.className = "dk-present"; return; }
+  const prev = p.querySelector(".dk-stage > .dk-slide:not(.leaving)");
+  const prevKey = prev && prev.dataset.key;
+  const key = slideId() + ":" + (S.call.party ? "p" : "g");
+  p.className = "dk-present" + (PR.draw ? " drawing" : "") + (PR.text ? " editing" : "");
+  p.onclick = (e) => { if (PR.draw || PR.text) return; if (e.target.closest(".dk-tools, .musicdock, button, a, .path, .bonus, .bx-wrap, .dk-label")) return; step(e.clientX > innerWidth / 2 ? 1 : -1); };
+  let stage = p.querySelector(".dk-stage");
+  if (!stage) { p.innerHTML = ""; stage = h("div", { class: "dk-stage" }); p.append(stage, h("div", { class: "dk-dots" }), h("div", { class: "dk-tools" })); }
+  // crossfade: keep the old slide for a beat when the slide (not just a step) changes
+  const slide = renderMoSlide(S.slide); slide.dataset.key = key;
+  stage.querySelectorAll(".dk-slide, .dk-ink, .dk-label").forEach(el => { if (!el.classList.contains("leaving")) el.remove(); });
+  if (prev && prevKey && prevKey !== key) { prev.classList.add("leaving"); setTimeout(() => prev.remove(), 340); slide.classList.add("entering"); stage.prepend(prev); }
+  stage.append(slide, ...inkLayer(stage));
+  p.querySelector(".dk-dots").replaceWith(h("div", { class: "dk-dots" }, slideList().map((_, i) => h("i", { class: i === S.slide ? "on" : "" }))));
+  const n = 5;
   const lists = (S.deck.music.playlists || []).filter(x => x.url);
-  const music = PR.music && lists.length ? h("div", { class: "musicdock" }, h("iframe", { src: embedUrl(lists[PR.track % lists.length].url), width: "300", height: "80", frameborder: "0", allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture", loading: "lazy" })) : null;
-  p.append(
-    h("div", { class: "stage-area" }, frame, music),
-    h("div", { class: "bar" }, h("div", { class: "tools" },
-      h("div", { class: "grp" },
-        h("button", { class: "ic", onclick: () => go(-1) }, "‹"),
-        h("span", { class: "count" }, String(S.slide + 1), h("small", {}, "/" + n)),
-        h("button", { class: "ic", onclick: () => go(1) }, "›")),
-      h("div", { class: "grp" },
-        h("button", { class: PR.draw ? "on" : "", title: "D", onclick: toggleDraw }, "✏️ Draw"),
-        PR.draw ? h("span", { class: "colors" }, COLORS.map((col, i) => h("i", { style: { background: col }, class: col === PR.color ? "on" : "", title: String(i + 1), onclick: () => setColor(i) }))) : null,
-        h("button", { class: PR.text ? "on" : "", title: "E", onclick: toggleText }, "✍️ Text"),
-        (PR.strokes[S.slide] || []).length || (PR.texts[S.slide] || []).length ? h("button", { title: "C", onclick: clearInk }, "clear") : null),
-      h("div", { class: "grp" },
-        h("button", { class: PR.music ? "on" : "", title: lists.length ? "M" : "Add playlists in deck.json → music", onclick: lists.length ? toggleMusic : () => toast("Add a Spotify playlist link in deck.json → music") }, "🎵 Music"),
-        lists.length > 1 ? h("button", { class: "ic", title: "N · next playlist", onclick: nextTrack }, "⏭") : null),
-      h("div", { class: "grp" }, h("span", { class: "lbl" }, "Offer"), offerSeg()),
-      h("div", { class: "grp" }, h("span", { class: "lbl" }, "Pay"), planSeg()),
-      h("div", { class: "grp" },
-        SLIDES[S.slide].id === "pay" && !S.call.paidNow && hasKey() ? h("button", { class: "paid", disabled: S.call.payBusy, title: "charge the card on file", onclick: charge }, S.call.payBusy ? "Charging…" : "💳 Charge " + money(dealPrice().due)) : null,
-        SLIDES[S.slide].id === "pay" && !S.call.paidNow && hasKey() ? h("button", { disabled: S.call.linkBusy, title: "make a pay link, shows on the slide", onclick: link }, S.call.linkBusy ? "…" : "🔗 Link") : null,
-        SLIDES[S.slide].id === "pay" && !S.call.paidNow ? h("button", { class: hasKey() ? "" : "paid", title: "mark paid by hand, no charge", onclick: markPaid }, hasKey() ? "mark paid" : "✓ Paid") : null,
-        h("button", { class: S.call.party ? "on" : "", title: "G · party", onclick: toggleParty }, "🎉")),
-      h("div", { class: "grp" },
-        h("button", { class: "ic", title: "F · fullscreen", onclick: toggleFull }, "⛶"),
-        h("button", { class: "ic", title: "Esc · close", onclick: closePresent }, "✕")))));
-  if (S.call.party) confetti(p);
+  p.querySelector(".dk-tools").replaceWith(h("div", { class: "dk-tools" + (PR.draw || PR.text ? " open" : "") },
+    h("div", { class: "grp nav" },
+      h("button", { class: "ic", disabled: S.slide === 0 && !(S.step > 0), title: "← back", onclick: (e) => { e.stopPropagation(); step(-1); } }, "‹"),
+      h("span", { class: "cnt" }, String(S.slide + 1), h("small", {}, "/" + n)),
+      h("button", { class: "ic", disabled: S.slide === n - 1, title: "→ next", onclick: (e) => { e.stopPropagation(); step(1); } }, "›")),
+    h("div", { class: "grp" },
+      h("button", { class: PR.draw ? "on" : "", title: "D", onclick: (e) => { e.stopPropagation(); toggleDraw(); } }, h("span", {}, "✏️"), "Draw"),
+      PR.draw ? h("span", { class: "dk-colors" }, COLORS.map((col, i) => h("i", { style: { background: col }, class: col === PR.color ? "on" : "", title: String(i + 1), onclick: (e) => { e.stopPropagation(); setColor(i); } }))) : null,
+      h("button", { class: PR.text ? "on" : "", title: "E", onclick: (e) => { e.stopPropagation(); toggleText(); } }, h("span", {}, "✍️"), "Text"),
+      (PR.strokes[S.slide] || []).length || (PR.texts[S.slide] || []).length ? h("button", { title: "C", onclick: (e) => { e.stopPropagation(); clearInk(); } }, "clear") : null),
+    h("div", { class: "grp" },
+      h("button", { class: PR.music ? "on" : "", title: lists.length ? "M" : "Add playlists in deck.json → music", onclick: (e) => { e.stopPropagation(); lists.length ? toggleMusic() : toast("Add a Spotify playlist link in deck.json → music"); } }, h("span", {}, "🎵"), "Music"),
+      h("button", { class: "ic", title: lists.length > 1 ? "N · next playlist" : "your songs", onclick: (e) => { e.stopPropagation(); nextTrack(); } }, "🎧")),
+    h("div", { class: "grp offer" }, h("span", { class: "lbl" }, "Offer"), offerSeg()),
+    h("div", { class: "grp seg", title: "payment plan · P / W / K" }, Object.entries(S.deck.plans).map(([id, pl]) => h("button", { class: S.call.payPlan === id ? "on" : "", onclick: (e) => { e.stopPropagation(); setCall({ payPlan: id }); } }, pl.label))),
+    h("div", { class: "grp" },
+      h("button", { class: S.call.party ? "on" : "", title: "G · party", onclick: (e) => { e.stopPropagation(); toggleParty(); } }, "🎉"),
+      h("button", { class: "ic", title: "F · fullscreen", onclick: (e) => { e.stopPropagation(); toggleFull(); } }, "⛶"),
+      h("button", { class: "ic", title: "Esc · close", onclick: (e) => { e.stopPropagation(); closePresent(); } }, "✕"))));
+  const old = p.querySelector(".musicdock"); if (old) old.remove();
+  if (PR.music && lists.length) p.append(h("div", { class: "musicdock" }, h("iframe", { src: embedUrl(lists[PR.track % lists.length].url), width: "300", height: "80", frameborder: "0", allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture", loading: "lazy" })));
 }
 const embedUrl = (u) => { const m = String(u).match(/open\.spotify\.com\/(playlist|album|track)\/([A-Za-z0-9]+)/); return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0` : u; };
 
 // Drawing + text labels, kept per slide, in memory for this Present session.
-function inkLayer(frame) {
-  const layer = h("div", { class: "ink" });
-  const cv = h("canvas", { class: "inkcv" });
-  layer.append(cv);
+function inkLayer(stage) {
+  const cv = h("canvas", { class: "dk-ink" });
   const strokes = PR.strokes[S.slide] = PR.strokes[S.slide] || [];
   const texts = PR.texts[S.slide] = PR.texts[S.slide] || [];
   const ctx = cv.getContext("2d");
   const paint = () => {
-    const r = layer.getBoundingClientRect(); cv.width = r.width; cv.height = r.height;
+    const r = stage.getBoundingClientRect(); cv.width = r.width; cv.height = r.height;
     ctx.lineCap = ctx.lineJoin = "round"; ctx.lineWidth = Math.max(3, r.width / 300);
     for (const s of strokes) { ctx.strokeStyle = s.c; ctx.beginPath(); s.p.forEach(([x, y], i) => i ? ctx.lineTo(x * r.width, y * r.height) : ctx.moveTo(x * r.width, y * r.height)); ctx.stroke(); }
   };
   requestAnimationFrame(paint); window.addEventListener("resize", paint, { once: true });
   let cur = null;
-  const pos = (e) => { const r = layer.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
-  layer.addEventListener("pointerdown", (e) => {
-    if (PR.draw) { cur = { c: PR.color, p: [pos(e)] }; strokes.push(cur); layer.setPointerCapture(e.pointerId); }
-    else if (PR.text && (e.target === layer || e.target === cv)) { const [x, y] = pos(e); texts.push({ x, y, t: "", c: PR.color }); render(); setTimeout(() => { const last = $("#present .label:last-child"); last && last.focus(); }, 0); }
+  const pos = (e) => { const r = stage.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
+  cv.style.pointerEvents = PR.draw || PR.text ? "auto" : "none";
+  cv.addEventListener("pointerdown", (e) => {
+    e.stopPropagation();
+    if (PR.draw) { cur = { c: PR.color, p: [pos(e)] }; strokes.push(cur); cv.setPointerCapture(e.pointerId); }
+    else if (PR.text) { const [x, y] = pos(e); texts.push({ x, y, t: "", c: PR.color }); render(); setTimeout(() => { const last = $("#present .dk-label:last-of-type"); last && last.focus(); }, 0); }
   });
-  layer.addEventListener("pointermove", (e) => { if (cur) { cur.p.push(pos(e)); paint(); } });
-  layer.addEventListener("pointerup", () => { cur = null; });
-  texts.forEach((t, i) => layer.append(h("div", { class: "label", contenteditable: "true", style: { left: t.x * 100 + "%", top: t.y * 100 + "%", color: t.c }, oninput: (e) => { t.t = e.target.textContent; }, onblur: (e) => { if (!e.target.textContent.trim()) { texts.splice(i, 1); render(); } } }, t.t)));
-  return layer;
+  cv.addEventListener("pointermove", (e) => { if (cur) { cur.p.push(pos(e)); paint(); } });
+  cv.addEventListener("pointerup", () => { cur = null; });
+  const labels = texts.map((t, i) => h("div", { class: "dk-label", contenteditable: "true", style: { left: t.x * 100 + "%", top: t.y * 100 + "%", color: t.c }, onclick: (e) => e.stopPropagation(), oninput: (e) => { t.t = e.target.textContent; }, onblur: (e) => { if (!e.target.textContent.trim()) { texts.splice(i, 1); render(); } } }, t.t));
+  return [cv, ...labels];
 }
 function confetti(root) {
   const cv = h("canvas", { class: "confetti-cv" }); root.append(cv);

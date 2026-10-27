@@ -3,6 +3,7 @@ import { $, S, store, content, save, setRender, setTab, beginEdit, endEdit, rese
 import { renderScript } from "./script.js";
 import { renderObjections } from "./objections.js";
 import { renderDeck, renderPresent, openPresent, closePresent, go, toggleDraw, toggleText, clearInk, setColor, toggleMusic, nextTrack, toggleParty, toggleFull, togglePractice, SLIDES, PRESENT } from "./deck.js";
+import { jump } from "./slides.js";
 import { renderPrecall } from "./precall.js";
 import { renderPay } from "./pay.js";
 import { keyFromUrl, hasKey, setKey, refreshCalls } from "./poppy.js";
@@ -64,7 +65,7 @@ function onKey(e) {
     if (e.key === "ArrowRight" || e.key === " ") return go(1);
     if (e.key === "ArrowLeft") return go(-1);
     if (PRESENT.draw && /^[1-4]$/.test(e.key)) return setColor(+e.key - 1);
-    if (/^[1-9]$/.test(e.key) && +e.key <= SLIDES.length) { S.slide = +e.key - 1; return render(); }
+    if (/^[1-9]$/.test(e.key) && +e.key <= SLIDES.length) return jump(+e.key - 1);
     if (k === "o") { const ids = content().offers.map(x => x.id); S.call.offerId = ids[(ids.indexOf(S.call.offerId) + 1) % ids.length]; S.call.list = S.call.today = ""; save(); return render(); }
     for (const [id, p] of Object.entries(S.deck.plans)) if (k === p.key.toLowerCase()) { S.call.payPlan = id; save(); return render(); }
     if (k === "d") return toggleDraw();

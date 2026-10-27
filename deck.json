@@ -21,22 +21,56 @@
     "build": "🤖"
   },
   "plans": {
-    "full": { "label": "Full", "months": 1, "key": "P" },
-    "whop": { "label": "6 mo", "months": 6, "key": "W" },
-    "clarity": { "label": "24 mo", "months": 24, "key": "K" }
+    "full": {
+      "label": "Full",
+      "months": 1,
+      "key": "P"
+    },
+    "whop": {
+      "label": "6 mo",
+      "months": 6,
+      "key": "W"
+    },
+    "clarity": {
+      "label": "24 mo",
+      "months": 24,
+      "key": "K"
+    }
   },
   "payLinks": {
     "_help": "Optional. Stripe Payment Links or Whop checkout URLs per offer and plan. Make them in the Stripe dashboard, paste them here, and the Pay tab gets a Copy link button.",
-    "life": { "full": "" },
-    "renew": { "full": "" }
+    "life": {
+      "full": ""
+    },
+    "renew": {
+      "full": ""
+    }
   },
   "categories": {
-    "money": { "label": "Money", "color": "#f3c969" },
-    "timing": { "label": "Timing", "color": "#8b7cf6" },
-    "people": { "label": "Decision maker", "color": "#c48bf6" },
-    "fear": { "label": "Trust & fear", "color": "#ef6b7b" },
-    "fit": { "label": "Fit & value", "color": "#4cd38a" },
-    "early": { "label": "Early in the call", "color": "#9a97b3" }
+    "money": {
+      "label": "Money",
+      "color": "#f3c969"
+    },
+    "timing": {
+      "label": "Timing",
+      "color": "#8b7cf6"
+    },
+    "people": {
+      "label": "Decision maker",
+      "color": "#c48bf6"
+    },
+    "fear": {
+      "label": "Trust & fear",
+      "color": "#ef6b7b"
+    },
+    "fit": {
+      "label": "Fit & value",
+      "color": "#4cd38a"
+    },
+    "early": {
+      "label": "Early in the call",
+      "color": "#9a97b3"
+    }
   },
   "phases": {
     "Acknowledge": "Acknowledge & Ask",
@@ -59,9 +93,18 @@
   },
   "bonuses": {
     "life": [
-      { "t": "Bonus one · the Viral Content Academy", "d": "We put $30,000 into building it with our top creators, so you're never stuck figuring it out." },
-      { "t": "Bonus two · the Poppy Vault", "d": "My personal resource site. The exact prompts I use with clients, plus the best videos and answers to everything people ask." },
-      { "t": "Bonus three · 5,000 bonus credits", "d": "That's 1,000 extra every month for your first 5 months." }
+      {
+        "t": "Bonus one · the Viral Content Academy",
+        "d": "We put $30,000 into building it with our top creators, so you're never stuck figuring it out."
+      },
+      {
+        "t": "Bonus two · the Poppy Vault",
+        "d": "My personal resource site. The exact prompts I use with clients, plus the best videos and answers to everything people ask."
+      },
+      {
+        "t": "Bonus three · 5,000 bonus credits",
+        "d": "That's 1,000 extra every month for your first 5 months."
+      }
     ]
   },
   "guarantee": "Backed by a 30-day guarantee. Not for you, every dollar back.",
@@ -81,7 +124,7 @@
   "review": {
     "title": "If you got value today, leave a quick review",
     "sub": "It takes 30 seconds. Scan the code.",
-    "url": ""
+    "url": "https://www.trustpilot.com/evaluate/getpoppy.ai"
   },
   "celebrate": {
     "title": "You're in.",
@@ -89,45 +132,305 @@
   },
   "sayIt": {
     "cover": "Read the three facts out loud, slowly: when it started, when it renews, what it renews at. Then: 'Since we're on the call, I can do one thing for you.' Click.",
-    "offer": "Lead with the name and the one-liner. Read the stack top to bottom, then the bonuses one click at a time. Land on the price and stop talking.",
-    "pay": "'I have your card on file. Do I have your permission to run it?' Then silence. If they hesitate: Objections tab, press /.",
-    "gameplan": "Get a yes on each line, one at a time. Wait for the yes before the next one.",
-    "review": "Show the code and wait until it's posted. Then: 'Post that script in the next 24 hours and text me the link.'"
+    "offer": "Name it, read the four lines. Then click: bonus one, bonus two, bonus three, one at a time, a sentence each. Last click: the price. Stop talking.",
+    "pay": "'I have your card on file. Do I have your permission to run it?' Then silence. Tap Lock it in and watch it go green. No card: the link is on the slide.",
+    "gameplan": "'Totally fine. Here's exactly how to win with it this week.' Walk the three cards, then tap Send the game plan while they watch. (Paid somewhere the deck can't see? Press G.)",
+    "celebrate": "'Account's live, email's coming, purple chat for anything. Welcome in.' Tap send the email while they watch.",
+    "review": "'One last thing, it would mean the world to me. How was today? Scan that with your phone, 30 seconds.' Stay on the slide while they do it."
   },
   "dig": [
-    ["Clarify", "What do you mean by that?"],
-    ["Quantify", "How much? How long?"],
-    ["Cause", "What makes you think that?"],
-    ["Why", "Why does that matter to you?"],
-    ["Contrast", "What's different about that?"],
-    ["Future", "If that keeps going, what happens?"]
+    [
+      "Clarify",
+      "What do you mean by that?"
+    ],
+    [
+      "Quantify",
+      "How much? How long?"
+    ],
+    [
+      "Cause",
+      "What makes you think that?"
+    ],
+    [
+      "Why",
+      "Why does that matter to you?"
+    ],
+    [
+      "Contrast",
+      "What's different about that?"
+    ],
+    [
+      "Future",
+      "If that keeps going, what happens?"
+    ]
   ],
   "music": {
     "_help": "Spotify playlists for the Music button in Present. Paste open.spotify.com playlist links. They play through Spotify's own player, so you need to be signed in to Spotify in this browser.",
     "playlists": [
-      { "name": "Pitch", "url": "" },
-      { "name": "Celebrate", "url": "" }
+      {
+        "name": "Pitch",
+        "url": ""
+      },
+      {
+        "name": "Celebrate",
+        "url": ""
+      }
     ]
   },
   "practice": {
     "people": [
-      { "name": "Sam Rivera", "email": "practice.sam@example.com", "bio": "Yoga teacher, 2 retreats a year" },
-      { "name": "Alex Kim", "email": "practice.alex@example.com", "bio": "Runs a small branding agency" },
-      { "name": "Jordan Lee", "email": "practice.jordan@example.com", "bio": "Just started a coaching offer" }
+      {
+        "name": "Sam Rivera",
+        "email": "practice.sam@example.com",
+        "bio": "Yoga teacher, 2 retreats a year"
+      },
+      {
+        "name": "Alex Kim",
+        "email": "practice.alex@example.com",
+        "bio": "Runs a small branding agency"
+      },
+      {
+        "name": "Jordan Lee",
+        "email": "practice.jordan@example.com",
+        "bio": "Just started a coaching offer"
+      }
     ],
     "card": "4242 4242 4242 4242 · any date · any CVC"
   },
   "precall": {
     "sections": [
-      { "id": "confirmed", "emoji": "✅", "title": "Are they confirmed?" },
-      { "id": "reach", "emoji": "📲", "title": "Reach out before the call" },
-      { "id": "who", "emoji": "👤", "title": "Who they are" },
-      { "id": "putOut", "emoji": "📣", "title": "What they put out" },
-      { "id": "usePoppy", "emoji": "📊", "title": "How they use Poppy" },
-      { "id": "close", "emoji": "🎯", "title": "What you need to close them" },
-      { "id": "soFar", "emoji": "🕘", "title": "What happened so far" }
+      {
+        "id": "confirmed",
+        "emoji": "✅",
+        "title": "Are they confirmed?"
+      },
+      {
+        "id": "reach",
+        "emoji": "📲",
+        "title": "Reach out before the call"
+      },
+      {
+        "id": "who",
+        "emoji": "👤",
+        "title": "Who they are"
+      },
+      {
+        "id": "putOut",
+        "emoji": "📣",
+        "title": "What they put out"
+      },
+      {
+        "id": "usePoppy",
+        "emoji": "📊",
+        "title": "How they use Poppy"
+      },
+      {
+        "id": "close",
+        "emoji": "🎯",
+        "title": "What you need to close them"
+      },
+      {
+        "id": "soFar",
+        "emoji": "🕘",
+        "title": "What happened so far"
+      }
     ],
-    "types": ["Group onboarding", "1-on-1 onboarding", "Closing call", "Set"]
+    "types": [
+      "Group onboarding",
+      "1-on-1 onboarding",
+      "Closing call",
+      "Set"
+    ]
   },
-  "outcomes": ["Closed", "Already paid", "Short follow-up", "Long-term follow-up", "DQ", "No show", "Reschedule"]
+  "outcomes": [
+    "Closed",
+    "Already paid",
+    "Short follow-up",
+    "Long-term follow-up",
+    "DQ",
+    "No show",
+    "Reschedule"
+  ],
+  "ob": {
+    "_help": "The onboarding deck (Poppy for the year / Poppy for Life), copied from Mo's. Edit words here.",
+    "taglines": {
+      "renew": "Your content system, running all year.",
+      "life": "Pay once. Yours for life."
+    },
+    "bonusHead": "🎁 Plus 3 bonuses, today only",
+    "bonuses": [
+      {
+        "k": "vca",
+        "tag": "Bonus 1",
+        "title": "The Viral Content Academy",
+        "line": "Our video course on making content that goes viral and brings you clients.",
+        "value": "Normally $997",
+        "note": "We put $30,000 into building it with our top creators.",
+        "art": {
+          "e": "🎓",
+          "bg": "linear-gradient(135deg,#F8D46C,#B9851F)"
+        },
+        "pics": [
+          "assets/vca-classroom.jpg",
+          "assets/vca-lesson.jpg"
+        ],
+        "link": [
+          "https://www.skool.com/getpoppyai",
+          "skool.com/getpoppyai"
+        ],
+        "points": [
+          "Short-form and long-form, step by step",
+          "Turning views into clients",
+          "Built with our top creators"
+        ]
+      },
+      {
+        "k": "prompts",
+        "tag": "Bonus 2",
+        "title": "The Poppy Vault",
+        "line": "My prompts, the best videos and every answer, in one place.",
+        "value": "Only for clients",
+        "art": {
+          "e": "🔐",
+          "bg": "linear-gradient(135deg,#6D5BFF,#2A1F6B)"
+        },
+        "pics": [
+          "assets/vault-hero.jpg",
+          "assets/vault-videos.jpg"
+        ],
+        "link": [
+          "https://getpoppy.ai/prompts",
+          "getpoppy.ai/prompts"
+        ],
+        "points": [
+          "The prompts we use with every client, ready to copy",
+          "The videos that actually teach it",
+          "Every answer to every question, in one place"
+        ]
+      },
+      {
+        "k": "credits",
+        "tag": "Bonus 3",
+        "title": "5,000 bonus credits",
+        "line": "1,000 extra every month for your first 5 months.",
+        "value": "Today only",
+        "art": {
+          "e": "⚡",
+          "bg": "linear-gradient(135deg,#4ADE97,#13603D)"
+        },
+        "pics": [],
+        "link": null,
+        "points": [
+          "1,000 extra credits a month",
+          "For your first 5 months",
+          "On top of everything in the plan"
+        ]
+      }
+    ],
+    "wait": {
+      "renew": {
+        "small": "If you wait",
+        "big": "$399",
+        "sub": "on {renews}, when your trial ends",
+        "subNoDate": "in a week, when your trial ends",
+        "em": "Poppy only"
+      },
+      "life": {
+        "small": "Starter, every year",
+        "big": "$1,188/yr",
+        "sub": "renews every year, forever",
+        "em": "No bonuses"
+      }
+    },
+    "today": {
+      "small": "⚡ Today, on this call",
+      "renewSub": "${monthly} a month to go viral",
+      "lifeSub": "then $0 every year",
+      "em": "✓ Poppy + 3 bonuses"
+    },
+    "proof": {
+      "faces": [
+        "https://getpoppy.ai/killian/cadence/malu.jpg",
+        "https://getpoppy.ai/killian/cadence/charan.jpg",
+        "https://getpoppy.ai/killian/cadence/christian.jpg",
+        "https://getpoppy.ai/killian/cadence/linden.jpg"
+      ],
+      "stars": "★★★★★",
+      "creators": "13,000+ creators",
+      "guarantee": "🛡️ 30-day money-back guarantee"
+    },
+    "pay": {
+      "title": "Let's get you in",
+      "bonusLine": "🎁 Academy · Poppy Vault · Bonus credits",
+      "included": "included",
+      "todayLabel": "Today",
+      "guarantee": "30-day money-back guarantee",
+      "lock": "Lock it in",
+      "lockLife": "Lock in Life",
+      "linkInstead": "Send a pay link instead ▾",
+      "noCard": "Pay with the secure link",
+      "finding": "Finding the card…",
+      "differentCard": "💳 Use a different card",
+      "checkAgain": "Check for a card again",
+      "backToCard": "Back to the card on file ▴",
+      "steps": [
+        "Reading your card",
+        "Talking to your bank",
+        "Locking in your price",
+        "Unlocking your account"
+      ],
+      "paid": "Paid",
+      "paidSub": "it landed · account updated",
+      "undo": "Not paid? Undo",
+      "declined": "Let's try another card",
+      "declinedSub": "Totally normal, takes 20 seconds.",
+      "scan": "Scan with your phone",
+      "open": "Pay on the secure page",
+      "foot": "🔒 Secure Stripe checkout · turns green the moment it goes through"
+    },
+    "gameplan": {
+      "title": "Here's your game plan",
+      "cards": [
+        {
+          "i": "🧩",
+          "b": "Your board is saved",
+          "s": "Open it and keep going from where we left off",
+          "d": "0.35s"
+        },
+        {
+          "i": "📩",
+          "b": "Resources to your inbox",
+          "s": "I'll send you the videos and templates to get the most out of Poppy",
+          "d": "1.15s"
+        },
+        {
+          "i": "💬",
+          "b": "You've got me",
+          "s": "Stuck on anything, just reply to my email or text. It comes straight to me",
+          "d": "1.95s"
+        }
+      ],
+      "promise": "I'll check in with you this week",
+      "send": "💌 Send the game plan to my inbox"
+    },
+    "party": {
+      "title": "You're in",
+      "sub": "Account updated. Check your inbox in a minute.",
+      "pills": [
+        "✅ Full access now",
+        "💌 Academy + resources by email"
+      ],
+      "welcome": "Send the welcome email"
+    },
+    "review": {
+      "eye": "One last thing",
+      "title": "A quick review would mean the world to me",
+      "ask": "30 seconds. How today went, what you're leaving with, one thing that stood out.",
+      "copy": "Copy the link",
+      "text": "Text it to {name}",
+      "sms": "{name}, a quick review on today would mean the world to me 🙏 {url}",
+      "url": "https://www.trustpilot.com/evaluate/getpoppy.ai",
+      "scan": "Scan with your camera"
+    }
+  }
 }

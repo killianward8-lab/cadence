@@ -73,7 +73,7 @@ function pasteBrief() {
 
 const CONF = { yes: ["Confirmed", "ok"], no: ["Not confirmed", "bad"], unknown: ["Unknown", ""] };
 const update = (c, patch) => { Object.assign(c, patch); save(); render(); };
-const toDeck = (c) => { setCall({ id: c.id, name: c.name, email: c.email, trialStart: c.trialStart, renews: c.renews, offerId: c.offerId || "renew", mode: /group/i.test(c.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "" }); setTab("deck"); lookupCard(); };
+const toDeck = (c) => { setCall({ id: c.id, name: c.name, email: c.email, phone: c.phone || "", trialStart: c.trialStart, renews: c.renews, offerId: c.offerId || "renew", mode: /group/i.test(c.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "", showLinks: false, linkTried: false }); setTab("deck"); lookupCard(); };
 
 function sheetRow(c) {
   return h("div", { class: "pc-row" },

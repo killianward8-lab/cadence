@@ -29,7 +29,7 @@ Built to match Mo's Cadence tab for tab. Open https://killianward8-lab.github.io
   (outcome, cash, follow-up, note → saved in the browser + a line to paste into the tracker).
   Slide preview with a "Say it" coaching line under each slide, and a "Before you join" brief
   when the call came from Pre-call.
-- **Present**: slides Cover · Offer · Pay · Gameplan · Review. Toolbar: ‹ n/5 ›, **Draw**
+- **Present**: Mo's deck, pixel for pixel: his markup, his stylesheet (`deck-mo.css`), his fonts (Sora, Manrope), the orbs, the bonus flip-reveal (→ opens bonus 1, 2, 3, then the price), the floating card on the Pay slide, the charging animation, the game-plan cards rising in, the confetti party, the Trustpilot review slide. Click the right half of the screen to go forward, the left half to go back. Slides Cover · Offer · Pay · Gameplan (or Celebrate) · Review. Toolbar: ‹ n/5 ›, **Draw**
   (`D`, colours `1`–`4`), **Text** (`E`), clear (`C`), **Music** (`M`, Spotify playlists from
   `deck.json`, `N` next), **Offer switch** (Year / Life / Starter / Creator / Power / VCS /
   YT VCS / Build, `O` cycles), **Pay plan** (Full / 6 mo / 24 mo, `P` `W` `K`), **✓ Paid** on
