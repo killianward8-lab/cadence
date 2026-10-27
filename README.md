@@ -45,10 +45,18 @@ Built to match Mo's Cadence tab for tab. Open https://killianward8-lab.github.io
 Run it locally: `python3 tools/serve.py` then open http://localhost:8787.
 Everything you type (calls, deal, log, edits) stays in your browser. Nothing is sent anywhere.
 
+### Live calls from Poppy
+
+Poppy's server already lets any site call `/api/precall` with a machine key. Click **○ Poppy**
+in the top bar once and paste your key (it stays in this browser, never in the repo). From then
+on the Pre-call tab and the Deck's "Your calls" load today's bookings, trial dates, the
+reach-out drafts, the brief and the room link straight from Poppy, same as Mo's page, and
+refresh every 10 minutes or on "Check again". Opening the page as `…/cadence/?key=YOURKEY`
+once does the same thing.
+
 ### Not possible without Poppy's backend (Mo's page has these)
 
-Today's calls pulled from the calendar · the AI brief built from the transcript · "Update the
-deck" from a transcript · charging the card on file · making Stripe/Whop links on the spot ·
+"Update the deck" from a transcript · charging the card on file · making Stripe/Whop links on the spot ·
 sending the room link, welcome email or team seats · Tactiq / Grain · logging straight to the
 tracker. For those, keep Mo's page open in a second tab, or ask Mo to open an API for this app.
 

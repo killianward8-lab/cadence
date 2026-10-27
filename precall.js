@@ -1,4 +1,5 @@
 import { h, S, save, render, setTab, setCall, uid, todayISO, field, seg, copy, toast, store } from "./core.js";
+import { hasKey, setKey, live, refreshCalls } from "./poppy.js";
 
 // Pre-call briefs live in this browser only (kc:calls). Nothing here goes to the repo.
 // Shape: see tools/PREP.md. Claude can generate a day's briefs from Poppy and paste them in.
@@ -15,10 +16,18 @@ export function renderPrecall() {
   const today = calls.filter(c => c.date === todayISO());
   const confirmedN = today.filter(c => c.confirmed === "yes").length;
 
+  if (hasKey() && !live.busy && !live.error && Date.now() - live.at > 10 * 60e3) refreshCalls().then(ok => ok && render());
+  const ago = live.at ? Math.max(0, Math.round((Date.now() - live.at) / 60e3)) : null;
+  const status = !hasKey() ? h("span", { class: "muted small" }, "Not connected to Poppy")
+    : live.busy ? h("span", { class: "muted small" }, "Checking Poppy…")
+    : live.error ? h("span", { class: "st bad small" }, live.error)
+    : h("span", { class: "st ok small" }, `Live from Poppy${ago != null ? " · " + (ago < 1 ? "just now" : ago + " min ago") : ""}`);
   const head = h("div", { class: "pc-head" },
-    h("div", {}, h("h1", { class: "big" }, "Pre-call"), h("div", { class: "sub" }, today.length ? `${confirmedN} of ${today.length} confirmed today` : "No calls loaded for today")),
+    h("div", {}, h("h1", { class: "big" }, "Pre-call"), h("div", { class: "sub" }, today.length ? `${confirmedN} of ${today.length} confirmed today` : "No calls loaded for today", " · ", status)),
     h("div", { class: "row" },
       seg([["sheet", "Sheet"], ["cards", "Cards"]], view, (v) => { store.set("kc:pcview", v); render(); }),
+      hasKey() ? h("button", { class: "pill", disabled: live.busy, onclick: async () => { render(); await refreshCalls(true); render(); toast(live.error || "Updated from Poppy"); } }, "Check again")
+        : h("button", { class: "pill", onclick: connect }, "Connect Poppy"),
       h("button", { class: "pill", onclick: () => { S.calls.push(blankCall()); save(); render(); } }, "+ Add a call"),
       h("button", { class: "pill", onclick: pasteBrief }, "Paste a brief"),
       S.calls.length ? h("button", { class: "pill", onclick: () => { if (confirm("Clear every call from this browser?")) { S.calls = []; save(); render(); } } }, "Clear") : null));
@@ -26,8 +35,10 @@ export function renderPrecall() {
   const wrap = h("div", { class: "precall" }, head);
   if (!calls.length) {
     wrap.append(h("div", { class: "card note" },
-      h("b", {}, "How calls get here"), h("p", {}, "This page can't see Poppy's calendar on its own. Ask Claude to \"prep today's calls\": it pulls the bookings and the background from Poppy, writes the briefs, and drops them in here. Or add a call by hand and fill the sections yourself."),
-      h("p", {}, "Everything on this tab stays in this browser. Nothing is sent anywhere.")));
+      h("b", {}, hasKey() ? "No calls on Poppy for the next days" : "Connect Poppy to see your calls"),
+      hasKey() ? h("p", {}, "When bookings land they show up here, with the brief. Hit Check again any time.")
+        : h("p", {}, "Click Connect Poppy and paste your machine key once. It stays in this browser. Then today's calls, the trial dates, the reach-out drafts and the brief load straight from Poppy, same as Mo's page."),
+      h("p", {}, "You can also add a call by hand or paste a brief. Everything on this tab stays in this browser.")));
     return wrap;
   }
   let day = null;
@@ -38,6 +49,13 @@ export function renderPrecall() {
   return wrap;
 }
 
+function connect() {
+  const k = prompt("Paste your Poppy machine key (it stays in this browser):");
+  if (k == null) return;
+  setKey(k); live.at = 0;
+  if (!k.trim()) { toast("Disconnected"); render(); return; }
+  render(); refreshCalls(true).then(() => { render(); toast(live.error || "Connected to Poppy"); });
+}
 function pasteBrief() {
   const txt = prompt("Paste the brief JSON (one call or a list of calls):");
   if (!txt) return;
@@ -87,6 +105,7 @@ function card(c) {
       seg([["yes", "Confirmed"], ["no", "Not confirmed"], ["unknown", "?"]], c.confirmed, (v) => update(c, { confirmed: v }), "small"),
       h("button", { class: "chip small" + (c.late ? " on" : ""), onclick: () => update(c, { late: !c.late }) }, c.late ? "⏰ Late, texted" : "They're late?"),
       h("button", { class: "chip small", onclick: () => update(c, { editing: !editing }) }, editing ? "Done" : "Edit"),
+      c.score && !editing ? h("span", { class: "muted small" }, "show-up " + c.score) : null,
       h("button", { class: "chip small danger", onclick: () => { if (confirm(`Remove ${c.name || "this call"}?`)) { S.calls = S.calls.filter(x => x.id !== c.id); save(); render(); } } }, "×")));
 
   const rows = sec.map(s => {
@@ -103,6 +122,8 @@ function card(c) {
 
   const foot = h("div", { class: "row" },
     h("button", { class: "openDeck", onclick: () => toDeck(c) }, "Open the deck →"),
+    c.join ? h("button", { class: "chip small", onclick: () => copy(c.join, "Room link copied") }, "⧉ room link") : null,
+    c.live ? h("span", { class: "muted small" }, "live from Poppy") : null,
     c.email ? h("span", { class: "muted small" }, c.email, c.phone ? " · " + c.phone : "") : null);
 
   return h("article", { class: "pc-card " + CONF[c.confirmed][1] }, top, rows, foot);

@@ -40,6 +40,7 @@ h1.big { font: 700 44px/1.05 var(--display); margin: 6px 0 16px; }
 .pill { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px 12px; font-weight: 700; color: var(--text); white-space: nowrap; }
 .pill.on { border-color: var(--green); color: var(--green); }
 #edit.on { border-color: var(--accent); color: var(--accent); }
+#poppy.on { border-color: var(--green); color: var(--green); }
 .editbar, .pracbar { text-align: center; font-size: 13px; font-weight: 600; padding: 6px; }
 .editbar { background: #1f3a2a; color: #9be0b5; } .editbar button { text-decoration: underline; color: #d7f5e3; }
 .pracbar { background: #3a2f1f; color: #f3c969; }

@@ -5,6 +5,7 @@ import { renderObjections } from "./objections.js";
 import { renderDeck, renderPresent, openPresent, closePresent, go, toggleDraw, toggleText, clearInk, setColor, toggleMusic, nextTrack, toggleParty, toggleFull, togglePractice, SLIDES, PRESENT } from "./deck.js";
 import { renderPrecall } from "./precall.js";
 import { renderPay } from "./pay.js";
+import { keyFromUrl, hasKey, setKey, refreshCalls } from "./poppy.js";
 
 async function boot() {
   try {
@@ -14,6 +15,7 @@ async function boot() {
     $("#main").innerHTML = `<div class="empty">Couldn't load cadence.json. If you opened this file directly, run <code>python3 tools/serve.py</code> and open http://localhost:8787</div>`;
     return;
   }
+  keyFromUrl();
   const edits = store.get("kc:content", null);
   if (edits && edits.stages && edits.objections) S.edits = edits;
   if (!content().offers.some(o => o.id === S.call.offerId)) S.call.offerId = content().offers[0].id;
@@ -24,7 +26,12 @@ async function boot() {
   $("#edit").addEventListener("click", () => S.editing ? endEdit() : beginEdit());
   $("#exportJson").addEventListener("click", () => { const c = JSON.parse(JSON.stringify(content())); c.updated = Date.now(); download("cadence.json", JSON.stringify(c, null, 2) + "\n"); toast("Downloaded. Drop it in the repo and run tools/split.py"); });
   $("#resetEdits").addEventListener("click", () => { if (confirm("Throw away the edits saved in this browser?")) resetEdits(); });
+  $("#poppy").addEventListener("click", () => {
+    if (hasKey()) { if (confirm("Disconnect Poppy from this browser?")) { setKey(""); S.calls = S.calls.filter(c => !c.live); save(); render(); } return; }
+    const k = prompt("Paste your Poppy machine key (it stays in this browser):"); if (k && k.trim()) { setKey(k); refreshCalls(true).then(() => render()); render(); }
+  });
   document.addEventListener("keydown", onKey);
+  if (hasKey()) refreshCalls().then(ok => ok && render());
   render();
 }
 
@@ -35,6 +42,7 @@ function render() {
   $("#editbar").hidden = !S.editing;
   const pr = $("#practice"); pr.classList.toggle("on", S.practice); pr.textContent = S.practice ? "🧪 Practice · Exit" : "🧪 Practice";
   $("#pracbar").hidden = !S.practice;
+  const pp = $("#poppy"); pp.classList.toggle("on", hasKey()); pp.textContent = hasKey() ? "● Poppy" : "○ Poppy"; pp.title = hasKey() ? "Connected to Poppy. Click to disconnect." : "Connect to Poppy with your machine key";
   const main = $("#main"); main.innerHTML = "";
   if (S.tab === "precall") main.append(renderPrecall());
   if (S.tab === "script") main.append(renderScript());
