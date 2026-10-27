@@ -82,3 +82,106 @@ export function mapCall(c, zone) {
     sections, open: {},
   };
 }
+
+// ---------- money: links and the card on file (same calls as Mo's page) ----------
+export const REP_EMAIL = WHO + "@getpoppy.ai";
+const SKIP_IN_PRACTICE = (path, body) => /^\/api\/paylink/.test(path) && body && ["charge", "newcard"].includes(body.action)
+  || /^\/api\/(lifetime|upgrade|plan-upgrade)/.test(path) && body && body.action !== "checkout"
+  || /^\/api\/(postcall|followup|onboard)/.test(path) && body;
+
+// GET or POST to Poppy with the key. In Practice: charges are skipped, everything else runs in test mode.
+export async function api(path, body) {
+  if (!hasKey()) throw new Error("Connect Poppy first (○ Poppy, top right)");
+  let url = API + path;
+  if (S.practice) {
+    if (SKIP_IN_PRACTICE(path, body)) { toast("🧪 Practice: skipped " + ((body && body.action) || path.split("?")[0])); return { ok: true, practice: true, skipped: true }; }
+    if (body) body = { ...body, test_mode: true, test: true }; else url += (url.includes("?") ? "&" : "?") + "test=1";
+  }
+  url += (url.includes("?") ? "&" : "?") + "key=" + encodeURIComponent(key());
+  const r = await fetch(url, body ? { method: "POST", credentials: "omit", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : { credentials: "omit" });
+  const j = await r.json().catch(() => ({}));
+  if (r.status === 401 || r.status === 403) throw new Error("Poppy didn't accept the key");
+  if (!r.ok || j.ok === false) throw new Error(j.error || "that did not work (" + r.status + ")");
+  return j;
+}
+
+export const isPlan = (o) => o && o.deck === "plan";
+export const isOb = (o) => o && o.deck === "ob";
+export const clean = (e) => String(e || "").toLowerCase().trim();
+
+// Find the card on file. Trial customers: /api/upgrade?email=. Everyone: Stripe customers by email, then their payment methods.
+export async function findCard({ email, name, ob }) {
+  const te = clean(email); if (!te) return { has: false, error: "no email" };
+  if (ob) {
+    const q = await api("/api/upgrade?email=" + encodeURIComponent(te)).catch(() => ({}));
+    if (q && q.trialing && q.has_card) return { has: true, label: q.card || "card on file", trialing: true, day: q.day, trialStart: q.trial_start, trialEnd: q.trial_end, via: "trial" };
+  }
+  const found = await api("/api/paylink?q=" + encodeURIComponent(te)).catch(() => ({}));
+  let customers = (found.customers || found.data || []).filter(c => c && c.id);
+  if (!customers.length && name && name.length > 3) {
+    const byName = await api("/api/paylink?q=" + encodeURIComponent(name)).catch(() => ({}));
+    customers = (byName.customers || byName.data || []).filter(c => c && c.id && clean(c.email) === te);
+  }
+  for (const c of customers.slice(0, 4)) {
+    const r = await api("/api/paylink?pms=" + encodeURIComponent(c.id)).catch(() => ({}));
+    const pm = (r.pms || r.data || [])[0];
+    if (pm && pm.id) {
+      const card = pm.card || pm;
+      return { has: true, customerId: c.id, pm: pm.id, brand: card.brand || "card", last4: card.last4 || "", label: `${String(card.brand || "card").toUpperCase()} •• ${card.last4 || "????"}`, via: "stripe" };
+    }
+  }
+  return { has: false };
+}
+
+// Charge the card on file. Mirrors Mo's page: the route depends on the offer.
+export async function chargeCard({ offer, email, name, amount, card }) {
+  const te = clean(email); amount = Math.round(+amount || 0);
+  if (!te) throw new Error("add their email first");
+  if (!amount) throw new Error("the amount is 0");
+  let U;
+  if (isOb(offer) && offer.id === "life") U = await api("/api/lifetime", { action: "charge", email: te, source: "call", credit_to: REP_EMAIL, amount });
+  else if (isOb(offer)) U = await api("/api/upgrade", { email: te, bonus: Math.max(0, Math.min(349, 399 - amount)), source: "call", clicked_by: "onboarder", offer_shown: true });
+  else if (isPlan(offer)) U = await api("/api/plan-upgrade", { action: "charge", email: te, plan: offer.id, name: name || "", clicked_by: "onboarder" });
+  else {
+    if (!card || !card.customerId || !card.pm) throw new Error("no card on file for " + te);
+    U = await api("/api/paylink", { action: "charge", customerId: card.customerId, paymentMethod: card.pm, productId: offer.stripeProduct || "", productName: offer.name || "", items: [{ type: "one_time", amount }], customerEmail: te });
+  }
+  if (U && U.skipped) return { ok: true, practice: true };
+  const declined = U && (U.charged === false || U.declined || (U.ok === false && /declin|insufficient|card|funds|do not honor|expired/i.test(String(U.error || ""))));
+  if (U && U.no_card) return { ok: false, noCard: true, error: "no card on file" };
+  if (declined || (U && U.ok === false)) {
+    let fix = U.pay_url || (U.invoice && U.invoice.pay_url) || "";
+    if (!fix && offer.id === "life") fix = (await api("/api/lifetime", { action: "checkout", email: te, hosted: true, amount, clicked_by: "customer", name: name || "" }).catch(() => ({}))).url || "";
+    if (!fix) fix = ((await api("/api/cardfix?email=" + encodeURIComponent(te)).catch(() => ({}))).fix || {}).pay_url || "";
+    return { ok: false, declined: true, error: U.error || (U.declined ? "Card declined: " + U.declined : "Card declined"), fix };
+  }
+  return { ok: true, raw: U };
+}
+
+// Make a pay link. OB group link via /api/pay, Life via the hosted checkout, everything else via /api/paylink.
+export async function makeLink({ offer, email, name, amount, processor = "stripe", installments = "", productId = "", productName = "", lifetimeCredits }) {
+  const te = clean(email); amount = Math.round(+amount || 0);
+  if (!amount) throw new Error("the amount is 0");
+  if (processor === "whop") {
+    const r = await api("/api/paylink", { action: "link", processor: "whop", productId: productId || offer.whopProduct || "", productName: (productName || offer.name || "Poppy") + (installments === "whop" ? " · pick Splitit at checkout" : installments === "clarity" ? " · pick Clarity Pay at checkout" : ""), items: [{ type: "one_time", amount }], customerEmail: te || undefined });
+    if (!r.url) throw new Error(r.error || "Whop gave no link");
+    return { url: r.url, note: r.lifetime_note || "" };
+  }
+  if (isOb(offer) && !te) {
+    const r = await api("/api/pay", { action: "create", mode: "same", offer: { kind: offer.id === "life" ? "life" : "year", amount }, minutes: 60, room: "cadence", note: name || "" });
+    if (!r.url) throw new Error(r.error || "could not make the link");
+    return { url: r.url, code: r.code || "", note: "group link, good for 60 minutes" };
+  }
+  if (offer.id === "life") {
+    const r = await api("/api/lifetime", { action: "checkout", email: te, hosted: true, amount, clicked_by: "customer", name: name || "" });
+    if (!r.url) throw new Error(r.error || "could not make the lifetime link");
+    return { url: r.url, note: r.lifetime_note || "" };
+  }
+  const r = await api("/api/paylink", { action: "link", processor: "stripe", productId: productId || offer.stripeProduct || "", productName: productName || offer.name || "", items: [{ type: "one_time", amount }], lifetimeCredits, customerEmail: te || undefined });
+  if (!r.url) throw new Error(r.error || "Stripe gave no link");
+  const notes = [r.lifetime_note, !(productId || offer.stripeProduct) ? "Custom name, no catalog product: it takes the money but switches nothing on in the app by itself." : "", r.access_warning ? "⚠️ " + r.access_warning : r.access_plan ? "✅ Unlocks " + r.access_plan + " by itself when paid" : ""].filter(Boolean);
+  return { url: r.url, note: notes.join(" · ") };
+}
+
+export const bootProducts = () => api("/api/paylink?boot=1").then(r => ({ stripe: r.stripeProducts || [], whop: r.whopProducts || [] }));
+export const searchCustomers = (q) => api("/api/paylink?q=" + encodeURIComponent(q)).then(r => (r.customers || r.data || []).filter(c => c && c.email));

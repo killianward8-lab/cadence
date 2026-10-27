@@ -267,3 +267,11 @@ h2.quote { font: 700 40px/1.1 var(--display); margin: 10px 0 14px; }
 .present .colors i.on { border-color: #fff; }
 .confetti-cv { position: fixed; inset: 0; pointer-events: none; z-index: 60; }
 @media (max-width: 700px) { .present .frame { width: 100%; } .present .tools .lbl { display: none; } }
+
+/* money */
+.moneyblock { display: grid; gap: 6px; margin-top: 4px; }
+.hits { display: grid; gap: 4px; margin-top: 6px; }
+.hit { display: flex; justify-content: space-between; gap: 10px; text-align: left; padding: 8px 10px; border-radius: 9px; border: 1px solid var(--line); }
+.hit:hover { border-color: var(--accent); }
+.linkbox { margin-top: 10px; background: var(--bg2); border: 1px solid var(--line); border-radius: 10px; padding: 10px; word-break: break-all; font-size: 13px; }
+.slide .linkline { color: var(--gold); word-break: break-all; font-size: 1.6cqw; }

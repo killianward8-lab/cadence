@@ -1,5 +1,6 @@
 import { h, S, save, render, setTab, setCall, uid, todayISO, field, seg, copy, toast, store } from "./core.js";
 import { hasKey, setKey, live, refreshCalls } from "./poppy.js";
+import { lookupCard } from "./deck.js";
 
 // Pre-call briefs live in this browser only (kc:calls). Nothing here goes to the repo.
 // Shape: see tools/PREP.md. Claude can generate a day's briefs from Poppy and paste them in.
@@ -72,7 +73,7 @@ function pasteBrief() {
 
 const CONF = { yes: ["Confirmed", "ok"], no: ["Not confirmed", "bad"], unknown: ["Unknown", ""] };
 const update = (c, patch) => { Object.assign(c, patch); save(); render(); };
-const toDeck = (c) => { setCall({ id: c.id, name: c.name, email: c.email, trialStart: c.trialStart, renews: c.renews, offerId: c.offerId || "renew", mode: /group/i.test(c.type) ? "group" : "one" }); setTab("deck"); };
+const toDeck = (c) => { setCall({ id: c.id, name: c.name, email: c.email, trialStart: c.trialStart, renews: c.renews, offerId: c.offerId || "renew", mode: /group/i.test(c.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "" }); setTab("deck"); lookupCard(); };
 
 function sheetRow(c) {
   return h("div", { class: "pc-row" },

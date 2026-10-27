@@ -1,4 +1,5 @@
 import { h, $, S, content, save, render, setTab, setCall, offer, coachName, dealPrice, planMonths, money, fmtDay, firstName, todayISO, field, seg, copy, toast, eyebrow, uid } from "./core.js";
+import { hasKey, findCard, chargeCard, makeLink, isOb, clean } from "./poppy.js";
 
 export const SLIDES = [
   { id: "cover", label: "Cover" }, { id: "offer", label: "Offer" }, { id: "pay", label: "Pay" }, { id: "gameplan", label: "Gameplan" }, { id: "review", label: "Review" },
@@ -19,7 +20,7 @@ export function renderDeck() {
       h("p", { class: "fake" }, "Fake card: ", h("b", {}, d.practice.card)),
       h("button", { class: "pill", onclick: startPractice }, "↺ Start the practice call over"))
     : h("div", {},
-      todays.length ? todays.map(x => h("button", { class: "callBtn" + (x.id === c.id ? " on" : ""), onclick: () => setCall({ id: x.id, name: x.name, email: x.email, trialStart: x.trialStart, renews: x.renews, offerId: x.offerId || c.offerId, mode: /group/i.test(x.type) ? "group" : "one", paidNow: false, party: false }) },
+      todays.length ? todays.map(x => h("button", { class: "callBtn" + (x.id === c.id ? " on" : ""), onclick: () => { setCall({ id: x.id, name: x.name, email: x.email, trialStart: x.trialStart, renews: x.renews, offerId: x.offerId || c.offerId, mode: /group/i.test(x.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "" }); lookupCard(); } },
           h("b", {}, x.time || "—"), h("span", {}, x.name, h("small", {}, x.type)), h("em", {}, "prep →")))
         : h("p", { class: "muted"}, "No calls loaded for today. Add them on the Pre-call tab, or fill the call in below."),
       h("button", { class: "chip small", onclick: () => setTab("precall") }, "Pre-call tab →")));
@@ -47,8 +48,8 @@ export function renderDeck() {
       field("Paid", c.paid, (v) => setCall({ paid: v }), { type: "number", ph: "0" }),
       field("Today", c.today !== "" ? c.today : o.today, (v) => setCall({ today: v }), { type: "number" })),
     h("div", { class: "muted" }, price.paid ? `${money(price.today)} today, ${money(price.paid)} already paid → ${money(price.due)} due` : `${money(price.today)} today`),
-    h("div", { class: "row" }, eyebrow("Pay plan"), planSeg(), eyebrow("Card on file"), seg([[true, "Yes"], [false, "No"]], c.card, (v) => setCall({ card: v }))),
-    field("Pay link (optional)", c.payUrl, (v) => setCall({ payUrl: v }), { ph: "https://…" }));
+    h("div", { class: "row" }, eyebrow("Pay plan"), planSeg()),
+    moneyBlock());
 
   // 4 · log the call
   const step4 = h("section", { class: "card step" }, h("h3", {}, h("i", {}, "4"), "Log the call"),
@@ -80,10 +81,59 @@ export function renderDeck() {
   return h("div", { class: "deck" }, left, right);
 }
 
+// ---------- money (card on file, charge, link) ----------
+const cardInfo = () => (S.call.cardInfo && S.call.cardFor === clean(S.call.email)) ? S.call.cardInfo : null;
+export async function lookupCard() {
+  const c = S.call; if (!hasKey() || !c.email) return;
+  setCall({ cardBusy: true, payErr: "" });
+  try { const info = await findCard({ email: c.email, name: c.name, ob: isOb(offer()) }); setCall({ cardInfo: info, cardFor: clean(c.email), card: !!info.has, cardBusy: false }); }
+  catch (e) { setCall({ cardInfo: { has: false, error: String(e.message || e) }, cardFor: clean(c.email), cardBusy: false }); }
+}
+export async function charge() {
+  const c = S.call, o = offer(), price = dealPrice();
+  if (!hasKey()) return toast("Connect Poppy first");
+  if (c.payPlan !== "full") return toast("Payment plans go through a Whop link, not the card. Make the link.");
+  if (!c.email) return toast("Add their email first");
+  if (!confirm(`Charge ${money(price.due)} to the card on file for ${c.email}?${S.practice ? " (Practice: nothing is charged)" : ""}`)) return;
+  setCall({ payBusy: true, payErr: "" });
+  try {
+    const r = await chargeCard({ offer: o, email: c.email, name: c.name, amount: price.due, card: cardInfo() });
+    if (r.ok) { setCall({ payBusy: false, paidNow: true, party: true, payErr: r.practice ? "🧪 Practice: no real charge" : "" }); toast(r.practice ? "Practice: charge skipped" : "Paid ✓"); }
+    else { setCall({ payBusy: false, payErr: r.error || "Card declined", payUrl: r.fix || c.payUrl, payFix: !!r.fix }); toast(r.error || "Declined"); }
+  } catch (e) { setCall({ payBusy: false, payErr: String(e.message || e) }); }
+}
+export async function link() {
+  const c = S.call, o = offer(), price = dealPrice();
+  if (!hasKey()) return toast("Connect Poppy first");
+  setCall({ linkBusy: true, payErr: "" });
+  try {
+    const inst = c.payPlan !== "full" ? c.payPlan : "";
+    const r = await makeLink({ offer: o, email: c.mode === "group" && !c.email ? "" : c.email, name: c.name, amount: price.due, processor: inst ? "whop" : "stripe", installments: inst });
+    setCall({ linkBusy: false, payUrl: r.url, payNote: r.note || "", payFix: false }); toast("Link on the pay slide");
+  } catch (e) { setCall({ linkBusy: false, payErr: String(e.message || e) }); }
+}
+function moneyBlock() {
+  const c = S.call, ci = cardInfo(), live = hasKey();
+  return h("div", { class: "moneyblock" },
+    eyebrow("Card on file"),
+    live ? h("div", { class: "row tight" },
+      c.cardBusy ? h("span", { class: "muted small" }, "Looking in Stripe…")
+        : ci ? (ci.has ? h("span", { class: "st ok small" }, "💳 " + (ci.label || "card on file") + (ci.trialing ? ` · trial day ${ci.day}` : "")) : h("span", { class: "st bad small" }, ci.error ? ci.error : "No card on file"))
+        : h("span", { class: "muted small" }, c.email ? "Not checked yet" : "Add their email"),
+      h("button", { class: "chip small", disabled: !c.email || c.cardBusy, onclick: lookupCard }, ci ? "Check again" : "Find the card"))
+      : seg([[true, "Yes"], [false, "No"]], c.card, (v) => setCall({ card: v })),
+    live ? h("div", { class: "row tight" },
+      h("button", { class: "chip small", disabled: c.linkBusy, onclick: link }, c.linkBusy ? "Making the link…" : "🔗 Make the link"),
+      h("button", { class: "chip small danger", disabled: c.payBusy || c.paidNow, onclick: charge }, c.payBusy ? "Charging…" : c.paidNow ? "Paid ✓" : "💳 Charge the card")) : null,
+    c.payErr ? h("div", { class: "st bad small" }, c.payErr) : null,
+    c.payNote ? h("div", { class: "muted small" }, c.payNote) : null,
+    field("Pay link", c.payUrl, (v) => setCall({ payUrl: v, payFix: false, payNote: "" }), { ph: live ? "Make the link, or paste one" : "https://…" }));
+}
+
 function startPractice() {
   const p = S.deck.practice.people[0];
   const t = new Date(); const start = new Date(t); start.setDate(t.getDate() - 4); const renew = new Date(t); renew.setDate(t.getDate() + 3);
-  setCall({ id: "practice", name: firstName(p.name), email: p.email, trialStart: start.toISOString().slice(0, 10), renews: renew.toISOString().slice(0, 10), offerId: "renew", payPlan: "full", mode: "group", deal: "", list: "", paid: "", today: "", paidNow: false, party: false, outcome: "", cc: "", fu: "", note: "" });
+  setCall({ id: "practice", name: firstName(p.name), email: p.email, trialStart: start.toISOString().slice(0, 10), renews: renew.toISOString().slice(0, 10), offerId: "renew", payPlan: "full", mode: "group", deal: "", list: "", paid: "", today: "", paidNow: false, party: false, outcome: "", cc: "", fu: "", note: "", payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "" });
   S.slide = 0; toast("Practice call ready");
 }
 export function togglePractice() {
@@ -153,9 +203,12 @@ export function renderSlide(i) {
       h("h2", { class: "mid" }, o.name),
       h("div", { class: "plan" }, m === 1 ? "Paid in full today" : `${m} payments`),
       h("div", { class: "price" + (c.paidNow ? " green" : "") }, money(per), h("small", {}, m === 1 ? (c.paidNow ? "paid ✓" : "today") : `a month · ${money(price.due)} total`)),
-      h("div", { class: "note" }, c.card ? d.pay.card : d.pay.nocard),
-      c.payUrl ? h("div", { class: "note" }, c.payUrl) : null,
-      h("div", { class: "guar" }, d.guarantee));
+      h("div", { class: "two" },
+        h("div", {},
+          h("div", { class: "note" }, c.paidNow ? "Paid. Welcome in." : c.payFix ? "Card didn't go through. Scan the link to fix it, stay on the call." : (cardInfo() ? cardInfo().has : c.card) ? d.pay.card : d.pay.nocard),
+          c.payUrl ? h("div", { class: "note linkline" }, c.payUrl.replace(/^https?:\/\//, "")) : null,
+          h("div", { class: "guar" }, d.guarantee)),
+        c.payUrl && !c.paidNow ? h("div", { class: "qr" }, h("img", { src: "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" + encodeURIComponent(c.payUrl), alt: "pay link" })) : null));
   }
   if (id === "gameplan") {
     return h("div", { class: "slide" }, head,
@@ -219,7 +272,9 @@ export function renderPresent() {
       h("div", { class: "grp" }, h("span", { class: "lbl" }, "Offer"), offerSeg()),
       h("div", { class: "grp" }, h("span", { class: "lbl" }, "Pay"), planSeg()),
       h("div", { class: "grp" },
-        SLIDES[S.slide].id === "pay" && !S.call.paidNow ? h("button", { class: "paid", title: "mark paid, celebrate", onclick: markPaid }, "✓ Paid") : null,
+        SLIDES[S.slide].id === "pay" && !S.call.paidNow && hasKey() ? h("button", { class: "paid", disabled: S.call.payBusy, title: "charge the card on file", onclick: charge }, S.call.payBusy ? "Charging…" : "💳 Charge " + money(dealPrice().due)) : null,
+        SLIDES[S.slide].id === "pay" && !S.call.paidNow && hasKey() ? h("button", { disabled: S.call.linkBusy, title: "make a pay link, shows on the slide", onclick: link }, S.call.linkBusy ? "…" : "🔗 Link") : null,
+        SLIDES[S.slide].id === "pay" && !S.call.paidNow ? h("button", { class: hasKey() ? "" : "paid", title: "mark paid by hand, no charge", onclick: markPaid }, hasKey() ? "mark paid" : "✓ Paid") : null,
         h("button", { class: S.call.party ? "on" : "", title: "G · party", onclick: toggleParty }, "🎉")),
       h("div", { class: "grp" },
         h("button", { class: "ic", title: "F · fullscreen", onclick: toggleFull }, "⛶"),
