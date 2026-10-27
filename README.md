@@ -54,11 +54,25 @@ reach-out drafts, the brief and the room link straight from Poppy, same as Mo's 
 refresh every 10 minutes or on "Check again". Opening the page as `…/cadence/?key=YOURKEY`
 once does the same thing.
 
-### Not possible without Poppy's backend (Mo's page has these)
+### Money, through Poppy (same calls as Mo's page)
 
-"Update the deck" from a transcript · charging the card on file · making Stripe/Whop links on the spot ·
-sending the room link, welcome email or team seats · Tactiq / Grain · logging straight to the
-tracker. For those, keep Mo's page open in a second tab, or ask Mo to open an API for this app.
+With Poppy connected: the Deck's step 3 finds the card on file (trial customers via
+`/api/upgrade`, everyone else via Stripe), **Make the link** puts a pay link + QR on the Pay
+slide (OB: a 60-minute group link; Life: the Lifetime checkout; plans: Stripe yearly or Whop;
+VCS / YT VCS / Build: one-time), and **Charge the card** on the Pay slide runs the same route
+Mo's page uses (Life → `/api/lifetime`, Year → `/api/upgrade`, plans → `/api/plan-upgrade`,
+services → `/api/paylink charge`). A decline puts the fix link on the slide. The Pay tab makes
+links for any offer and plan (full, 2/3/6 monthly charges, monthly, yearly, custom) on Stripe
+or Whop. **Practice** keeps all of this in Stripe test mode and skips charges.
+
+Posts go to Poppy as `text/plain` on purpose: the server parses the JSON, and it avoids the
+CORS preflight that getpoppy.ai doesn't answer. GitHub Pages caches files for ~10 minutes, so
+hard-refresh after an update.
+
+### Still only on Mo's page
+
+"Update the deck" from a transcript · sending the room link, welcome email or team seats ·
+Tactiq / Grain · logging straight to the tracker.
 
 ## What's in here
 
