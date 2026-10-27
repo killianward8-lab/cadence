@@ -98,7 +98,8 @@ export async function api(path, body) {
     if (body) body = { ...body, test_mode: true, test: true }; else url += (url.includes("?") ? "&" : "?") + "test=1";
   }
   url += (url.includes("?") ? "&" : "?") + "key=" + encodeURIComponent(key());
-  const r = await fetch(url, body ? { method: "POST", credentials: "omit", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : { credentials: "omit" });
+  // text/plain on purpose: Poppy's server parses the JSON fine, and it avoids the CORS preflight that getpoppy.ai doesn't answer.
+  const r = await fetch(url, body ? { method: "POST", credentials: "omit", headers: { "content-type": "text/plain" }, body: JSON.stringify(body) } : { credentials: "omit" });
   const j = await r.json().catch(() => ({}));
   if (r.status === 401 || r.status === 403) throw new Error("Poppy didn't accept the key");
   if (!r.ok || j.ok === false) throw new Error(j.error || "that did not work (" + r.status + ")");
@@ -167,7 +168,7 @@ export async function makeLink({ offer, email, name, amount, processor = "stripe
     if (!r.url) throw new Error(r.error || "Whop gave no link");
     return { url: r.url, note: r.lifetime_note || "" };
   }
-  if (isOb(offer) && !te) {
+  if (isOb(offer) && (offer.id !== "life" || !te)) {
     const r = await api("/api/pay", { action: "create", mode: "same", offer: { kind: offer.id === "life" ? "life" : "year", amount }, minutes: 60, room: "cadence", note: name || "" });
     if (!r.url) throw new Error(r.error || "could not make the link");
     return { url: r.url, code: r.code || "", note: "group link, good for 60 minutes" };
