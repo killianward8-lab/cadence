@@ -249,17 +249,14 @@ export function renderPresent() {
   const p = $("#present");
   p.hidden = !S.present;
   if (!S.present) { p.innerHTML = ""; p.className = "dk-present"; return; }
-  const prev = p.querySelector(".dk-stage > .dk-slide:not(.leaving)");
-  const prevKey = prev && prev.dataset.key;
   const key = slideId() + ":" + (S.call.party ? "p" : "g");
   p.className = "dk-present" + (PR.draw ? " drawing" : "") + (PR.text ? " editing" : "");
   p.onclick = (e) => { if (PR.draw || PR.text) return; if (e.target.closest(".dk-tools, .musicdock, button, a, .path, .bonus, .bx-wrap, .dk-label")) return; step(e.clientX > innerWidth / 2 ? 1 : -1); };
   let stage = p.querySelector(".dk-stage");
   if (!stage) { p.innerHTML = ""; stage = h("div", { class: "dk-stage" }); p.append(stage, h("div", { class: "dk-dots" }), h("div", { class: "dk-tools" })); }
-  // crossfade: keep the old slide for a beat when the slide (not just a step) changes
+  // Like Mo's: a straight cut between slides (the motion lives inside each slide).
   const slide = renderMoSlide(S.slide); slide.dataset.key = key;
-  stage.querySelectorAll(".dk-slide, .dk-ink, .dk-label").forEach(el => { if (!el.classList.contains("leaving")) el.remove(); });
-  if (prev && prevKey && prevKey !== key) { prev.classList.add("leaving"); setTimeout(() => prev.remove(), 340); slide.classList.add("entering"); stage.prepend(prev); }
+  stage.querySelectorAll(".dk-slide, .dk-ink, .dk-label").forEach(el => el.remove());
   stage.append(slide, ...inkLayer(stage));
   p.querySelector(".dk-dots").replaceWith(h("div", { class: "dk-dots" }, slideList().map((_, i) => h("i", { class: i === S.slide ? "on" : "" }))));
   const n = 5;

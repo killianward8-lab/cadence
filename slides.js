@@ -16,13 +16,26 @@ export function step(dir) {
   const id = slideId();
   if (dir > 0) {
     if (id === "offer" && isOb()) {
-      if ((S.step || 0) < 4) { S.step = (S.step || 0) + 1; return render(); }
+      if ((S.step || 0) < 4) { S.step = (S.step || 0) + 1; return applyStep(); }
     }
     if (S.slide < 4) { S.slide++; S.step = 0; S.zoom = null; return render(); }
     return;
   }
-  if (id === "offer" && (S.step || 0) > 0) { S.step--; return render(); }
+  if (id === "offer" && (S.step || 0) > 0) { S.step--; return applyStep(); }
   if (S.slide > 0) { S.slide--; S.step = slideId() === "offer" ? 4 : 0; S.zoom = null; render(); }
+}
+// A step inside the offer slide must not rebuild the slide: the bonus flip and the price
+// slide-up are CSS transitions, and they only play when the class changes on the same element.
+function applyStep() {
+  const boxes = document.querySelectorAll(".dk-offer3");
+  if (!boxes.length) return render();
+  const st = S.step || 0;
+  boxes.forEach(box => {
+    box.querySelectorAll(".bonus").forEach((b, i) => b.classList.toggle("open", st > i));
+    box.classList.toggle("priced", st >= 4);
+    const pr = box.querySelector(".o-price"); if (pr) pr.classList.toggle("in", st >= 4);
+  });
+  document.querySelectorAll("#present .dk-tools .nav .ic").forEach((b, i) => { if (i === 0) b.disabled = S.slide === 0 && !(st > 0); });
 }
 export const jump = (i) => { S.slide = Math.max(0, Math.min(i, 4)); S.step = 0; S.zoom = null; render(); };
 
