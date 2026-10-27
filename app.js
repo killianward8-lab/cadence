@@ -1,5 +1,5 @@
 // Killian's Cadence. Plain JS, no build step. Wires the tabs together.
-import { $, S, store, content, save, setRender, setTab, beginEdit, endEdit, resetEdits, download, toast } from "./core.js";
+import { $, S, store, content, save, setRender, setTab, beginEdit, endEdit, resetEdits, download, toast, BUILD } from "./core.js";
 import { renderScript } from "./script.js";
 import { renderObjections } from "./objections.js";
 import { renderDeck, renderPresent, openPresent, closePresent, go, toggleDraw, toggleText, clearInk, setColor, toggleMusic, nextTrack, toggleParty, toggleFull, togglePractice, SLIDES, PRESENT } from "./deck.js";
@@ -34,6 +34,22 @@ async function boot() {
   document.addEventListener("keydown", onKey);
   if (hasKey()) refreshCalls().then(ok => ok && render());
   render();
+  checkForUpdate(); setInterval(checkForUpdate, 5 * 60e3);
+}
+
+// GitHub Pages caches files for ~10 minutes. Compare the build we run with the one published
+// and offer a one-tap reload that refetches every file, so a plain reload never shows stale code.
+const FILES = ["./", "app.js", "core.js", "deck.js", "slides.js", "pay.js", "precall.js", "poppy.js", "script.js", "objections.js", "styles.css", "deck-mo.css", "deck.json", "cadence.json"];
+async function checkForUpdate() {
+  try {
+    const r = await fetch("build.json", { cache: "reload" }); const j = await r.json();
+    if (j && j.v && j.v !== BUILD) {
+      let pill = $("#update");
+      if (!pill) { pill = document.createElement("button"); pill.id = "update"; pill.className = "pill update"; document.querySelector(".top").append(pill); }
+      pill.textContent = "⬆ New version · tap to update";
+      pill.onclick = async () => { pill.textContent = "Updating…"; await Promise.all(FILES.map(f => fetch(f, { cache: "reload" }).catch(() => {}))); location.reload(); };
+    }
+  } catch {}
 }
 
 function render() {
