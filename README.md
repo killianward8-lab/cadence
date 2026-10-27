@@ -7,27 +7,50 @@ words (`stages.json`, `objections.json`, `offers.json`) and the app that shows t
 
 ## The app
 
-- **Script**: 7 stages, variants per stage (Standard / Onboarding / ...), Dig-deeper panel.
-  Keys: `←` `→` stages, `1`–`7` jump.
-- **Objections**: search (`/`), filter by category, every objection with its Reframe,
-  Analogy, Then and Close.
-- **Deck**: fill in the call (name, trial dates, pay link, card on file), pick the offer,
-  then **Present**. In Present the toolbar has the **offer switch** (Year / Life / Starter /
-  Creator / Power / VCS / YT VCS / Build) and the pay plan (Full / 6 mo / 24 mo), so you
-  never leave the deck. Keys: `←` `→` slides, `1`–`5` jump, `O` next offer, `P` `W` `K`
-  pay plan, `F` fullscreen, `Esc` close.
-- Slides: Cover · Offer · Pay · Gameplan · Review. Deck-only copy (bonuses, guarantee,
-  game plan, review link) lives in `deck.json`.
+Built to match Mo's Cadence tab for tab. Open https://killianward8-lab.github.io/cadence/
+
+- **Pre-call**: today's calls as cards (time, type, name, confirmed / not confirmed, "They're
+  late?") with the seven sections: Are they confirmed · Reach out before the call · Who they
+  are · What they put out · How they use Poppy · What you need to close them · What happened
+  so far. Sheet or Cards view. "Open the deck →" carries the call into the Deck. Briefs are
+  pasted in (or dropped in by Claude, see `tools/PREP.md`) and stay in your browser.
+- **Script**: 7 stages with the "don't pitch yet" gate, situations per stage, numbered lines
+  with copy buttons, Dig-deeper panel, next-stage button. Keys: `←` `→` `1`–`7`.
+- **Objections**: category chips with counts (Money · Timing · Decision maker · Trust & fear ·
+  Fit & value · Early in the call), grouped list on the left, the objection on the right with
+  phases (Acknowledge & Ask · Certainty · Lock · Solve), the pause cue, Reframe, Analogy, Then
+  and Close. Search with `/`.
+- **Edit**: on Script and Objections. Edit lines, reorder, delete, add situations and
+  objections. Saves in your browser. "Download cadence.json" gives you the file to commit
+  (then `python3 tools/split.py`). "Reset" goes back to the repo copy.
+- **Deck**: 1 Your calls (or the Practice call) · 2 The call (name, email, trial dates, "the
+  deal in your words" → a "For you" box on the Offer slide) · 3 The deal (Group / 1-on-1,
+  offer, full price / paid / today, pay plan, card on file, pay link) · 4 Log the call
+  (outcome, cash, follow-up, note → saved in the browser + a line to paste into the tracker).
+  Slide preview with a "Say it" coaching line under each slide, and a "Before you join" brief
+  when the call came from Pre-call.
+- **Present**: slides Cover · Offer · Pay · Gameplan · Review. Toolbar: ‹ n/5 ›, **Draw**
+  (`D`, colours `1`–`4`), **Text** (`E`), clear (`C`), **Music** (`M`, Spotify playlists from
+  `deck.json`, `N` next), **Offer switch** (Year / Life / Starter / Creator / Power / VCS /
+  YT VCS / Build, `O` cycles), **Pay plan** (Full / 6 mo / 24 mo, `P` `W` `K`), **✓ Paid** on
+  the Pay slide (turns the price green and throws the party), party toggle (`G`), fullscreen
+  (`F`), close (`Esc`).
+- **Pay** (Get Paid): who's paying, the offer grid, name on the checkout, Stripe or Whop, how
+  they pay (full / 2 / 3 / 6 payments / monthly / yearly / custom) with per-payment maths,
+  total and already paid, the "They pay" summary, copy a message for the chat. Add Stripe
+  Payment Links in `deck.json → payLinks` to get a "Copy the link" button.
+- **Practice**: the top-bar toggle loads a made-up group call (Sam Rivera, Alex Kim, Jordan
+  Lee) with a fake card. Nothing is logged while it's on.
 
 Run it locally: `python3 tools/serve.py` then open http://localhost:8787.
-Published copy: GitHub Pages from the `main` branch root (turn it on under
-Settings → Pages). No login, no customer data: the call details you type stay in your browser.
+Everything you type (calls, deal, log, edits) stays in your browser. Nothing is sent anywhere.
 
-What it does **not** do yet (Phase 2, needs Poppy's backend): today's calls list, charging
-the card on file, pay links, Spotify, Tactiq. Keep Mo's page open in another tab for those.
+### Not possible without Poppy's backend (Mo's page has these)
 
-Exported from the live page on 2026-10-27. At that point nothing had been saved to the server
-for Killian, so this is the built-in default script with Killian's name in the intro lines.
+Today's calls pulled from the calendar · the AI brief built from the transcript · "Update the
+deck" from a transcript · charging the card on file · making Stripe/Whop links on the spot ·
+sending the room link, welcome email or team seats · Tactiq / Grain · logging straight to the
+tracker. For those, keep Mo's page open in a second tab, or ask Mo to open an API for this app.
 
 ## What's in here
 

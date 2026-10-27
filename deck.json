@@ -1,5 +1,5 @@
 {
-  "_help": "Deck-only copy. Offers and prices come from offers.json. Edit here, no rebuild needed.",
+  "_help": "Deck, Pay and Pre-call copy. Offers and prices come from offers.json. Edit here, no rebuild needed.",
   "short": {
     "renew": "Year",
     "life": "Life",
@@ -10,14 +10,50 @@
     "yvcs": "YT VCS",
     "build": "Build"
   },
+  "emoji": {
+    "renew": "📅",
+    "life": "💎",
+    "starter": "🚀",
+    "creator": "🎨",
+    "power": "⚡",
+    "vcs": "🎬",
+    "yvcs": "📺",
+    "build": "🤖"
+  },
   "plans": {
     "full": { "label": "Full", "months": 1, "key": "P" },
     "whop": { "label": "6 mo", "months": 6, "key": "W" },
     "clarity": { "label": "24 mo", "months": 24, "key": "K" }
   },
+  "payLinks": {
+    "_help": "Optional. Stripe Payment Links or Whop checkout URLs per offer and plan. Make them in the Stripe dashboard, paste them here, and the Pay tab gets a Copy link button.",
+    "life": { "full": "" },
+    "renew": { "full": "" }
+  },
+  "categories": {
+    "money": { "label": "Money", "color": "#f3c969" },
+    "timing": { "label": "Timing", "color": "#8b7cf6" },
+    "people": { "label": "Decision maker", "color": "#c48bf6" },
+    "fear": { "label": "Trust & fear", "color": "#ef6b7b" },
+    "fit": { "label": "Fit & value", "color": "#4cd38a" },
+    "early": { "label": "Early in the call", "color": "#9a97b3" }
+  },
+  "phases": {
+    "Acknowledge": "Acknowledge & Ask",
+    "Associate": "Acknowledge & Ask",
+    "Ask": "Acknowledge & Ask",
+    "Answer": "Acknowledge & Ask",
+    "Certainty": "Certainty",
+    "Or, callback": "Certainty",
+    "Lock": "Lock",
+    "Solve": "Solve",
+    "Show": "Solve"
+  },
+  "pause": "Pause 3 seconds",
   "cover": {
     "eyebrow": "Where you're at",
     "trial": "You're on the $1 trial.",
+    "trialNamed": "{name}, you're on the $1 trial.",
     "other": "Here's where you're at.",
     "next": "Since we're on the call, I can do one thing for you →"
   },
@@ -34,7 +70,7 @@
     "nocard": "No card on file: drop the secure link in the chat and stay on until it goes through."
   },
   "gameplan": {
-    "title": "Your game plan",
+    "title": "Here's your game plan",
     "items": [
       "Make another script on your own right after this call",
       "Post this one in the next 24 hours",
@@ -47,6 +83,17 @@
     "sub": "It takes 30 seconds. Scan the code.",
     "url": ""
   },
+  "celebrate": {
+    "title": "You're in.",
+    "sub": "Account's live. The email with the Academy and your resources is on its way."
+  },
+  "sayIt": {
+    "cover": "Read the three facts out loud, slowly: when it started, when it renews, what it renews at. Then: 'Since we're on the call, I can do one thing for you.' Click.",
+    "offer": "Lead with the name and the one-liner. Read the stack top to bottom, then the bonuses one click at a time. Land on the price and stop talking.",
+    "pay": "'I have your card on file. Do I have your permission to run it?' Then silence. If they hesitate: Objections tab, press /.",
+    "gameplan": "Get a yes on each line, one at a time. Wait for the yes before the next one.",
+    "review": "Show the code and wait until it's posted. Then: 'Post that script in the next 24 hours and text me the link.'"
+  },
   "dig": [
     ["Clarify", "What do you mean by that?"],
     ["Quantify", "How much? How long?"],
@@ -54,5 +101,33 @@
     ["Why", "Why does that matter to you?"],
     ["Contrast", "What's different about that?"],
     ["Future", "If that keeps going, what happens?"]
-  ]
+  ],
+  "music": {
+    "_help": "Spotify playlists for the Music button in Present. Paste open.spotify.com playlist links. They play through Spotify's own player, so you need to be signed in to Spotify in this browser.",
+    "playlists": [
+      { "name": "Pitch", "url": "" },
+      { "name": "Celebrate", "url": "" }
+    ]
+  },
+  "practice": {
+    "people": [
+      { "name": "Sam Rivera", "email": "practice.sam@example.com", "bio": "Yoga teacher, 2 retreats a year" },
+      { "name": "Alex Kim", "email": "practice.alex@example.com", "bio": "Runs a small branding agency" },
+      { "name": "Jordan Lee", "email": "practice.jordan@example.com", "bio": "Just started a coaching offer" }
+    ],
+    "card": "4242 4242 4242 4242 · any date · any CVC"
+  },
+  "precall": {
+    "sections": [
+      { "id": "confirmed", "emoji": "✅", "title": "Are they confirmed?" },
+      { "id": "reach", "emoji": "📲", "title": "Reach out before the call" },
+      { "id": "who", "emoji": "👤", "title": "Who they are" },
+      { "id": "putOut", "emoji": "📣", "title": "What they put out" },
+      { "id": "usePoppy", "emoji": "📊", "title": "How they use Poppy" },
+      { "id": "close", "emoji": "🎯", "title": "What you need to close them" },
+      { "id": "soFar", "emoji": "🕘", "title": "What happened so far" }
+    ],
+    "types": ["Group onboarding", "1-on-1 onboarding", "Closing call", "Set"]
+  },
+  "outcomes": ["Closed", "Already paid", "Short follow-up", "Long-term follow-up", "DQ", "No show", "Reschedule"]
 }
