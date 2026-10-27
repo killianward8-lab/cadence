@@ -1,0 +1,397 @@
+[
+  {
+    "id": "frame",
+    "n": 1,
+    "name": "Frame",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "Hey [name], good to meet you. Where are you calling in from?",
+          "I'm Killian, I'm on the founding team here at Poppy. I work with business owners on the strategy side of their content.",
+          "I looked over what you shared on the form, so I've got a bit of context.",
+          "Here's the plan for today: I'll ask you a bunch about the business and your content, where you're at and where you want to go. Then if it makes sense, I'll walk you through what working together looks like.",
+          "And if it's not the right fit, no stress, I'll be honest with you either way. Sound good?",
+          "So what made you book the call?",
+          "What were you hoping to get out of it?"
+        ]
+      },
+      {
+        "id": "setter",
+        "label": "Setter booked it",
+        "flow": [
+          "Hey [name], good to meet you. Where are you calling in from?",
+          "I'm Killian, I'm on the founding team here at Poppy. I work with business owners on the strategy side of their content.",
+          "[Setter] filled me in a bit, they said [what they told you]. So I've got some context.",
+          "Here's the plan for today: I'll ask you a bunch about the business and your content, where you're at and where you want to go. Then if it makes sense, I'll walk you through what working together looks like.",
+          "And if it's not the right fit, no stress, I'll be honest with you either way. Sound good?",
+          "So what made you say yes to hopping on?"
+        ]
+      },
+      {
+        "id": "trial",
+        "label": "From the trial",
+        "flow": [
+          "Hey [name], good to meet you. Where are you calling in from?",
+          "I'm Killian, I'm on the founding team here at Poppy. I work with business owners on the strategy side of their content.",
+          "I saw you grabbed the trial. What made you grab it?",
+          "How's it going so far?",
+          "Here's the plan for today: I'll ask you a bunch about the business and your content, where you're at and where you want to go. Then if it makes sense, I'll walk you through what working together looks like.",
+          "And if it's not the right fit, no stress, I'll be honest with you either way. Sound good?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "Hey [name], good to meet you. Where are you calling in from?",
+          "Quick plan for today. First I want to understand your business and what you need most.",
+          "Then we build your Poppy board together, live, on your actual stuff.",
+          "By the end of this call you'll have real content ready to post, and you'll know exactly what to do next. Sound good?",
+          "(Group: go around the room, one line each: what you do and what you need most from Poppy.)"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "current",
+    "n": 2,
+    "name": "Current State",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "Walk me through where things are right now.",
+          "How long have you been doing this?",
+          "Where are clients coming from right now?",
+          "Roughly how many clients right now?",
+          "What's that bringing in a month?",
+          "What's working right now?",
+          "What's not?",
+          "How long has it been like that?"
+        ]
+      },
+      {
+        "id": "content",
+        "label": "Their content",
+        "flow": [
+          "Where are you posting right now?",
+          "How often?",
+          "Who's making the content?",
+          "How many clients has content brought you?",
+          "Mind if we pull up your Instagram together?",
+          "Which of these brought you a client?",
+          "What happens after someone watches one?"
+        ]
+      },
+      {
+        "id": "agency",
+        "label": "Agency",
+        "flow": [
+          "How many clients are you managing right now?",
+          "Who makes the content for them?",
+          "How long does one client's content take a week?",
+          "What happens when you take on a new client?",
+          "What's the bottleneck to taking on more?"
+        ]
+      },
+      {
+        "id": "starting",
+        "label": "Just starting",
+        "flow": [
+          "Walk me through where you're at right now.",
+          "What are you selling, or planning to?",
+          "Have you made your first sale yet?",
+          "How are you getting in front of people right now?",
+          "What's your time like, alongside everything else?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "What do you do, and who do you help?",
+          "What do you charge? What's one client worth to you?",
+          "Where are you at per month right now?",
+          "Where are you posting right now, and how often?"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "desired",
+    "n": 3,
+    "name": "Desired State",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "Where do you want this to be?",
+          "What's that in numbers?",
+          "By when?",
+          "Why that number?",
+          "Why does that matter to you?",
+          "What changes if you get there?"
+        ]
+      },
+      {
+        "id": "quit",
+        "label": "Quit the job",
+        "flow": [
+          "What would you need to make to walk away from [the job]?",
+          "By when?",
+          "Why that date?",
+          "What would change day to day?",
+          "Why does that matter to you?"
+        ]
+      },
+      {
+        "id": "vague",
+        "label": "Vague goal",
+        "flow": [
+          "What does [grow / freedom] mean to you?",
+          "Who's someone who's where you want to be?",
+          "0 to 10, where are they?",
+          "And where are you?",
+          "What's missing between the two?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "Where do you want to be?",
+          "By when?",
+          "If Poppy only did one thing for you today, what would make this a no-brainer?"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "root",
+    "n": 4,
+    "name": "Root Cause",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "What's stopped you from getting there so far?",
+          "What have you tried?",
+          "What happened?",
+          "Why do you think it didn't work?",
+          "If you know what to do, what's held you back?"
+        ]
+      },
+      {
+        "id": "time",
+        "label": "\"No time\"",
+        "flow": [
+          "What does your week look like right now?",
+          "Is it the hours, or something else?",
+          "If you had the hours, would it be done?",
+          "What's really behind that?"
+        ]
+      },
+      {
+        "id": "tried",
+        "label": "Tried everything",
+        "flow": [
+          "What have you tried?",
+          "Which one came closest?",
+          "Why didn't it stick?",
+          "What was missing each time?"
+        ]
+      },
+      {
+        "id": "heavy",
+        "label": "Something heavy",
+        "flow": [
+          "What do you mean by that?",
+          "What happened?",
+          "(pause, let them talk)",
+          "What happened after?",
+          "How long have you felt that way?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "What's stopping you from posting more right now?",
+          "So you're at [X], you want [Y], one client is worth [Z], and the block is [pain]. Did I get that right?",
+          "(Now build THEIR board: their website, their Instagram, one creator they look up to. Never your demo board.)",
+          "Pull up your website for me, I'll drop it in so Poppy learns your business.",
+          "Who's one creator you look up to in your space?",
+          "Pick the hook you like most.",
+          "Read that script out loud for me. How does it sound in your voice?"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "consequence",
+    "n": 5,
+    "name": "Consequence",
+    "gate": true,
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "How long has it been like this?",
+          "If nothing changes, what does next year look like?",
+          "What's that costing you a month?",
+          "So what's that over a year?",
+          "Why now, and not six months from now?"
+        ]
+      },
+      {
+        "id": "pattern",
+        "label": "Keeps saying later",
+        "flow": [
+          "How long have you been saying you'd do this?",
+          "What did you say last time?",
+          "What happened?",
+          "What's going to be different this time?"
+        ]
+      },
+      {
+        "id": "money",
+        "label": "In dollars",
+        "flow": [
+          "What's one client worth to you?",
+          "How many more a month would you need?",
+          "So what's that a month?",
+          "And over a year?",
+          "How do you feel about that?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "If you posted like this 3 times a week, and it brought you one client a month, what's that worth to you?",
+          "And over a year?",
+          "What happens if you keep doing it the way you're doing it now?"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "tiedown",
+    "n": 6,
+    "name": "Tie-Down",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "So if I got it right, [their words]. Did I get that right?",
+          "Taking myself and Poppy out of the equation, just genuinely asking you: is [their goal] something you actually want to fix, or are you okay where you are?",
+          "Before I jump into how we can help, what do you think would actually fix this?",
+          "If you had that, what would it do for you?"
+        ]
+      },
+      {
+        "id": "unsure",
+        "label": "They don't know",
+        "flow": [
+          "So if I got it right, [their words]. Did I get that right?",
+          "Taking myself and Poppy out of the equation, just genuinely asking you: is [their goal] something you actually want to fix, or are you okay where you are?",
+          "If another business owner came to you with this exact thing, what would you tell them?",
+          "Why that?",
+          "If you had that, what would it do for you?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "1 to 10, how do you feel about Poppy?",
+          "Why a [number]?",
+          "(Under 10: what would make it a 10? Fix that first.)",
+          "(Commitments, one at a time. Wait for the yes.)",
+          "Can you commit to making another script on your own right after this call?",
+          "Can you post this one in the next 24 hours?",
+          "Can you post 2 to 3 times a week for the next 4 weeks?",
+          "If you can do all that for me, I want to give you a deal that makes this a no-brainer. Is it okay if I ethically bribe you right now?"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "close",
+    "n": 7,
+    "name": "Pitch & Close",
+    "variants": [
+      {
+        "id": "standard",
+        "label": "Standard",
+        "flow": [
+          "Want me to walk you through what it'd look like to work together?",
+          "(the pitch, built on their words)",
+          "How are you feeling about everything?",
+          "0 to 10?",
+          "What would make it a 10?",
+          "The investment is [$X].",
+          "(silence)",
+          "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?",
+          "Perfect. What's the email on your Poppy account? I'll get it updated.",
+          "I'm dropping the payment link in the chat now.",
+          "Let me know once it goes through and I'll get you all set up."
+        ]
+      },
+      {
+        "id": "sold",
+        "label": "Already sold",
+        "flow": [
+          "Love that.",
+          "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?",
+          "What's the email on your Poppy account?",
+          "I'm dropping the payment link in the chat now."
+        ]
+      },
+      {
+        "id": "eight",
+        "label": "They said 8 or less",
+        "flow": [
+          "What makes it a [number]?",
+          "What would make it a 10?",
+          "(solve that first)",
+          "Now where are you at?"
+        ]
+      },
+      {
+        "id": "ob",
+        "label": "Onboarding",
+        "flow": [
+          "(Deck tab → Present. Slide 1, cover.)",
+          "So right now you're on the $1 trial. It started [day], and on [day] it renews at $399 for the year.",
+          "Since we're on the call, I can do one thing for you.",
+          "(Click → offer slide. Lead with Poppy for Life.)",
+          "Starter is normally $1,188 every year, and it renews every year.",
+          "Today, on this call only, you get Poppy for Life. $997 once. No renewal, ever.",
+          "4,000 credits every month, forever. Unlimited boards and every template. 5 brand profiles and 2 team seats.",
+          "(Click: bonus one.) Bonus one: the Viral Content Academy. We put $30,000 into building it with our top creators, so you're never stuck figuring it out.",
+          "(Click: bonus two.) Bonus two: the Poppy Vault. My personal resource site. The exact prompts I use with clients, the same ones we just ran, plus the best videos and answers to everything people ask.",
+          "(Click: bonus three.) And bonus three: 5,000 bonus credits. That's 1,000 extra every month for your first 5 months.",
+          "(Click: the price.)",
+          "It's backed by a 30-day guarantee. Not for you, every dollar back.",
+          "I have your card on file. Do I have your permission to run it?",
+          "(Stop talking. If they hesitate: Objections tab, press /.)",
+          "(Yes → click → pay slide. Charge the card, watch it go green. No card or declined: the link on the slide. Never take card numbers out loud.)",
+          "(Celebrate slide. Tap send the welcome email while they watch.)",
+          "You're in. Account's live, the email with the Academy and your resources is coming in a minute.",
+          "Last thing. If you got value today, can you leave a quick review right now? Here's the QR code, it takes 30 seconds.",
+          "(Wait until it's posted.)",
+          "Post that script in the next 24 hours, and text me the link when it's up.",
+          "(Life sold: run the team seats grant if they want their 2 seats. Then stop the recording.)"
+        ]
+      }
+    ]
+  }
+]

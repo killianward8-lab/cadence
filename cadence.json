@@ -1,0 +1,2918 @@
+{
+  "stages": [
+    {
+      "id": "frame",
+      "n": 1,
+      "name": "Frame",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "Hey [name], good to meet you. Where are you calling in from?",
+            "I'm Killian, I'm on the founding team here at Poppy. I work with business owners on the strategy side of their content.",
+            "I looked over what you shared on the form, so I've got a bit of context.",
+            "Here's the plan for today: I'll ask you a bunch about the business and your content, where you're at and where you want to go. Then if it makes sense, I'll walk you through what working together looks like.",
+            "And if it's not the right fit, no stress, I'll be honest with you either way. Sound good?",
+            "So what made you book the call?",
+            "What were you hoping to get out of it?"
+          ]
+        },
+        {
+          "id": "setter",
+          "label": "Setter booked it",
+          "flow": [
+            "Hey [name], good to meet you. Where are you calling in from?",
+            "I'm Killian, I'm on the founding team here at Poppy. I work with business owners on the strategy side of their content.",
+            "[Setter] filled me in a bit, they said [what they told you]. So I've got some context.",
+            "Here's the plan for today: I'll ask you a bunch about the business and your content, where you're at and where you want to go. Then if it makes sense, I'll walk you through what working together looks like.",
+            "And if it's not the right fit, no stress, I'll be honest with you either way. Sound good?",
+            "So what made you say yes to hopping on?"
+          ]
+        },
+        {
+          "id": "trial",
+          "label": "From the trial",
+          "flow": [
+            "Hey [name], good to meet you. Where are you calling in from?",
+            "I'm Killian, I'm on the founding team here at Poppy. I work with business owners on the strategy side of their content.",
+            "I saw you grabbed the trial. What made you grab it?",
+            "How's it going so far?",
+            "Here's the plan for today: I'll ask you a bunch about the business and your content, where you're at and where you want to go. Then if it makes sense, I'll walk you through what working together looks like.",
+            "And if it's not the right fit, no stress, I'll be honest with you either way. Sound good?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "Hey [name], good to meet you. Where are you calling in from?",
+            "Quick plan for today. First I want to understand your business and what you need most.",
+            "Then we build your Poppy board together, live, on your actual stuff.",
+            "By the end of this call you'll have real content ready to post, and you'll know exactly what to do next. Sound good?",
+            "(Group: go around the room, one line each: what you do and what you need most from Poppy.)"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "current",
+      "n": 2,
+      "name": "Current State",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "Walk me through where things are right now.",
+            "How long have you been doing this?",
+            "Where are clients coming from right now?",
+            "Roughly how many clients right now?",
+            "What's that bringing in a month?",
+            "What's working right now?",
+            "What's not?",
+            "How long has it been like that?"
+          ]
+        },
+        {
+          "id": "content",
+          "label": "Their content",
+          "flow": [
+            "Where are you posting right now?",
+            "How often?",
+            "Who's making the content?",
+            "How many clients has content brought you?",
+            "Mind if we pull up your Instagram together?",
+            "Which of these brought you a client?",
+            "What happens after someone watches one?"
+          ]
+        },
+        {
+          "id": "agency",
+          "label": "Agency",
+          "flow": [
+            "How many clients are you managing right now?",
+            "Who makes the content for them?",
+            "How long does one client's content take a week?",
+            "What happens when you take on a new client?",
+            "What's the bottleneck to taking on more?"
+          ]
+        },
+        {
+          "id": "starting",
+          "label": "Just starting",
+          "flow": [
+            "Walk me through where you're at right now.",
+            "What are you selling, or planning to?",
+            "Have you made your first sale yet?",
+            "How are you getting in front of people right now?",
+            "What's your time like, alongside everything else?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "What do you do, and who do you help?",
+            "What do you charge? What's one client worth to you?",
+            "Where are you at per month right now?",
+            "Where are you posting right now, and how often?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "desired",
+      "n": 3,
+      "name": "Desired State",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "Where do you want this to be?",
+            "What's that in numbers?",
+            "By when?",
+            "Why that number?",
+            "Why does that matter to you?",
+            "What changes if you get there?"
+          ]
+        },
+        {
+          "id": "quit",
+          "label": "Quit the job",
+          "flow": [
+            "What would you need to make to walk away from [the job]?",
+            "By when?",
+            "Why that date?",
+            "What would change day to day?",
+            "Why does that matter to you?"
+          ]
+        },
+        {
+          "id": "vague",
+          "label": "Vague goal",
+          "flow": [
+            "What does [grow / freedom] mean to you?",
+            "Who's someone who's where you want to be?",
+            "0 to 10, where are they?",
+            "And where are you?",
+            "What's missing between the two?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "Where do you want to be?",
+            "By when?",
+            "If Poppy only did one thing for you today, what would make this a no-brainer?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "root",
+      "n": 4,
+      "name": "Root Cause",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "What's stopped you from getting there so far?",
+            "What have you tried?",
+            "What happened?",
+            "Why do you think it didn't work?",
+            "If you know what to do, what's held you back?"
+          ]
+        },
+        {
+          "id": "time",
+          "label": "\"No time\"",
+          "flow": [
+            "What does your week look like right now?",
+            "Is it the hours, or something else?",
+            "If you had the hours, would it be done?",
+            "What's really behind that?"
+          ]
+        },
+        {
+          "id": "tried",
+          "label": "Tried everything",
+          "flow": [
+            "What have you tried?",
+            "Which one came closest?",
+            "Why didn't it stick?",
+            "What was missing each time?"
+          ]
+        },
+        {
+          "id": "heavy",
+          "label": "Something heavy",
+          "flow": [
+            "What do you mean by that?",
+            "What happened?",
+            "(pause, let them talk)",
+            "What happened after?",
+            "How long have you felt that way?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "What's stopping you from posting more right now?",
+            "So you're at [X], you want [Y], one client is worth [Z], and the block is [pain]. Did I get that right?",
+            "(Now build THEIR board: their website, their Instagram, one creator they look up to. Never your demo board.)",
+            "Pull up your website for me, I'll drop it in so Poppy learns your business.",
+            "Who's one creator you look up to in your space?",
+            "Pick the hook you like most.",
+            "Read that script out loud for me. How does it sound in your voice?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consequence",
+      "n": 5,
+      "name": "Consequence",
+      "gate": true,
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "How long has it been like this?",
+            "If nothing changes, what does next year look like?",
+            "What's that costing you a month?",
+            "So what's that over a year?",
+            "Why now, and not six months from now?"
+          ]
+        },
+        {
+          "id": "pattern",
+          "label": "Keeps saying later",
+          "flow": [
+            "How long have you been saying you'd do this?",
+            "What did you say last time?",
+            "What happened?",
+            "What's going to be different this time?"
+          ]
+        },
+        {
+          "id": "money",
+          "label": "In dollars",
+          "flow": [
+            "What's one client worth to you?",
+            "How many more a month would you need?",
+            "So what's that a month?",
+            "And over a year?",
+            "How do you feel about that?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "If you posted like this 3 times a week, and it brought you one client a month, what's that worth to you?",
+            "And over a year?",
+            "What happens if you keep doing it the way you're doing it now?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tiedown",
+      "n": 6,
+      "name": "Tie-Down",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "So if I got it right, [their words]. Did I get that right?",
+            "Taking myself and Poppy out of the equation, just genuinely asking you: is [their goal] something you actually want to fix, or are you okay where you are?",
+            "Before I jump into how we can help, what do you think would actually fix this?",
+            "If you had that, what would it do for you?"
+          ]
+        },
+        {
+          "id": "unsure",
+          "label": "They don't know",
+          "flow": [
+            "So if I got it right, [their words]. Did I get that right?",
+            "Taking myself and Poppy out of the equation, just genuinely asking you: is [their goal] something you actually want to fix, or are you okay where you are?",
+            "If another business owner came to you with this exact thing, what would you tell them?",
+            "Why that?",
+            "If you had that, what would it do for you?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "1 to 10, how do you feel about Poppy?",
+            "Why a [number]?",
+            "(Under 10: what would make it a 10? Fix that first.)",
+            "(Commitments, one at a time. Wait for the yes.)",
+            "Can you commit to making another script on your own right after this call?",
+            "Can you post this one in the next 24 hours?",
+            "Can you post 2 to 3 times a week for the next 4 weeks?",
+            "If you can do all that for me, I want to give you a deal that makes this a no-brainer. Is it okay if I ethically bribe you right now?"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "n": 7,
+      "name": "Pitch & Close",
+      "variants": [
+        {
+          "id": "standard",
+          "label": "Standard",
+          "flow": [
+            "Want me to walk you through what it'd look like to work together?",
+            "(the pitch, built on their words)",
+            "How are you feeling about everything?",
+            "0 to 10?",
+            "What would make it a 10?",
+            "The investment is [$X].",
+            "(silence)",
+            "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?",
+            "Perfect. What's the email on your Poppy account? I'll get it updated.",
+            "I'm dropping the payment link in the chat now.",
+            "Let me know once it goes through and I'll get you all set up."
+          ]
+        },
+        {
+          "id": "sold",
+          "label": "Already sold",
+          "flow": [
+            "Love that.",
+            "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?",
+            "What's the email on your Poppy account?",
+            "I'm dropping the payment link in the chat now."
+          ]
+        },
+        {
+          "id": "eight",
+          "label": "They said 8 or less",
+          "flow": [
+            "What makes it a [number]?",
+            "What would make it a 10?",
+            "(solve that first)",
+            "Now where are you at?"
+          ]
+        },
+        {
+          "id": "ob",
+          "label": "Onboarding",
+          "flow": [
+            "(Deck tab → Present. Slide 1, cover.)",
+            "So right now you're on the $1 trial. It started [day], and on [day] it renews at $399 for the year.",
+            "Since we're on the call, I can do one thing for you.",
+            "(Click → offer slide. Lead with Poppy for Life.)",
+            "Starter is normally $1,188 every year, and it renews every year.",
+            "Today, on this call only, you get Poppy for Life. $997 once. No renewal, ever.",
+            "4,000 credits every month, forever. Unlimited boards and every template. 5 brand profiles and 2 team seats.",
+            "(Click: bonus one.) Bonus one: the Viral Content Academy. We put $30,000 into building it with our top creators, so you're never stuck figuring it out.",
+            "(Click: bonus two.) Bonus two: the Poppy Vault. My personal resource site. The exact prompts I use with clients, the same ones we just ran, plus the best videos and answers to everything people ask.",
+            "(Click: bonus three.) And bonus three: 5,000 bonus credits. That's 1,000 extra every month for your first 5 months.",
+            "(Click: the price.)",
+            "It's backed by a 30-day guarantee. Not for you, every dollar back.",
+            "I have your card on file. Do I have your permission to run it?",
+            "(Stop talking. If they hesitate: Objections tab, press /.)",
+            "(Yes → click → pay slide. Charge the card, watch it go green. No card or declined: the link on the slide. Never take card numbers out loud.)",
+            "(Celebrate slide. Tap send the welcome email while they watch.)",
+            "You're in. Account's live, the email with the Academy and your resources is coming in a minute.",
+            "Last thing. If you got value today, can you leave a quick review right now? Here's the QR code, it takes 30 seconds.",
+            "(Wait until it's posted.)",
+            "Post that script in the next 24 hours, and text me the link when it's up.",
+            "(Life sold: run the team seats grant if they want their 2 seats. Then stop the recording.)"
+          ]
+        }
+      ]
+    }
+  ],
+  "obv": 9,
+  "objections": [
+    {
+      "id": "too-expensive",
+      "cat": "money",
+      "group": "Price",
+      "q": "It's too expensive.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair, it's a real investment."
+        ],
+        [
+          "Ask",
+          "Too expensive compared to what?"
+        ],
+        [
+          "Certainty",
+          "Got it. Money aside though, do you feel like this will actually get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if $6K fell from the sky tomorrow, you'd start today?"
+        ],
+        [
+          "Lock",
+          "So it's not whether this works, it's just the money. Fair?"
+        ],
+        [
+          "Solve",
+          "Would you be open to an honest convo about the finances?"
+        ],
+        [
+          "Solve",
+          "What do you have ready to go today?"
+        ],
+        [
+          "Solve",
+          "Anything set aside in savings?"
+        ],
+        [
+          "Solve",
+          "Any room on a credit card?"
+        ],
+        [
+          "Solve",
+          "(still short → split it: [$X] today, the rest on [date])"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Is it worth it?",
+      "rask": "Can I ask you something?",
+      "reframe": "If this got you [N] more clients a month, would it be worth [$6K]?\n(yes)\nThen the price makes sense. It's more about where the money comes from right now.\nIs that fair?",
+      "aname": "The Ferrari",
+      "aask": "Can I give you an example?",
+      "analogy": "If I offered you a Ferrari right now for $6K, you'd find the money, right?\n(yes)\nNot because the money's sitting there, but because it's obviously worth it.\nSo the real question isn't do you have it. It's is this worth it to you?"
+    },
+    {
+      "id": "more-than-expected",
+      "cat": "money",
+      "group": "Price",
+      "q": "I didn't think it would be this much.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Fair, sounds like the number caught you off guard."
+        ],
+        [
+          "Ask",
+          "What were you expecting?"
+        ],
+        [
+          "Certainty",
+          "Totally. Number aside, do you feel like this will get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if it was closer to what you expected, you'd start today?"
+        ],
+        [
+          "Solve",
+          "Would you be open to an honest convo about the finances?"
+        ],
+        [
+          "Solve",
+          "What do you have ready to go today?"
+        ],
+        [
+          "Solve",
+          "Anything set aside in savings?"
+        ],
+        [
+          "Solve",
+          "Any room on a credit card?"
+        ],
+        [
+          "Solve",
+          "(still short → split it: [$X] today, the rest on [date])"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Is it a lot to you?",
+      "rask": "Can I ask you something real quick?",
+      "reframe": "Is it a lot of money to you?\n(no → perfect, let's get you started)\nHonestly, that's a good thing.\nWhen something's a lot, you actually show up and do the work. That's why it works.\nThe people who don't get results are the ones who dip a toe in.\nAre you trying to go all in on this?",
+      "aname": "The Ferrari",
+      "aask": "Can I give you an example?",
+      "analogy": "If I offered you a Ferrari right now for $6K, you'd find the money, right?\n(yes)\nNot because the money's sitting there, but because it's obviously worth it.\nSo the real question isn't do you have it. It's is this worth it to you?"
+    },
+    {
+      "id": "cheaper",
+      "cat": "money",
+      "group": "Price",
+      "q": "Is there something cheaper?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, makes sense to look at your options."
+        ],
+        [
+          "Ask",
+          "Is it the total that's the issue, or you're not sure it's worth it?"
+        ],
+        [
+          "Certainty",
+          "Price aside, do you feel like this will actually get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So it's just the price, nothing else?"
+        ],
+        [
+          "Solve",
+          "Would you be open to an honest convo about the finances?"
+        ],
+        [
+          "Solve",
+          "What do you have ready to go today?"
+        ],
+        [
+          "Solve",
+          "Anything set aside in savings?"
+        ],
+        [
+          "Solve",
+          "Any room on a credit card?"
+        ],
+        [
+          "Solve",
+          "(still short → split it: [$X] today, the rest on [date])"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Cheaper or the right outcome",
+      "rask": "Can I be straight with you?",
+      "reframe": "There's the cheaper option, and there's the option that gets you to [goal].\nIf the goal is the cheapest thing, honestly, we're probably not the right fit.\nSo which one are you looking for, the cheaper option, or the right outcome? Because I can't do both.",
+      "aname": "The cheaper contractor",
+      "aask": "Can I give you an example?",
+      "analogy": "Have you ever gone with the cheaper contractor to save a bit?\nIt takes longer, the finish is off, and you end up paying someone else to fix it.\nYou pay for the cheap option twice, or the right option once.",
+      "next": "So which one are you looking for?\n(the right outcome → Solve ↓ · the cheapest → honestly, we're probably not the right fit)"
+    },
+    {
+      "id": "better-price",
+      "cat": "money",
+      "group": "Negotiating",
+      "q": "Can you do a better price?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair to ask, everybody wants a good deal."
+        ],
+        [
+          "Ask",
+          "Is it that it's not in the budget, or you just want to make sure you're getting the best deal?"
+        ],
+        [
+          "Ask",
+          "(not in the budget → use \"It's too expensive\")"
+        ],
+        [
+          "Certainty",
+          "Price aside though, do you want to do this?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the price wasn't a thing, you'd start today?"
+        ],
+        [
+          "Solve",
+          "So look, we don't really do special discounts. The only thing I can do is [the start-today price] if you jump on today. Other than that, it's the price it is."
+        ],
+        [
+          "Solve",
+          "So where do you want to go from here?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "The discount isn't the outcome",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "A discount isn't what changes the outcome you get.\nWhether you pay [$100] less or [$1,000] more, that's not what decides if your business gets to [goal]. Would you agree?\n(yes)\nSo money aside, do you believe this is what you need to get there?\nWhat gives you that certainty?",
+      "aname": "The cheaper contractor",
+      "aask": "Can I give you an example?",
+      "analogy": "Have you ever gone with the cheaper contractor to save a bit?\nIt takes longer, the finish is off, and you end up paying someone else to fix it.\nYou pay for the cheap option twice, or the right option once.",
+      "next": "So [the start-today price], and let's get you going?\n(yes → the close ↓ · still pushing → \"I'll do it if it's [$X]\")",
+      "beliefAfter": true
+    },
+    {
+      "id": "any-movement",
+      "cat": "money",
+      "group": "Negotiating",
+      "q": "Any movement on that?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Fair question."
+        ],
+        [
+          "Ask",
+          "How do you mean, the total, or how it's paid?"
+        ],
+        [
+          "Ask",
+          "(how it's paid → use \"Can I split it up?\")"
+        ],
+        [
+          "Certainty",
+          "Money aside, if you had the full amount right here, would you do it?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So you're in, it's just the number. Fair?"
+        ],
+        [
+          "Solve",
+          "Honestly, there's not a ton of movement. The only thing I can do is [the start-today price] for people who jump on today."
+        ],
+        [
+          "Solve",
+          "So where do you want to go from here?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "The discount isn't the outcome",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "A discount isn't what changes the outcome you get.\nWhether you pay [$100] less or [$1,000] more, that's not what decides if your business gets to [goal]. Would you agree?\n(yes)\nSo money aside, do you believe this is what you need to get there?\nWhat gives you that certainty?",
+      "aname": "The wheels and the engine",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like buying a car without the wheels and the engine. Cheaper, sure. But it doesn't go anywhere.\nThat's the only way I could make this cheaper, take out the parts that actually get you to [goal].\n(they laugh)\nSo do you want the cheaper version, or the one that gets you there?",
+      "next": "So [the start-today price], and let's get you going?\n(yes → the close ↓ · still pushing → \"I'll do it if it's [$X]\")",
+      "beliefAfter": true
+    },
+    {
+      "id": "lowball",
+      "cat": "money",
+      "group": "Negotiating",
+      "q": "I'll do it if it's [$X].",
+      "lines": [
+        [
+          "Acknowledge",
+          "Haha, I love that you're in."
+        ],
+        [
+          "Certainty",
+          "Number aside, why do you want to do it?"
+        ],
+        [
+          "Lock",
+          "So you're in, it's just [$X] vs [price]. Fair?"
+        ],
+        [
+          "Solve",
+          "The best I can do is [the start-today price]. That's it."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "You sound like my partner",
+      "rask": "(no permission, keep it playful)",
+      "reframe": "Haha, no offense, you sound like my [partner].\nI tell them I want a Porsche and they say, only if it's 10K.\nI still don't have a Porsche.\nNo worries at all, it's not for everybody. The price is the price.",
+      "aname": "The wheels and the engine",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like buying a car without the wheels and the engine. Cheaper, sure. But it doesn't go anywhere.\nThat's the only way I could make this cheaper, take out the parts that actually get you to [goal].\n(they laugh)\nSo do you want the cheaper version, or the one that gets you there?",
+      "next": "So [the start-today price], or we part ways as friends. Which one?\n(they take it → the close ↓)",
+      "beliefAfter": true
+    },
+    {
+      "id": "cant-afford",
+      "cat": "money",
+      "group": "Cash right now",
+      "q": "I can't afford it right now.",
+      "lines": [
+        [
+          "Acknowledge",
+          "I hear you, sounds like money's tight right now."
+        ],
+        [
+          "Associate",
+          "Honestly, most of the people I work with said the same thing before they started."
+        ],
+        [
+          "Ask",
+          "Is it that the money's not there at all, or it'd be a stretch?"
+        ],
+        [
+          "Certainty",
+          "Money aside, do you feel like this will get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the money was sorted, you'd start today?"
+        ],
+        [
+          "Lock",
+          "Anything else besides the money?"
+        ],
+        [
+          "Solve",
+          "Would you be open to an honest convo about the finances?"
+        ],
+        [
+          "Solve",
+          "What do you have ready to go today?"
+        ],
+        [
+          "Solve",
+          "Anything set aside in savings?"
+        ],
+        [
+          "Solve",
+          "Any room on a credit card?"
+        ],
+        [
+          "Solve",
+          "(still short → split it: [$X] today, the rest on [date])"
+        ],
+        [
+          "Solve",
+          "(truly nothing there → be honest, and book a real date to revisit)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Resourceful, not resources",
+      "rask": "Can I ask you something?",
+      "reframe": "Have you ever had a bill come up you didn't see coming? Taxes, a car, something like that?\n(yes)\nAnd you figured it out, right?\nSo you can make it happen when you have to. The only difference is this one's for you.\nIt's never really about the resources. It's about being resourceful.",
+      "aname": "Nike's payroll",
+      "aask": "Can I tell you a quick story?",
+      "analogy": "The guy who started Nike almost lost the whole company more than once.\nAt one point he couldn't even make payroll, so he called his own suppliers and asked them to cover it.\nHe didn't have the money. He found a way."
+    },
+    {
+      "id": "sold-not-today",
+      "cat": "money",
+      "group": "Cash right now",
+      "q": "I'm sold, but not today.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Love that you're sold."
+        ],
+        [
+          "Ask",
+          "How do you mean, not today?"
+        ],
+        [
+          "Certainty",
+          "Money aside though, if you had the full amount right here, right now, would you do it?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Lock",
+          "So it's the timing of the cash, not whether it's for you. Fair?"
+        ],
+        [
+          "Lock",
+          "Just so I know, when would you actually have that sorted by?"
+        ],
+        [
+          "Solve",
+          "No worries, super normal. What we do is take a simple down payment of [$200] to hold your spot and get you set up in the back end."
+        ],
+        [
+          "Solve",
+          "Then the rest goes through on [date], and we hit the ground running. Does that work?"
+        ],
+        [
+          "Solve",
+          "(can't do [$200] → is it that you have it and you're uncomfortable letting it go, or it's really not there? → what if we did [$50]?)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the down payment link in the chat now, and the rest goes through on [date].\n(stay on until it goes through)",
+      "rname": "More than words",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "It's not about the money for me.\nWhat is [$50] going to do for me? I can't even take a vacation on that.\nIt's about you showing, with more than words, that you're actually doing this.\nBecause it's easy to say I'm going to do it. Then [day] comes and things come up.\nIs there any reason you'd want to put it off if you don't have to?",
+      "aname": "The $1 down payment",
+      "aask": "Can I tell you a quick story?",
+      "analogy": "My coach had a teacher on a call once, a single dad, super tight on money, for a $6K program.\nHe wanted to push it a week. My coach worked the down payment all the way down to $1.\nNot for the dollar. Just so he'd back his words with something.\nHe came back a month and a half later and paid in full.\nWithout that dollar, he probably never comes back.",
+      "next": "So can we get the down payment in and get you set up?\n(yes → the close ↓ · won't risk even a little → what's really coming up?)",
+      "beliefAfter": true
+    },
+    {
+      "id": "payday",
+      "cat": "money",
+      "group": "Cash right now",
+      "q": "I get paid on the [date].",
+      "lines": [
+        [
+          "Acknowledge",
+          "Easy, totally normal."
+        ],
+        [
+          "Ask",
+          "When's payday?"
+        ],
+        [
+          "Lock",
+          "So you're in, it's just the date?"
+        ],
+        [
+          "Solve",
+          "No worries, super normal. What we do is take a simple down payment of [$200] to hold your spot and get you set up in the back end."
+        ],
+        [
+          "Solve",
+          "Then the rest goes through on [date], and we hit the ground running. Does that work?"
+        ],
+        [
+          "Solve",
+          "(can't do [$200] → is it that you have it and you're uncomfortable letting it go, or it's really not there? → what if we did [$50]?)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the down payment link in the chat now, and the rest goes through on [date].\n(stay on until it goes through)"
+    },
+    {
+      "id": "waiting-client",
+      "cat": "money",
+      "group": "Cash right now",
+      "q": "I'm waiting on a client to pay me.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, that happens."
+        ],
+        [
+          "Ask",
+          "When's it landing?"
+        ],
+        [
+          "Ask",
+          "How sure is that date?"
+        ],
+        [
+          "Lock",
+          "So once that lands, you're in?"
+        ],
+        [
+          "Solve",
+          "No worries, super normal. What we do is take a simple down payment of [$200] to hold your spot and get you set up in the back end."
+        ],
+        [
+          "Solve",
+          "Then the rest goes through on [date], and we hit the ground running. Does that work?"
+        ],
+        [
+          "Solve",
+          "(can't do [$200] → is it that you have it and you're uncomfortable letting it go, or it's really not there? → what if we did [$50]?)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the down payment link in the chat now, and the rest goes through on [date].\n(stay on until it goes through)"
+    },
+    {
+      "id": "check-bank",
+      "cat": "money",
+      "group": "Cash right now",
+      "q": "I need to check my bank account.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair."
+        ],
+        [
+          "Ask",
+          "Roughly what are you working with for something like this?"
+        ],
+        [
+          "Lock",
+          "If it's there, is there anything else stopping you?"
+        ],
+        [
+          "Solve",
+          "Want to check real quick while we're on? I'll hang on."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "not-making-money",
+      "cat": "money",
+      "group": "Cash right now",
+      "q": "I'm not making money yet.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, everyone starts there."
+        ],
+        [
+          "Ask",
+          "What's your plan to make the first dollar?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this gets you to that first [$X] faster than doing it alone?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the money was there, you'd start?"
+        ],
+        [
+          "Solve",
+          "Would you be open to an honest convo about the finances?"
+        ],
+        [
+          "Solve",
+          "What do you have ready to go today?"
+        ],
+        [
+          "Solve",
+          "Anything set aside in savings?"
+        ],
+        [
+          "Solve",
+          "Any room on a credit card?"
+        ],
+        [
+          "Solve",
+          "(still short → split it: [$X] today, the rest on [date])"
+        ],
+        [
+          "Solve",
+          "(truly nothing there → be honest, and book a real date to revisit)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "The cost of not knowing",
+      "rask": "Can I share how I look at it?",
+      "reframe": "Not knowing how to get to [$X] a month is costing you [$X] a month.\nThat's the biggest cost nobody talks about. Not knowing.\nThe goal is to stop paying that as fast as possible."
+    },
+    {
+      "id": "split",
+      "cat": "money",
+      "group": "Payment plans",
+      "q": "Can I split it up?",
+      "lines": [
+        [
+          "Acknowledge",
+          "For sure, we can look at that."
+        ],
+        [
+          "Ask",
+          "What would feel comfortable?"
+        ],
+        [
+          "Lock",
+          "So if we split it that way, you're in today?"
+        ],
+        [
+          "Solve",
+          "What do you have ready to go today?"
+        ],
+        [
+          "Solve",
+          "And the rest by when?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the down payment link in the chat now, and the rest goes through on [date].\n(stay on until it goes through)"
+    },
+    {
+      "id": "part-now",
+      "cat": "money",
+      "group": "Payment plans",
+      "q": "Can I pay part now, rest later?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, let's figure it out."
+        ],
+        [
+          "Ask",
+          "What would you put down today?"
+        ],
+        [
+          "Ask",
+          "And when does the rest land?"
+        ],
+        [
+          "Lock",
+          "So [$X] today, the rest on [date], and you're in?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the down payment link in the chat now, and the rest goes through on [date].\n(stay on until it goes through)"
+    },
+    {
+      "id": "play-around",
+      "cat": "timing",
+      "group": "Stalling",
+      "q": "Let me play around with it first.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Honestly, smart. Most people don't even think about whether they'll use it."
+        ],
+        [
+          "Ask",
+          "Quick one though. Is it the tool, or is it you?"
+        ],
+        [
+          "Or, callback",
+          "Got you. You just told me it's a 10 out of 10 and it solves [their problem]. Real talk, what would actually stop you from using it?"
+        ],
+        [
+          "Answer",
+          "(they name it) Makes sense. Can I be real with you for a sec? Playing around with it isn't really the question. Nobody figures a tool out before they're in. They figure it out because they're in. You know what I mean?"
+        ],
+        [
+          "Answer",
+          "It's like a plane ticket. Nobody plans the whole trip and then buys the ticket. You buy the ticket, now the trip is real, so you plan it. So it's not are you gonna learn it. It's are you in or not. Does that make sense?"
+        ],
+        [
+          "Lock",
+          "Because if you're in, you'll learn it. And if you're not, another week doesn't change that. Fair?"
+        ],
+        [
+          "Solve",
+          "So are you in?"
+        ]
+      ],
+      "close": "Cool. I've got your card on file, the [Visa ending 1234]. Cool if I run the [$350] right now?\n(no card on file → I'm dropping the secure card link in the chat now, stay on until it goes through)\nDone, you're in. Welcome email's on the way with the Academy link.\nOne quick favor before you go: leave me a Trustpilot review on the onboarding, I'll drop the link.",
+      "aname": "The test drive",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like test-driving a car, right?\nYou just drove it for 30 minutes, and now you're asking to go for another test drive.\nIt's not going to drive differently next Thursday.\nThe only thing that changes next Thursday is the price.\nDoes that make sense?",
+      "next": "So are you in?\n(yes → the close ↓ · a new reason → back to the top)"
+    },
+    {
+      "id": "think-about-it",
+      "cat": "timing",
+      "group": "Stalling",
+      "q": "I need to think about it.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, it's a big decision."
+        ],
+        [
+          "Certainty",
+          "Before you go think about it, do you feel like this can actually get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "Okay, so what's the part you'd be thinking about?"
+        ],
+        [
+          "Lock",
+          "(vague → is it the money, the timing, or whether it'll work for you?)"
+        ],
+        [
+          "Lock",
+          "(still vague → at the start I said I'd be honest with you either way. So honestly, is it a no, or is something holding you back?)"
+        ],
+        [
+          "Lock",
+          "So if we sorted that out right now, you'd be good to start?"
+        ],
+        [
+          "Lock",
+          "Anything else besides that?"
+        ],
+        [
+          "Solve",
+          "Okay, let's figure that out right now."
+        ],
+        [
+          "Solve",
+          "(money → use \"It's too expensive\" · timing → use \"Let's start next month\" · will it work → use \"What if it doesn't work?\")"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "What really happens after the call",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "Here's what usually happens after a call like this.\nYou're not going to sit down tonight and really think about it.\nYou'll get back to clients, family, everything else.\nAnd a week from now, nothing's changed and you've made the decision anyway, by not making one.\nIt doesn't take time to decide, it takes information. And I'm right here.\nSo what questions can I answer for you?",
+      "next": "(answer their question)\nSo with that answered, are you good to get started?\n(yes → the close ↓ · a new reason → back to the top)"
+    },
+    {
+      "id": "decide-by",
+      "cat": "timing",
+      "group": "Stalling",
+      "q": "I'll decide by [date].",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair."
+        ],
+        [
+          "Ask",
+          "What needs to happen between now and then?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this can get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if we answered that now, you'd be good to go today?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Time doesn't decide, information does",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "Waiting until then won't give you anything new to go off.\nIt doesn't take time to decide, it takes information.\nAnd I'm the one with the answers.\nSo what do you need to know to decide today?",
+      "next": "(answer their question)\nSo with that answered, are you good to go today?\n(yes → the close ↓ · a new reason → back to the top)"
+    },
+    {
+      "id": "fast",
+      "cat": "timing",
+      "group": "Stalling",
+      "q": "This feels fast.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair, we just met."
+        ],
+        [
+          "Ask",
+          "What part feels fast?"
+        ],
+        [
+          "Certainty",
+          "Speed aside, do you feel like this is the right move for [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So it's not whether it's right, it's just that it's fast?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Not a fast decision",
+      "rask": "Can I share how I see it?",
+      "reframe": "This isn't really a fast decision.\nYou've been thinking about fixing this for [years].\nYou filled out the form, booked the call, blocked the time, and showed up.\nYou did all that because it matters to you. Today's just deciding to actually do something about it.",
+      "next": "So is there anything you still need to know?\n(no → the close ↓)"
+    },
+    {
+      "id": "no-time",
+      "cat": "timing",
+      "group": "Busy",
+      "q": "I don't have time right now.",
+      "lines": [
+        [
+          "Acknowledge",
+          "I hear you, sounds like you're stretched thin."
+        ],
+        [
+          "Associate",
+          "Honestly, the busiest people usually get the most out of this."
+        ],
+        [
+          "Ask",
+          "Walk me through a week right now."
+        ],
+        [
+          "Certainty",
+          "Time aside, do you feel like this will get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the time was handled, you'd start?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "You'll always be busy",
+      "rask": "Can I ask you something?",
+      "reframe": "You want this to be something that lasts, right?\n(yes)\nAnd do you think you'll ever not be busy?\n(no)\nThen the best time to start is while you're busy. If it works while you're busy, it'll work forever.\nAnd busy is exactly when you need the most help."
+    },
+    {
+      "id": "busy-clients",
+      "cat": "timing",
+      "group": "Busy",
+      "q": "I'm too busy with clients.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Great problem to have."
+        ],
+        [
+          "Ask",
+          "How long has it been like this?"
+        ],
+        [
+          "Ask",
+          "If it stays this busy, when does this actually happen?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like a system would get you to [goal] without adding more hours?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the timing worked, you'd start?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "The reason is the reason",
+      "rask": "Can I be honest with you?",
+      "reframe": "Being this busy is the exact reason you need a system.\nRight now, more clients means more hours.\nThis is how more clients stops meaning more hours."
+    },
+    {
+      "id": "next-month",
+      "cat": "timing",
+      "group": "Later",
+      "q": "Let's start next month.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, I get it."
+        ],
+        [
+          "Ask",
+          "What's happening between now and next month?"
+        ],
+        [
+          "Ask",
+          "What changes by then?"
+        ],
+        [
+          "Certainty",
+          "Timing aside, do you feel like this is what gets you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So it's just the date, not whether you're in?"
+        ],
+        [
+          "Solve",
+          "Then let's lock it in today, and your first call's on [date]."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Another year of almost",
+      "rask": "Can I ask you something?",
+      "reframe": "Are you tired of another year of almost?\n(yes)\nAlmost hitting [goal]. Almost getting the content working. Almost having clients come to you.\nIf we keep doing what got us here, we just get another year of almost.\nThe real question isn't what this costs. It's what waiting has cost you so far.",
+      "aname": "Saving money once you're rich",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like saying I'll start saving money once I'm rich.\nOr I'll go to the doctor once I feel better.\nThe time you've got the most going on is exactly when you need the help."
+    },
+    {
+      "id": "bad-time",
+      "cat": "timing",
+      "group": "Later",
+      "q": "Now's not a good time.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Fair enough."
+        ],
+        [
+          "Ask",
+          "What's going on right now?"
+        ],
+        [
+          "Ask",
+          "What would make it a good time?"
+        ],
+        [
+          "Certainty",
+          "Timing aside, do you feel like this is what gets you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the timing was right, you'd do it?"
+        ],
+        [
+          "Solve",
+          "Then let's lock it in today, and your first call's on [date]."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "aname": "Saving money once you're rich",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like saying I'll start saving money once I'm rich.\nOr I'll go to the doctor once I feel better.\nThe time you've got the most going on is exactly when you need the help."
+    },
+    {
+      "id": "not-ready",
+      "cat": "timing",
+      "group": "Later",
+      "q": "I'm not ready yet.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Fair, I hear you."
+        ],
+        [
+          "Ask",
+          "What would ready look like?"
+        ],
+        [
+          "Ask",
+          "How long has it been almost ready?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this gets you there faster than waiting?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So you want to do it, it's just feeling ready?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Another five years",
+      "rask": "Can I ask you something?",
+      "reframe": "You've been at this for [years]. How does another five years like this sound?\nWhat does five more years of doing it the same way look like?\nIs that where you want to be?\n(no)\nThen something has to change.",
+      "aname": "Getting in shape first",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like waiting to get in shape before you hire a trainer.\nYou don't get ready and then start. You start, and that's how you get ready."
+    },
+    {
+      "id": "traveling",
+      "cat": "timing",
+      "group": "Later",
+      "q": "I'm traveling soon.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Nice, where to?"
+        ],
+        [
+          "Ask",
+          "When are you back?"
+        ],
+        [
+          "Lock",
+          "So it's just the trip, nothing else?"
+        ],
+        [
+          "Solve",
+          "Then let's get you set up today, so everything's ready the day you're back."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "personal",
+      "cat": "timing",
+      "group": "Later",
+      "q": "I'm going through something personal.",
+      "lines": [
+        [
+          "Acknowledge",
+          "I'm sorry, that's a lot. Take care of that first."
+        ],
+        [
+          "Ask",
+          "When would be realistic to pick this back up?"
+        ]
+      ],
+      "close": "Let's put a time on the calendar for [date], so it's there when you're ready. What works?"
+    },
+    {
+      "id": "spouse",
+      "cat": "people",
+      "group": "Spouse",
+      "q": "I need to talk to my spouse.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, that makes sense."
+        ],
+        [
+          "Associate",
+          "Honestly, it says a lot that you respect them like that."
+        ],
+        [
+          "Ask",
+          "Do they need to approve it, or is it more of a heads up?"
+        ],
+        [
+          "Ask",
+          "(heads up → so you can decide today?)"
+        ],
+        [
+          "Certainty",
+          "Them aside, do you feel like this will get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "What do you think they wouldn't like about it?"
+        ],
+        [
+          "Lock",
+          "So if they're good with it, you're in?"
+        ],
+        [
+          "Solve",
+          "Can we grab them for 5 minutes now?"
+        ],
+        [
+          "Solve",
+          "(not around → book it with both of you: [day] at [time] or [day] at [time]?)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Support, not permission",
+      "rask": "Can I ask you something?",
+      "reframe": "Are they happy with how things are going right now?\n(no)\nThen why would they be against the thing that fixes it?\nYou don't need their permission, you need their support.\nBecause if nothing changes two years from now, you don't want to be blaming them.",
+      "aname": "If it was the other way around",
+      "aask": "Can I flip it for a sec?",
+      "analogy": "If it was the other way around, and your [spouse] needed this to go after their dream, would you back them?\n(yes)\nThen why wouldn't you back yourself?"
+    },
+    {
+      "id": "business-partner",
+      "cat": "people",
+      "group": "Business",
+      "q": "I need to talk to my business partner.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Makes sense."
+        ],
+        [
+          "Ask",
+          "Do they need to approve it, or is it more of a heads up?"
+        ],
+        [
+          "Ask",
+          "Who handles the money?"
+        ],
+        [
+          "Certainty",
+          "Them aside, do you feel like this will get you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "What do you think they wouldn't like about it?"
+        ],
+        [
+          "Lock",
+          "So if they're good with it, you're in?"
+        ],
+        [
+          "Solve",
+          "Can we grab them for 5 minutes now?"
+        ],
+        [
+          "Solve",
+          "(not around → book it with both of you: [day] at [time] or [day] at [time]?)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Why would they be against it?",
+      "rask": "Can I ask you something?",
+      "reframe": "Is your partner happy with where the content is right now?\n(no)\nThen why would they be against the thing that fixes it?\nThey want the same thing you want. This is just how you get there."
+    },
+    {
+      "id": "not-decider",
+      "cat": "people",
+      "group": "Business",
+      "q": "I'm not the one who decides.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Got it, thanks for telling me."
+        ],
+        [
+          "Ask",
+          "Who is?"
+        ],
+        [
+          "Ask",
+          "What will they care about most?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this is the right move for the business?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if they're on board, it's a go?"
+        ],
+        [
+          "Solve",
+          "Let's get them on. [Day] at [time] or [day] at [time]?"
+        ]
+      ],
+      "close": "Perfect, I'll send the invite to both of you. What's their email?\n(run the close on that call)"
+    },
+    {
+      "id": "someone-else",
+      "cat": "people",
+      "group": "Shopping around",
+      "q": "I'm talking to someone else first.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Smart, you should look around."
+        ],
+        [
+          "Ask",
+          "Who else are you looking at?"
+        ],
+        [
+          "Ask",
+          "What do you like about them?"
+        ],
+        [
+          "Ask",
+          "How are you deciding what's a good fit?"
+        ],
+        [
+          "Certainty",
+          "Based on that, do you feel like this gets you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if we check those boxes, you'd go with us?"
+        ],
+        [
+          "Solve",
+          "So you said [their criteria]. Here's how we match up: [answer each one]."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "proposal",
+      "cat": "people",
+      "group": "Shopping around",
+      "q": "Send me a proposal.",
+      "lines": [
+        [
+          "Acknowledge",
+          "For sure, happy to."
+        ],
+        [
+          "Ask",
+          "What do you want to see in it that you haven't heard today?"
+        ],
+        [
+          "Certainty",
+          "Based on everything today, do you feel like this is what gets you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if the proposal says what we talked about, you're in?"
+        ],
+        [
+          "Solve",
+          "Then let's lock it in now, and I'll send the full recap right after."
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "doesnt-work",
+      "cat": "fear",
+      "group": "Will it work",
+      "q": "What if it doesn't work?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Makes sense, you don't want to be out [$6K] with nothing."
+        ],
+        [
+          "Associate",
+          "Honestly, smart people ask that."
+        ],
+        [
+          "Ask",
+          "What would working look like for you in 90 days?"
+        ],
+        [
+          "Certainty",
+          "If it did get you that, would this be the move?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Lock",
+          "So it's not the money, it's being sure it works. Fair?"
+        ],
+        [
+          "Solve",
+          "Here's how we work. We stay with you until you see an ROI. If you haven't made back what you put in yet, we don't stop, we keep working with you until you do."
+        ],
+        [
+          "Solve",
+          "Does that cover what you were worried about?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Consider the options",
+      "rask": "Can I walk you through the options real quick?",
+      "reframe": "One, you do it and it works. Life's great.\nTwo, it takes longer than you want, and we keep working with you until you see an ROI.\nThree, you don't do it.\nOnly one of those guarantees you don't get to [goal], and it's the third one.\nWhich one do you want?",
+      "beliefAfter": true
+    },
+    {
+      "id": "guarantee",
+      "cat": "fear",
+      "group": "Will it work",
+      "q": "Is there a guarantee?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Great question."
+        ],
+        [
+          "Ask",
+          "What would you want it to cover?"
+        ],
+        [
+          "Answer",
+          "Here's how we work. We stay with you until you see an ROI. If you haven't made back what you put in yet, we don't stop, we keep working with you until you do."
+        ],
+        [
+          "Lock",
+          "Does that cover what you were worried about?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "An informed decision",
+      "rask": "Can I ask you something?",
+      "reframe": "You want to make an informed decision, right?\n(yes)\nIt's hard to fully know until you're actually inside and using it.\nAnd you're not taking the risk alone. We work with you until you see an ROI, so the only way this doesn't pay off is if you stop."
+    },
+    {
+      "id": "testimonials",
+      "cat": "fear",
+      "group": "Will it work",
+      "q": "Can you send me testimonials?",
+      "lines": [
+        [
+          "Acknowledge",
+          "For sure."
+        ],
+        [
+          "Ask",
+          "What would you need to see to feel sure?"
+        ],
+        [
+          "Lock",
+          "If I show you that, are we good to move forward?"
+        ],
+        [
+          "Show",
+          "(a real result from their niche, live on screen)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "mistake",
+      "cat": "fear",
+      "group": "Will it work",
+      "q": "I don't want to make a mistake.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, nobody does."
+        ],
+        [
+          "Ask",
+          "What would a mistake look like here?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this is the right move for [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So it's not that it's wrong, it's the fear of getting it wrong?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Pain of staying vs pain of change",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "Change is uncomfortable, there's no way around that.\nSo the question is, is staying where you are more painful than the change?\n(no → honestly, then this might not be the time, and that's okay)\n(yes → then let's make the change)"
+    },
+    {
+      "id": "courses",
+      "cat": "fear",
+      "group": "Burned before",
+      "q": "I've bought courses that didn't work.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Sounds like you've heard that promise before."
+        ],
+        [
+          "Associate",
+          "Honestly, most people who do well with us had a shelf of courses first."
+        ],
+        [
+          "Ask",
+          "What was missing?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this is different from those?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if this had what was missing, you'd do it?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Don't let it burn you twice",
+      "rask": "Can I share how I look at it?",
+      "reframe": "Don't let a bad decision burn you twice.\nIt burned you once when you paid for it.\nDon't let it burn you again by stopping you from something that actually works.\nYou have to do the work either way. You might as well have someone getting you there faster.",
+      "aname": "One bad relationship",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like having one bad relationship in high school and deciding dating isn't for you.\nThere's good ones and bad ones.\nIf you let the bad one make your next decision, it burned you twice."
+    },
+    {
+      "id": "agency",
+      "cat": "fear",
+      "group": "Burned before",
+      "q": "I had a bad experience with an agency.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Sounds like you got burned, I'm sorry."
+        ],
+        [
+          "Ask",
+          "What happened?"
+        ],
+        [
+          "Ask",
+          "What would need to be different this time?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this is different from that?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if this has what they were missing, you'd do it?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Don't let it burn you twice",
+      "rask": "Can I share how I look at it?",
+      "reframe": "Don't let a bad decision burn you twice.\nIt burned you once when you paid for it.\nDon't let it burn you again by stopping you from something that actually works.\nYou have to do the work either way. You might as well have someone getting you there faster.",
+      "aname": "One bad relationship",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like having one bad relationship in high school and deciding dating isn't for you.\nThere's good ones and bad ones.\nIf you let the bad one make your next decision, it burned you twice."
+    },
+    {
+      "id": "scared-out-there",
+      "cat": "fear",
+      "group": "Showing up",
+      "q": "I'm scared to put myself out there.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Sounds like that part feels heavy."
+        ],
+        [
+          "Associate",
+          "Almost everyone doing well with content felt that first."
+        ],
+        [
+          "Ask",
+          "What's the worst part about it?"
+        ],
+        [
+          "Certainty",
+          "If you knew it would work, would you do it?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Lock",
+          "So it's not the program, it's putting yourself out there?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Pain of staying vs pain of change",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "Change is uncomfortable, there's no way around that.\nSo the question is, is staying where you are more painful than the change?\n(no → honestly, then this might not be the time, and that's okay)\n(yes → then let's make the change)"
+    },
+    {
+      "id": "camera",
+      "cat": "fear",
+      "group": "Showing up",
+      "q": "I'm not good on camera.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, most people feel that."
+        ],
+        [
+          "Ask",
+          "What about it feels off?"
+        ],
+        [
+          "Certainty",
+          "If it felt like you on camera, would you do it?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Lock",
+          "So the camera's the only thing?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "The reason is the reason",
+      "rask": "Can I be honest with you?",
+      "reframe": "Not being good on camera is exactly why you want the scripts and the system with you.\nNobody starts good. They start, and they get good."
+    },
+    {
+      "id": "perfect",
+      "cat": "fear",
+      "group": "Stuck",
+      "q": "It has to be perfect first.",
+      "lines": [
+        [
+          "Acknowledge",
+          "I get it, you care about the quality."
+        ],
+        [
+          "Ask",
+          "What does good enough to launch look like?"
+        ],
+        [
+          "Ask",
+          "How long has it been almost ready?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this gets you there faster than polishing it alone?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So you want to do it, it's just the perfect part?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Directionally right",
+      "rask": "Can I share how I look at it?",
+      "reframe": "This doesn't have to be the one thing that fixes everything.\nDo you think it gets you closer to [goal] than what you're doing now?\n(yes)\nThen that's all it needs to do. You don't have to be perfect, you just have to be heading the right way.\nKeep making decisions that get you closer, and you get there.",
+      "aname": "Bricks on a bridge",
+      "aask": "Can I give you an example?",
+      "analogy": "Think of every skill you pick up as a brick on a bridge to where you want to be.\nYou don't build the whole thing at once. One brick at a time.\nIt doesn't need to get you all the way there. It just needs to get you closer."
+    },
+    {
+      "id": "hydra",
+      "cat": "fear",
+      "group": "Stuck",
+      "q": "A new reason every time.",
+      "lines": [
+        [
+          "Acknowledge",
+          "I notice every time we solve one, another one shows up."
+        ],
+        [
+          "Ask",
+          "Real talk, what's actually going on?"
+        ],
+        [
+          "Ask",
+          "Have you been in this spot before and said no?"
+        ],
+        [
+          "Certainty",
+          "All of that aside, do you actually want to get to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Lock",
+          "So what's the one real thing?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "The reason is the reason",
+      "rask": "Can I be honest with you?",
+      "reframe": "The reason you're giving for not doing this is usually the exact reason to do it.\nNo time is why you need it. No money is why you need it.\nWhatever that reason is, that's the thing keeping you stuck."
+    },
+    {
+      "id": "chatgpt",
+      "cat": "fit",
+      "group": "Do it myself",
+      "q": "I already use ChatGPT / Claude.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Makes sense, most people do."
+        ],
+        [
+          "Ask",
+          "How's that working for you?"
+        ],
+        [
+          "Ask",
+          "What's still not coming out the way you want?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this would close that gap?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So if this did what that isn't doing, you'd do it?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Change the change",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "What you've been doing has gotten you exactly where you are.\nIf you want something different, something has to change.\nDoing the same thing a little harder won't get you there.",
+      "aname": "The same breakfast",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like someone starting a new diet and asking if they can keep the same breakfast.\nThat breakfast is part of why things look the way they do.\nSame tool, used the same way, gets you the same results."
+    },
+    {
+      "id": "build-myself",
+      "cat": "fit",
+      "group": "Do it myself",
+      "q": "I can build it myself.",
+      "lines": [
+        [
+          "Acknowledge",
+          "You totally could."
+        ],
+        [
+          "Ask",
+          "How long has it been on the list?"
+        ],
+        [
+          "Ask",
+          "What happened last time you set it up yourself?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like doing it with us gets you there faster?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So it's not whether this works, it's doing it yourself vs with help?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "12 weeks or 12 years",
+      "rask": "Can I share how I look at it?",
+      "reframe": "Either way, you're going to pay for this. With money, or with time.\nYou'll learn all of this eventually. Do you want it to take 12 weeks, or 12 years?\n(12 weeks)\nThat's what you're paying for. Skipping the mistakes everyone else already made.",
+      "aname": "Doing your own taxes",
+      "aask": "Can I give you an example?",
+      "analogy": "It's like doing your own taxes.\nYou can, and some people do.\nBut it takes you ten times longer, and you still don't know what you missed."
+    },
+    {
+      "id": "have-poppy",
+      "cat": "fit",
+      "group": "Do it myself",
+      "q": "I already have Poppy.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Love that."
+        ],
+        [
+          "Ask",
+          "How's it going with it?"
+        ],
+        [
+          "Ask",
+          "What's still not coming out the way you want?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like building it out with us would close that gap?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So the tool's there, the results aren't yet. Fair?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Change the change",
+      "rask": "Can I be real with you for a sec?",
+      "reframe": "What you've been doing has gotten you exactly where you are.\nIf you want something different, something has to change.\nDoing the same thing a little harder won't get you there."
+    },
+    {
+      "id": "hire-someone",
+      "cat": "fit",
+      "group": "Do it myself",
+      "q": "Can I just hire someone?",
+      "lines": [
+        [
+          "Acknowledge",
+          "You could."
+        ],
+        [
+          "Ask",
+          "What would you want them to do?"
+        ],
+        [
+          "Ask",
+          "Have you hired for this before? What happened?"
+        ],
+        [
+          "Certainty",
+          "Do you feel like this gets you there faster than hiring?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So it's a hire vs this, nothing else?"
+        ],
+        [
+          "Solve",
+          "(honest comparison: what a hire costs a month vs this, and what each one actually does)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "aname": "No school for this",
+      "aask": "Can I give you an example?",
+      "analogy": "Doctors go to med school. Lawyers go to law school. Where do business owners go?\nNobody teaches this stuff. A college degree costs way more and doesn't get you one client.\nThis is years of other people's mistakes, packed into a few months."
+    },
+    {
+      "id": "not-sure-fit",
+      "cat": "fit",
+      "group": "Is it for me",
+      "q": "I'm not sure this is for me.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair."
+        ],
+        [
+          "Ask",
+          "What part doesn't feel like you?"
+        ],
+        [
+          "Lock",
+          "So if we fixed that part, you'd be in?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "If it were perfect",
+      "rask": "Can I ask you a weird question?",
+      "reframe": "If this was perfect for you, would you do it?\n(they laugh, say yes)\nSo what's the difference between perfect and what I showed you?\n(usually: I don't know)\nRight, so it's probably not the program. What's actually holding you back?"
+    },
+    {
+      "id": "niche",
+      "cat": "fit",
+      "group": "Is it for me",
+      "q": "Not sure it'll work for my niche.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Fair, every niche feels different."
+        ],
+        [
+          "Ask",
+          "What part feels like it wouldn't fit?"
+        ],
+        [
+          "Ask",
+          "What would it need to do to be a win for you?"
+        ],
+        [
+          "Lock",
+          "If I showed you it working in a niche like yours, would that change it?"
+        ],
+        [
+          "Show",
+          "(one real result from their niche, live on screen)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "If it were perfect",
+      "rask": "Can I ask you a weird question?",
+      "reframe": "If this was perfect for you, would you do it?\n(they laugh, say yes)\nSo what's the difference between perfect and what I showed you?\n(usually: I don't know)\nRight, so it's probably not the program. What's actually holding you back?",
+      "beliefAfter": true
+    },
+    {
+      "id": "no-direction",
+      "cat": "fit",
+      "group": "Is it for me",
+      "q": "I don't know what direction I want.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally normal."
+        ],
+        [
+          "Ask",
+          "What are you torn between?"
+        ],
+        [
+          "Ask",
+          "If you had to pick one today?"
+        ],
+        [
+          "Ask",
+          "How long have you been deciding?"
+        ],
+        [
+          "Lock",
+          "So if we helped you pick one and build it, that'd solve it?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "Directionally right",
+      "rask": "Can I share how I look at it?",
+      "reframe": "This doesn't have to be the one thing that fixes everything.\nDo you think it gets you closer to [goal] than what you're doing now?\n(yes)\nThen that's all it needs to do. You don't have to be perfect, you just have to be heading the right way.\nKeep making decisions that get you closer, and you get there."
+    },
+    {
+      "id": "trial-first",
+      "cat": "fit",
+      "group": "The offer",
+      "q": "Can I do the trial first?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair."
+        ],
+        [
+          "Ask",
+          "What would the trial show you that you haven't seen today?"
+        ],
+        [
+          "Answer",
+          "The trial is the base plan. It doesn't include the build or the coaching, which is the part that gets you to [goal]."
+        ],
+        [
+          "Certainty",
+          "Do you feel like the full thing is what gets you there?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So you want it, you just wanted to test it first?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)",
+      "rname": "An informed decision",
+      "rask": "Can I ask you something?",
+      "reframe": "You want to make an informed decision, right?\n(yes)\nIt's hard to fully know until you're actually inside and using it.\nAnd you're not taking the risk alone. We work with you until you see an ROI, so the only way this doesn't pay off is if you stop."
+    },
+    {
+      "id": "thought-dfy",
+      "cat": "fit",
+      "group": "The offer",
+      "q": "I thought this was done-for-you.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Fair, glad you said it."
+        ],
+        [
+          "Ask",
+          "What were you hoping would be done for you?"
+        ],
+        [
+          "Answer",
+          "(exactly what's included, and what isn't)"
+        ],
+        [
+          "Certainty",
+          "Knowing that, do you feel like this gets you to [goal]?"
+        ],
+        [
+          "Certainty",
+          "Why?"
+        ],
+        [
+          "Or, callback",
+          "Earlier you said you're a [number] because [their reason]. Is that still true?"
+        ],
+        [
+          "Lock",
+          "So with that cleared up, you're good?"
+        ],
+        [
+          "Lock",
+          "(they really need it fully done for them → not a fit, say so)"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "faceless",
+      "cat": "fit",
+      "group": "The offer",
+      "q": "Can I do it faceless?",
+      "lines": [
+        [
+          "Acknowledge",
+          "Good question."
+        ],
+        [
+          "Ask",
+          "What makes you want faceless?"
+        ],
+        [
+          "Answer",
+          "(only the formats the team actually supports)"
+        ],
+        [
+          "Lock",
+          "Does that work for how you want to do it?"
+        ]
+      ],
+      "close": "I've got [day] at [time] or [day] at [time] for your onboarding. Which works better?\nPerfect. What's the email on your Poppy account? I'll get it updated.\nI'm dropping the payment link in the chat now.\n(stay on until it goes through)"
+    },
+    {
+      "id": "price-early",
+      "cat": "early",
+      "group": "Early in the call",
+      "q": "What's the price?",
+      "lines": [
+        [
+          "Acknowledge",
+          "We'll get there."
+        ],
+        [
+          "Answer",
+          "Everything's custom, so first I need to understand what you need. Cool?"
+        ],
+        [
+          "Answer",
+          "(asks again → anywhere from a few hundred to [$X], a couple questions first)"
+        ]
+      ],
+      "close": "(back to discovery, right where you were)"
+    },
+    {
+      "id": "many-questions",
+      "cat": "early",
+      "group": "Early in the call",
+      "q": "You're asking a lot of questions.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally fair."
+        ],
+        [
+          "Answer",
+          "Two more quick ones so I show you the right stuff."
+        ],
+        [
+          "Ask",
+          "What's one client worth to you a month?"
+        ]
+      ],
+      "close": "(back to discovery, right where you were)"
+    },
+    {
+      "id": "didnt-know-sales",
+      "cat": "early",
+      "group": "Early in the call",
+      "q": "I didn't know this was a sales call.",
+      "lines": [
+        [
+          "Acknowledge",
+          "Totally, and you don't have to buy anything."
+        ],
+        [
+          "Answer",
+          "We do have a paid program. I'll only bring it up if it actually fits. Fair?"
+        ]
+      ],
+      "close": "(back to discovery, right where you were)"
+    }
+  ],
+  "ov": 24,
+  "offers": [
+    {
+      "id": "renew",
+      "name": "Poppy for the year",
+      "deck": "ob",
+      "list": 399,
+      "today": 374,
+      "range": "$299 to $399",
+      "coaches": [],
+      "calls": "",
+      "months": "12",
+      "who": "On the $1 trial, on the onboarding call, going to use it anyway",
+      "proof": "general",
+      "stack": "Everything we built today, yours all year\nHooks, scripts and captions in your voice, in minutes\nBuilt from what's already going viral in your niche\nUnlimited boards, every template, our support team",
+      "notes": "The ethical bribe. Price is yours: $374 is the default, $350 when you feel it, never under $299 without asking. Charge the card on file, never a link unless there is no card. It's $31 a month to go viral."
+    },
+    {
+      "id": "life",
+      "name": "Poppy for Life",
+      "deck": "ob",
+      "list": 1188,
+      "today": 997,
+      "range": "$997",
+      "coaches": [],
+      "calls": "",
+      "months": "",
+      "who": "Wants to never think about a renewal again",
+      "proof": "general",
+      "stack": "Pay once. Never see a Poppy renewal again\n4,000 credits every month, forever\nUnlimited boards and every template\n5 brand profiles and 2 team seats",
+      "notes": "Flat $997 on the lifetime rail (Qazi's rule): Basic for life + the Starter half = 4,000 credits a month, 2 seats, 5 brand profiles, same as Meets. Sold against $1,188 every year for Starter."
+    },
+    {
+      "id": "starter",
+      "stripeProduct": "prod_RZndcFDudM48xl",
+      "whopProduct": "prod_Puv49N6O3J97m",
+      "name": "Starter plan",
+      "deck": "plan",
+      "list": 1188,
+      "today": 1188,
+      "range": "",
+      "coaches": [],
+      "calls": "1",
+      "months": "12",
+      "who": "Wants more than Basic, runs it themselves",
+      "proof": "general",
+      "pitch": {
+        "lead": "Your business doesn't need more AI. It needs a system.",
+        "eye": "Why more AI hasn't fixed it",
+        "why": "It's not more AI. It's a system.",
+        "whyLine": "One place that knows your voice, your offer and what's working, and turns one idea into a week of content.",
+        "formula": [
+          {
+            "n": "Strategy",
+            "line": "Poppy learns your voice, your offer and your audience once. Then it knows what to make, and why."
+          },
+          {
+            "n": "System",
+            "line": "One idea in, a week of content out: scripts, hooks, carousels, emails, all in your voice."
+          },
+          {
+            "n": "Execution",
+            "line": "Post every week without the blank page. See what's working and make more of it."
+          }
+        ],
+        "formulaSub": "That's the whole plan: know what to make, make it fast, keep making it."
+      },
+      "stack": "Poppy Starter for the full year\n4,000 credits every month\nEvery Poppy board and tool\nA 1:1 setup call with a Poppy expert\n30-day money-back guarantee",
+      "features": [
+        {
+          "hero": true,
+          "ic": "🧬",
+          "t": "A system that knows you",
+          "d": "Poppy learns your voice, your offer and your audience once. Every script, hook and post after that sounds like you, not like AI."
+        },
+        {
+          "ic": "⚡",
+          "t": "4,000 credits a month",
+          "d": "About 150 to 200 scripts, hooks or posts. Post every day with room to spare."
+        },
+        {
+          "ic": "🗂️",
+          "t": "Every content board",
+          "d": "Short-form, YouTube, carousels, emails, ads. One idea in, a week out."
+        },
+        {
+          "ic": "🔍",
+          "t": "Discover what's working",
+          "d": "The top posts in your niche right now, to build from what's proven."
+        },
+        {
+          "ic": "📞",
+          "t": "1:1 call with a Poppy expert",
+          "d": "Your board set up around your business on a live call. No blank page on day one."
+        },
+        {
+          "ic": "🛡️",
+          "t": "30-day money-back",
+          "d": "Use it for a month. Not for you, every dollar back."
+        }
+      ],
+      "notes": "Software only. Charge the card on file (not a link)."
+    },
+    {
+      "id": "creator",
+      "stripeProduct": "prod_RZo4PiMnNRsDSv",
+      "whopProduct": "prod_Puv49N6O3J97m",
+      "name": "Creator plan",
+      "deck": "plan",
+      "list": 2268,
+      "today": 2268,
+      "range": "",
+      "coaches": [],
+      "calls": "1",
+      "months": "12",
+      "who": "Posting a lot, one brand, wants the VSL + landing page builder",
+      "proof": "creator",
+      "pitch": {
+        "lead": "Content that sells, not just content that posts.",
+        "eye": "Why posting more hasn't paid",
+        "why": "Views aren't the goal.\nA system that sells is.",
+        "whyLine": "Poppy writes the content, the VSL and the page under it from one board that knows your offer, so every post has somewhere to send people.",
+        "formula": [
+          {
+            "n": "Attract",
+            "line": "Short-form and long-form in your voice, from what's already working in your niche."
+          },
+          {
+            "n": "Convert",
+            "line": "Your VSL scripted and your landing page written from the same board. Views become leads."
+          },
+          {
+            "n": "Scale",
+            "line": "Your editor and VA in the same boards, ten brand profiles, 8,000 credits a month."
+          }
+        ],
+        "formulaSub": "Attract, convert, scale: the three jobs content has to do, in one place."
+      },
+      "stack": "Poppy Creator for the full year\n8,000 credits every month\nVSL + landing page builder\n3 team seats, 10 brand profiles\nA 1:1 setup call with a Poppy expert\n30-day money-back guarantee",
+      "features": [
+        {
+          "hero": true,
+          "ic": "🎬",
+          "t": "VSL + landing page builder",
+          "d": "Your sales video scripted and the page under it written, from the board that already knows your offer. Content that has somewhere to send people."
+        },
+        {
+          "ic": "⚡",
+          "t": "8,000 credits a month",
+          "d": "Four times Basic. Daily on two platforms with room for long-form."
+        },
+        {
+          "ic": "👥",
+          "t": "3 team seats",
+          "d": "Your editor and your VA work in the same boards. No forwarding scripts."
+        },
+        {
+          "ic": "🏷️",
+          "t": "10 brand profiles",
+          "d": "Your brand, your clients' brands, each with its own voice. One click to switch."
+        },
+        {
+          "ic": "📞",
+          "t": "1:1 call with a Poppy expert",
+          "d": "Your boards and your first funnel set up live, with someone who's done it."
+        },
+        {
+          "ic": "🛡️",
+          "t": "30-day money-back",
+          "d": "Use it for a month. Not for you, every dollar back."
+        }
+      ],
+      "notes": "Software only. Charge the card on file (not a link)."
+    },
+    {
+      "id": "power",
+      "stripeProduct": "prod_RZo4pdioZUaZWE",
+      "whopProduct": "prod_Puv49N6O3J97m",
+      "name": "Power User plan",
+      "deck": "plan",
+      "list": 4788,
+      "today": 4788,
+      "range": "",
+      "coaches": [],
+      "calls": "1",
+      "months": "12",
+      "who": "Agencies and teams, many brands, APIs and agents",
+      "proof": "power",
+      "pitch": {
+        "lead": "An AI that actually knows your business, working inside your tools 24/7.",
+        "eye": "Why generic AI hasn't moved the needle",
+        "why": "Not another chatbot.\nYour business, with a brain.",
+        "whyLine": "Train Poppy on your knowledge once, then put it everywhere: in your tools through the API and MCP, in front of customers as a chatbot, behind the scenes as an agent.",
+        "formula": [
+          {
+            "n": "Train",
+            "line": "Poppy learns your business: your docs, calls, offers, voice. Not a generic model, yours."
+          },
+          {
+            "n": "Connect",
+            "line": "API and MCP put that brain inside Claude, Cursor, your CRM, your site, your client portal."
+          },
+          {
+            "n": "Deploy",
+            "line": "Chatbots that answer and qualify, agents that write and work while you sleep."
+          }
+        ],
+        "formulaSub": "Train it, connect it, deploy it. That's the whole plan."
+      },
+      "stack": "Poppy Power User for the full year\nAPI access, chatbots and agents\nPoppy MCP: Poppy inside Claude, Cursor and your own tools\n16,000 credits every month\nUnlimited brand profiles, 5 team seats\nA 1:1 build call with a Poppy expert\n30-day money-back guarantee",
+      "features": [
+        {
+          "hero": true,
+          "ic": "🤖",
+          "t": "Chatbots, API and MCP",
+          "d": "Train a bot on your knowledge and let it answer, qualify or write 24/7. Plug Poppy into your CRM, your site, your portal through the API. Poppy MCP puts your boards inside Claude, Cursor and any MCP tool."
+        },
+        {
+          "ic": "⚡",
+          "t": "16,000 credits a month",
+          "d": "Eight times Basic. Built for an agency running a roster of clients."
+        },
+        {
+          "ic": "🏷️",
+          "t": "Unlimited brand profiles",
+          "d": "Every client is a brand with its own voice, offer and audience. No cap."
+        },
+        {
+          "ic": "👥",
+          "t": "5 team seats",
+          "d": "Strategist, writers, editor, account manager, all in the boards."
+        },
+        {
+          "ic": "📞",
+          "t": "1:1 build call with a Poppy expert",
+          "d": "Your first bot or integration scoped and started on a live call."
+        },
+        {
+          "ic": "🛡️",
+          "t": "30-day money-back",
+          "d": "Use it for a month. Not for you, every dollar back."
+        }
+      ],
+      "notes": "Software only. Charge the card on file (not a link)."
+    },
+    {
+      "id": "vcs",
+      "name": "Viral Content System",
+      "deck": "coached",
+      "stripeProduct": "prod_V43xvOin8mGMmz",
+      "whopProduct": "prod_Puv49N6O3J97m",
+      "list": 10000,
+      "today": 7500,
+      "range": "$5k to $15k",
+      "coaches": [
+        "malu",
+        "charan",
+        "christian"
+      ],
+      "calls": "6",
+      "months": "3",
+      "who": "Coaches, consultants, creators and UGC with an offer, ready to post",
+      "proof": "general",
+      "between": "Slack access to [coach] between calls, your content reviewed before it goes out",
+      "commit": "About 20 Reels a month, 25 DMs a day, show up to every call",
+      "stack": "Your content strategy, built around your goal\nYour content system, built inside Poppy with you\n[calls] 1:1 calls with [coach]\nA 90-day content calendar\n90 days of support after the program\nWe work with you until you see a return",
+      "optional": [
+        "A DM outreach system + daily tracker (only if getting clients from DMs or outreach came up)",
+        "Your course or program mapped and built in Poppy (only if they mentioned a course, program or offer they need to build)",
+        "A VSL or webinar script (only if a funnel, VSL or webinar came up)",
+        "Ad scripts and a creative feedback loop (only if they run or want to run ads)",
+        "YouTube scripts and titles (only if YouTube came up)",
+        "A brand deal pitch + media kit system (only if brand deals came up)",
+        "An email sequence in your voice (only if email or a list came up)"
+      ],
+      "notes": "Done WITH you, not done for you: they post. Client commits to ~20 Reels a month + 25 DMs a day. Coach: Malu for UGC/creators, Charan for coaches, Christian for general builds (ads, webinars, programs). What changes from $5k to $15k: [fill in]."
+    },
+    {
+      "id": "yvcs",
+      "name": "YouTube Viral Content System",
+      "deck": "coached",
+      "stripeProduct": "prod_VDdalrRtszO0Bv",
+      "whopProduct": "prod_Puv49N6O3J97m",
+      "list": 15000,
+      "today": 15000,
+      "range": "$15k",
+      "coaches": [
+        "linden"
+      ],
+      "calls": "biweekly",
+      "months": "3",
+      "who": "Doing $10k+/mo, can film weekly, 10+ hours a month",
+      "proof": "youtube",
+      "between": "Scripts and titles reviewed by [coach] before you film, Slack between calls",
+      "commit": "Film one video a week, about 10 hours a month; editor + thumbnail fees are yours",
+      "stack": "12 produced YouTube videos\nYour YouTube strategy, built around your goal\nCalls every two weeks with [coach]\nRunning it on your own by month 3\nWe work with you until you see a return",
+      "optional": [
+        "Thumbnail and title testing (only if they asked about packaging)",
+        "A lead magnet + email capture under the videos (only if a list or leads came up)",
+        "Short-form cuts from every long video (only if Shorts, Reels or TikTok came up)"
+      ],
+      "notes": "Editor and thumbnail designer fees are separate: say so before the close."
+    },
+    {
+      "id": "build",
+      "name": "AI build (chatbot · MCP · automation)",
+      "deck": "build",
+      "proof": "power",
+      "stripeProduct": "prod_VAeXkj7OjAl8Ro",
+      "whopProduct": "prod_7k99FxBHBbWDo",
+      "list": 10000,
+      "today": 10000,
+      "range": "~$10k",
+      "coaches": [],
+      "calls": "2",
+      "months": "2",
+      "who": "Doing $25k+/mo, wants their knowledge turned into an app, bot or automation",
+      "between": "The build team works between calls, you get a working version to test before launch",
+      "commit": "Your knowledge, docs and examples in the first week; two install calls",
+      "stack": "[the build], scoped to your business\n[calls] install calls with the build team\nLaunch support: emails and rollout\n60 days of hosting\nPoppy Power User included\nWe work with you until you see a return",
+      "optional": [
+        "Training on your own material: docs, calls, courses (only if they have a knowledge base to load)",
+        "A team login for your staff (only if a team came up)",
+        "Integration with your CRM or booking tool (only if they named one)"
+      ],
+      "notes": "Can split: half today, half at launch. Scope the build out loud before the price."
+    }
+  ],
+  "coaches": [
+    {
+      "id": "malu",
+      "name": "Malu Celestino",
+      "handle": "@malucelestino_",
+      "followers": "108K",
+      "photo": "malu.jpg",
+      "fit": "UGC + creators",
+      "cal": "https://calendly.com/mo-getpoppy/30min",
+      "calNote": "Mo's calendar stands in until Malu has her own; move it to hers after",
+      "email": null,
+      "phone": null,
+      "pronoun": "she",
+      "lines": [
+        "Worked with 350+ brands, incl. McDonald's and Motion",
+        "Sold a course built in Poppy to 10,000 students",
+        "Runs about $3M a month in ad creative through Poppy",
+        "Poppy Power User since 2024"
+      ]
+    },
+    {
+      "id": "charan",
+      "name": "Charan Singh",
+      "handle": "@trainwithcharan",
+      "followers": "50K",
+      "photo": "charan.jpg?v=9",
+      "fit": "Coaches",
+      "cal": "https://calendly.com/charan-getpoppy/new-meeting",
+      "email": null,
+      "phone": null,
+      "pronoun": "he",
+      "lines": [
+        "Content strategist at The School of Hard Knockz",
+        "Helps brands, businesses and creators post with clarity",
+        "Builds your content system with you, 1:1"
+      ]
+    },
+    {
+      "id": "christian",
+      "name": "Christian Santos",
+      "handle": "@christiangotvision",
+      "followers": "",
+      "photo": "christian.jpg",
+      "fit": "Ads, webinars, programs",
+      "cal": "https://calendly.com/christian-getpoppy/poppy-kick-off-call",
+      "email": null,
+      "phone": null,
+      "pronoun": "he",
+      "lines": [
+        "Built the Poppy systems on this deck: ads, VSLs, webinars, YouTube, LinkedIn",
+        "Took a client from 2K to 10K TikTok followers in one month, first video past 100K",
+        "665 people into her store in 24 hours from one post",
+        "Runs your build 1:1, call by call, until it's producing"
+      ],
+      "proof": {
+        "img": "christian-proof.jpg",
+        "caption": "June 2026 · a client crossing 10K on TikTok, called in advance"
+      }
+    },
+    {
+      "id": "linden",
+      "name": "Linden Chasteen",
+      "handle": "@lindenchasteen",
+      "followers": "12K",
+      "photo": "linden.jpg",
+      "fit": "YouTube",
+      "cal": "https://calendly.com/mo-getpoppy/30min",
+      "calNote": "Mo's calendar stands in until Linden has his own; move it to his after",
+      "email": null,
+      "phone": null,
+      "pronoun": "he",
+      "lines": [
+        "Helps business owners scale with YouTube",
+        "$40M+ generated · 300+ clients",
+        "Grown 7+ YouTube channels past 100K subscribers",
+        "Runs the done-for-you YouTube system"
+      ]
+    }
+  ],
+  "offv": 33,
+  "updated": 1793126956941
+}

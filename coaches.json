@@ -1,0 +1,79 @@
+[
+  {
+    "id": "malu",
+    "name": "Malu Celestino",
+    "handle": "@malucelestino_",
+    "followers": "108K",
+    "photo": "malu.jpg",
+    "fit": "UGC + creators",
+    "cal": "https://calendly.com/mo-getpoppy/30min",
+    "calNote": "Mo's calendar stands in until Malu has her own; move it to hers after",
+    "email": null,
+    "phone": null,
+    "pronoun": "she",
+    "lines": [
+      "Worked with 350+ brands, incl. McDonald's and Motion",
+      "Sold a course built in Poppy to 10,000 students",
+      "Runs about $3M a month in ad creative through Poppy",
+      "Poppy Power User since 2024"
+    ]
+  },
+  {
+    "id": "charan",
+    "name": "Charan Singh",
+    "handle": "@trainwithcharan",
+    "followers": "50K",
+    "photo": "charan.jpg?v=9",
+    "fit": "Coaches",
+    "cal": "https://calendly.com/charan-getpoppy/new-meeting",
+    "email": null,
+    "phone": null,
+    "pronoun": "he",
+    "lines": [
+      "Content strategist at The School of Hard Knockz",
+      "Helps brands, businesses and creators post with clarity",
+      "Builds your content system with you, 1:1"
+    ]
+  },
+  {
+    "id": "christian",
+    "name": "Christian Santos",
+    "handle": "@christiangotvision",
+    "followers": "",
+    "photo": "christian.jpg",
+    "fit": "Ads, webinars, programs",
+    "cal": "https://calendly.com/christian-getpoppy/poppy-kick-off-call",
+    "email": null,
+    "phone": null,
+    "pronoun": "he",
+    "lines": [
+      "Built the Poppy systems on this deck: ads, VSLs, webinars, YouTube, LinkedIn",
+      "Took a client from 2K to 10K TikTok followers in one month, first video past 100K",
+      "665 people into her store in 24 hours from one post",
+      "Runs your build 1:1, call by call, until it's producing"
+    ],
+    "proof": {
+      "img": "christian-proof.jpg",
+      "caption": "June 2026 · a client crossing 10K on TikTok, called in advance"
+    }
+  },
+  {
+    "id": "linden",
+    "name": "Linden Chasteen",
+    "handle": "@lindenchasteen",
+    "followers": "12K",
+    "photo": "linden.jpg",
+    "fit": "YouTube",
+    "cal": "https://calendly.com/mo-getpoppy/30min",
+    "calNote": "Mo's calendar stands in until Linden has his own; move it to his after",
+    "email": null,
+    "phone": null,
+    "pronoun": "he",
+    "lines": [
+      "Helps business owners scale with YouTube",
+      "$40M+ generated · 300+ clients",
+      "Grown 7+ YouTube channels past 100K subscribers",
+      "Runs the done-for-you YouTube system"
+    ]
+  }
+]

@@ -1,0 +1,58 @@
+{
+  "_help": "Deck-only copy. Offers and prices come from offers.json. Edit here, no rebuild needed.",
+  "short": {
+    "renew": "Year",
+    "life": "Life",
+    "starter": "Starter",
+    "creator": "Creator",
+    "power": "Power",
+    "vcs": "VCS",
+    "yvcs": "YT VCS",
+    "build": "Build"
+  },
+  "plans": {
+    "full": { "label": "Full", "months": 1, "key": "P" },
+    "whop": { "label": "6 mo", "months": 6, "key": "W" },
+    "clarity": { "label": "24 mo", "months": 24, "key": "K" }
+  },
+  "cover": {
+    "eyebrow": "Where you're at",
+    "trial": "You're on the $1 trial.",
+    "other": "Here's where you're at.",
+    "next": "Since we're on the call, I can do one thing for you →"
+  },
+  "bonuses": {
+    "life": [
+      { "t": "Bonus one · the Viral Content Academy", "d": "We put $30,000 into building it with our top creators, so you're never stuck figuring it out." },
+      { "t": "Bonus two · the Poppy Vault", "d": "My personal resource site. The exact prompts I use with clients, plus the best videos and answers to everything people ask." },
+      { "t": "Bonus three · 5,000 bonus credits", "d": "That's 1,000 extra every month for your first 5 months." }
+    ]
+  },
+  "guarantee": "Backed by a 30-day guarantee. Not for you, every dollar back.",
+  "pay": {
+    "card": "I have your card on file. Do I have your permission to run it?",
+    "nocard": "No card on file: drop the secure link in the chat and stay on until it goes through."
+  },
+  "gameplan": {
+    "title": "Your game plan",
+    "items": [
+      "Make another script on your own right after this call",
+      "Post this one in the next 24 hours",
+      "Post 2 to 3 times a week for the next 4 weeks",
+      "Text me the link when it's up"
+    ]
+  },
+  "review": {
+    "title": "If you got value today, leave a quick review",
+    "sub": "It takes 30 seconds. Scan the code.",
+    "url": ""
+  },
+  "dig": [
+    ["Clarify", "What do you mean by that?"],
+    ["Quantify", "How much? How long?"],
+    ["Cause", "What makes you think that?"],
+    ["Why", "Why does that matter to you?"],
+    ["Contrast", "What's different about that?"],
+    ["Future", "If that keeps going, what happens?"]
+  ]
+}

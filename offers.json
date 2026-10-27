@@ -1,0 +1,327 @@
+[
+  {
+    "id": "renew",
+    "name": "Poppy for the year",
+    "deck": "ob",
+    "list": 399,
+    "today": 374,
+    "range": "$299 to $399",
+    "coaches": [],
+    "calls": "",
+    "months": "12",
+    "who": "On the $1 trial, on the onboarding call, going to use it anyway",
+    "proof": "general",
+    "stack": "Everything we built today, yours all year\nHooks, scripts and captions in your voice, in minutes\nBuilt from what's already going viral in your niche\nUnlimited boards, every template, our support team",
+    "notes": "The ethical bribe. Price is yours: $374 is the default, $350 when you feel it, never under $299 without asking. Charge the card on file, never a link unless there is no card. It's $31 a month to go viral."
+  },
+  {
+    "id": "life",
+    "name": "Poppy for Life",
+    "deck": "ob",
+    "list": 1188,
+    "today": 997,
+    "range": "$997",
+    "coaches": [],
+    "calls": "",
+    "months": "",
+    "who": "Wants to never think about a renewal again",
+    "proof": "general",
+    "stack": "Pay once. Never see a Poppy renewal again\n4,000 credits every month, forever\nUnlimited boards and every template\n5 brand profiles and 2 team seats",
+    "notes": "Flat $997 on the lifetime rail (Qazi's rule): Basic for life + the Starter half = 4,000 credits a month, 2 seats, 5 brand profiles, same as Meets. Sold against $1,188 every year for Starter."
+  },
+  {
+    "id": "starter",
+    "stripeProduct": "prod_RZndcFDudM48xl",
+    "whopProduct": "prod_Puv49N6O3J97m",
+    "name": "Starter plan",
+    "deck": "plan",
+    "list": 1188,
+    "today": 1188,
+    "range": "",
+    "coaches": [],
+    "calls": "1",
+    "months": "12",
+    "who": "Wants more than Basic, runs it themselves",
+    "proof": "general",
+    "pitch": {
+      "lead": "Your business doesn't need more AI. It needs a system.",
+      "eye": "Why more AI hasn't fixed it",
+      "why": "It's not more AI. It's a system.",
+      "whyLine": "One place that knows your voice, your offer and what's working, and turns one idea into a week of content.",
+      "formula": [
+        {
+          "n": "Strategy",
+          "line": "Poppy learns your voice, your offer and your audience once. Then it knows what to make, and why."
+        },
+        {
+          "n": "System",
+          "line": "One idea in, a week of content out: scripts, hooks, carousels, emails, all in your voice."
+        },
+        {
+          "n": "Execution",
+          "line": "Post every week without the blank page. See what's working and make more of it."
+        }
+      ],
+      "formulaSub": "That's the whole plan: know what to make, make it fast, keep making it."
+    },
+    "stack": "Poppy Starter for the full year\n4,000 credits every month\nEvery Poppy board and tool\nA 1:1 setup call with a Poppy expert\n30-day money-back guarantee",
+    "features": [
+      {
+        "hero": true,
+        "ic": "🧬",
+        "t": "A system that knows you",
+        "d": "Poppy learns your voice, your offer and your audience once. Every script, hook and post after that sounds like you, not like AI."
+      },
+      {
+        "ic": "⚡",
+        "t": "4,000 credits a month",
+        "d": "About 150 to 200 scripts, hooks or posts. Post every day with room to spare."
+      },
+      {
+        "ic": "🗂️",
+        "t": "Every content board",
+        "d": "Short-form, YouTube, carousels, emails, ads. One idea in, a week out."
+      },
+      {
+        "ic": "🔍",
+        "t": "Discover what's working",
+        "d": "The top posts in your niche right now, to build from what's proven."
+      },
+      {
+        "ic": "📞",
+        "t": "1:1 call with a Poppy expert",
+        "d": "Your board set up around your business on a live call. No blank page on day one."
+      },
+      {
+        "ic": "🛡️",
+        "t": "30-day money-back",
+        "d": "Use it for a month. Not for you, every dollar back."
+      }
+    ],
+    "notes": "Software only. Charge the card on file (not a link)."
+  },
+  {
+    "id": "creator",
+    "stripeProduct": "prod_RZo4PiMnNRsDSv",
+    "whopProduct": "prod_Puv49N6O3J97m",
+    "name": "Creator plan",
+    "deck": "plan",
+    "list": 2268,
+    "today": 2268,
+    "range": "",
+    "coaches": [],
+    "calls": "1",
+    "months": "12",
+    "who": "Posting a lot, one brand, wants the VSL + landing page builder",
+    "proof": "creator",
+    "pitch": {
+      "lead": "Content that sells, not just content that posts.",
+      "eye": "Why posting more hasn't paid",
+      "why": "Views aren't the goal.\nA system that sells is.",
+      "whyLine": "Poppy writes the content, the VSL and the page under it from one board that knows your offer, so every post has somewhere to send people.",
+      "formula": [
+        {
+          "n": "Attract",
+          "line": "Short-form and long-form in your voice, from what's already working in your niche."
+        },
+        {
+          "n": "Convert",
+          "line": "Your VSL scripted and your landing page written from the same board. Views become leads."
+        },
+        {
+          "n": "Scale",
+          "line": "Your editor and VA in the same boards, ten brand profiles, 8,000 credits a month."
+        }
+      ],
+      "formulaSub": "Attract, convert, scale: the three jobs content has to do, in one place."
+    },
+    "stack": "Poppy Creator for the full year\n8,000 credits every month\nVSL + landing page builder\n3 team seats, 10 brand profiles\nA 1:1 setup call with a Poppy expert\n30-day money-back guarantee",
+    "features": [
+      {
+        "hero": true,
+        "ic": "🎬",
+        "t": "VSL + landing page builder",
+        "d": "Your sales video scripted and the page under it written, from the board that already knows your offer. Content that has somewhere to send people."
+      },
+      {
+        "ic": "⚡",
+        "t": "8,000 credits a month",
+        "d": "Four times Basic. Daily on two platforms with room for long-form."
+      },
+      {
+        "ic": "👥",
+        "t": "3 team seats",
+        "d": "Your editor and your VA work in the same boards. No forwarding scripts."
+      },
+      {
+        "ic": "🏷️",
+        "t": "10 brand profiles",
+        "d": "Your brand, your clients' brands, each with its own voice. One click to switch."
+      },
+      {
+        "ic": "📞",
+        "t": "1:1 call with a Poppy expert",
+        "d": "Your boards and your first funnel set up live, with someone who's done it."
+      },
+      {
+        "ic": "🛡️",
+        "t": "30-day money-back",
+        "d": "Use it for a month. Not for you, every dollar back."
+      }
+    ],
+    "notes": "Software only. Charge the card on file (not a link)."
+  },
+  {
+    "id": "power",
+    "stripeProduct": "prod_RZo4pdioZUaZWE",
+    "whopProduct": "prod_Puv49N6O3J97m",
+    "name": "Power User plan",
+    "deck": "plan",
+    "list": 4788,
+    "today": 4788,
+    "range": "",
+    "coaches": [],
+    "calls": "1",
+    "months": "12",
+    "who": "Agencies and teams, many brands, APIs and agents",
+    "proof": "power",
+    "pitch": {
+      "lead": "An AI that actually knows your business, working inside your tools 24/7.",
+      "eye": "Why generic AI hasn't moved the needle",
+      "why": "Not another chatbot.\nYour business, with a brain.",
+      "whyLine": "Train Poppy on your knowledge once, then put it everywhere: in your tools through the API and MCP, in front of customers as a chatbot, behind the scenes as an agent.",
+      "formula": [
+        {
+          "n": "Train",
+          "line": "Poppy learns your business: your docs, calls, offers, voice. Not a generic model, yours."
+        },
+        {
+          "n": "Connect",
+          "line": "API and MCP put that brain inside Claude, Cursor, your CRM, your site, your client portal."
+        },
+        {
+          "n": "Deploy",
+          "line": "Chatbots that answer and qualify, agents that write and work while you sleep."
+        }
+      ],
+      "formulaSub": "Train it, connect it, deploy it. That's the whole plan."
+    },
+    "stack": "Poppy Power User for the full year\nAPI access, chatbots and agents\nPoppy MCP: Poppy inside Claude, Cursor and your own tools\n16,000 credits every month\nUnlimited brand profiles, 5 team seats\nA 1:1 build call with a Poppy expert\n30-day money-back guarantee",
+    "features": [
+      {
+        "hero": true,
+        "ic": "🤖",
+        "t": "Chatbots, API and MCP",
+        "d": "Train a bot on your knowledge and let it answer, qualify or write 24/7. Plug Poppy into your CRM, your site, your portal through the API. Poppy MCP puts your boards inside Claude, Cursor and any MCP tool."
+      },
+      {
+        "ic": "⚡",
+        "t": "16,000 credits a month",
+        "d": "Eight times Basic. Built for an agency running a roster of clients."
+      },
+      {
+        "ic": "🏷️",
+        "t": "Unlimited brand profiles",
+        "d": "Every client is a brand with its own voice, offer and audience. No cap."
+      },
+      {
+        "ic": "👥",
+        "t": "5 team seats",
+        "d": "Strategist, writers, editor, account manager, all in the boards."
+      },
+      {
+        "ic": "📞",
+        "t": "1:1 build call with a Poppy expert",
+        "d": "Your first bot or integration scoped and started on a live call."
+      },
+      {
+        "ic": "🛡️",
+        "t": "30-day money-back",
+        "d": "Use it for a month. Not for you, every dollar back."
+      }
+    ],
+    "notes": "Software only. Charge the card on file (not a link)."
+  },
+  {
+    "id": "vcs",
+    "name": "Viral Content System",
+    "deck": "coached",
+    "stripeProduct": "prod_V43xvOin8mGMmz",
+    "whopProduct": "prod_Puv49N6O3J97m",
+    "list": 10000,
+    "today": 7500,
+    "range": "$5k to $15k",
+    "coaches": [
+      "malu",
+      "charan",
+      "christian"
+    ],
+    "calls": "6",
+    "months": "3",
+    "who": "Coaches, consultants, creators and UGC with an offer, ready to post",
+    "proof": "general",
+    "between": "Slack access to [coach] between calls, your content reviewed before it goes out",
+    "commit": "About 20 Reels a month, 25 DMs a day, show up to every call",
+    "stack": "Your content strategy, built around your goal\nYour content system, built inside Poppy with you\n[calls] 1:1 calls with [coach]\nA 90-day content calendar\n90 days of support after the program\nWe work with you until you see a return",
+    "optional": [
+      "A DM outreach system + daily tracker (only if getting clients from DMs or outreach came up)",
+      "Your course or program mapped and built in Poppy (only if they mentioned a course, program or offer they need to build)",
+      "A VSL or webinar script (only if a funnel, VSL or webinar came up)",
+      "Ad scripts and a creative feedback loop (only if they run or want to run ads)",
+      "YouTube scripts and titles (only if YouTube came up)",
+      "A brand deal pitch + media kit system (only if brand deals came up)",
+      "An email sequence in your voice (only if email or a list came up)"
+    ],
+    "notes": "Done WITH you, not done for you: they post. Client commits to ~20 Reels a month + 25 DMs a day. Coach: Malu for UGC/creators, Charan for coaches, Christian for general builds (ads, webinars, programs). What changes from $5k to $15k: [fill in]."
+  },
+  {
+    "id": "yvcs",
+    "name": "YouTube Viral Content System",
+    "deck": "coached",
+    "stripeProduct": "prod_VDdalrRtszO0Bv",
+    "whopProduct": "prod_Puv49N6O3J97m",
+    "list": 15000,
+    "today": 15000,
+    "range": "$15k",
+    "coaches": [
+      "linden"
+    ],
+    "calls": "biweekly",
+    "months": "3",
+    "who": "Doing $10k+/mo, can film weekly, 10+ hours a month",
+    "proof": "youtube",
+    "between": "Scripts and titles reviewed by [coach] before you film, Slack between calls",
+    "commit": "Film one video a week, about 10 hours a month; editor + thumbnail fees are yours",
+    "stack": "12 produced YouTube videos\nYour YouTube strategy, built around your goal\nCalls every two weeks with [coach]\nRunning it on your own by month 3\nWe work with you until you see a return",
+    "optional": [
+      "Thumbnail and title testing (only if they asked about packaging)",
+      "A lead magnet + email capture under the videos (only if a list or leads came up)",
+      "Short-form cuts from every long video (only if Shorts, Reels or TikTok came up)"
+    ],
+    "notes": "Editor and thumbnail designer fees are separate: say so before the close."
+  },
+  {
+    "id": "build",
+    "name": "AI build (chatbot · MCP · automation)",
+    "deck": "build",
+    "proof": "power",
+    "stripeProduct": "prod_VAeXkj7OjAl8Ro",
+    "whopProduct": "prod_7k99FxBHBbWDo",
+    "list": 10000,
+    "today": 10000,
+    "range": "~$10k",
+    "coaches": [],
+    "calls": "2",
+    "months": "2",
+    "who": "Doing $25k+/mo, wants their knowledge turned into an app, bot or automation",
+    "between": "The build team works between calls, you get a working version to test before launch",
+    "commit": "Your knowledge, docs and examples in the first week; two install calls",
+    "stack": "[the build], scoped to your business\n[calls] install calls with the build team\nLaunch support: emails and rollout\n60 days of hosting\nPoppy Power User included\nWe work with you until you see a return",
+    "optional": [
+      "Training on your own material: docs, calls, courses (only if they have a knowledge base to load)",
+      "A team login for your staff (only if a team came up)",
+      "Integration with your CRM or booking tool (only if they named one)"
+    ],
+    "notes": "Can split: half today, half at launch. Scope the build out loud before the price."
+  }
+]
