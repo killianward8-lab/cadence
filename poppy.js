@@ -159,28 +159,52 @@ export async function chargeCard({ offer, email, name, amount, card }) {
   return { ok: true, raw: U };
 }
 
+// Poppy's link catalog uses its own ids: plan:<id>, service:<stripe product>, lifetime, none.
+export function catalogId(offer, processor = "stripe") {
+  if (!offer || offer.id === "other") return "";
+  if (isPlan(offer)) return "plan:" + offer.id;
+  if (offer.id === "life") return "lifetime";
+  if (offer.id === "renew") return "plan:basic";
+  if (processor === "whop") return offer.whopProduct || "";
+  return offer.stripeProduct ? "service:" + offer.stripeProduct : "";
+}
+// What Poppy's server accepts (checked in test mode, 2026-10-27):
+//  service products: one_time · plans on Stripe: recurring yearly (or monthly) · plans on Whop: one_time with term "12"
+//  2/3/6 payments: recurring monthly with charges N · lifetime: the Lifetime checkout with an email, or the group link
+export function itemsFor({ offer, amount, how = "full", n = 1, every = "month", processor = "stripe" }) {
+  amount = Math.round(+amount || 0);
+  if (how === "monthly") return [{ type: "recurring", amount, every: 1, period: "month", charges: 0 }];
+  if (how === "yearly") return [{ type: "recurring", amount, every: 1, period: "year", charges: 0 }];
+  if (how === "custom") return [{ type: "recurring", amount: Math.ceil(amount / Math.max(1, n) * 100) / 100, every: 1, period: every, charges: Math.max(1, n) }];
+  if (/^\d+$/.test(String(how)) && +how > 1) {
+    if (processor === "whop") return [{ type: "one_time", amount, term: isPlan(offer) ? "12" : undefined }];
+    return [{ type: "recurring", amount: Math.ceil(amount / +how * 100) / 100, every: 1, period: "month", charges: +how }];
+  }
+  if (isPlan(offer)) return processor === "whop" ? [{ type: "one_time", amount, term: "12" }] : [{ type: "recurring", amount, every: 1, period: "year", charges: 0 }];
+  return [{ type: "one_time", amount }];
+}
+
 // Make a pay link. OB group link via /api/pay, Life via the hosted checkout, everything else via /api/paylink.
-export async function makeLink({ offer, email, name, amount, processor = "stripe", installments = "", productId = "", productName = "", lifetimeCredits }) {
+export async function makeLink({ offer, email, name, amount, processor = "stripe", how = "full", n = 1, every = "month", productId, productName = "", note = "", lifetimeCredits }) {
   const te = clean(email); amount = Math.round(+amount || 0);
   if (!amount) throw new Error("the amount is 0");
-  if (processor === "whop") {
-    const r = await api("/api/paylink", { action: "link", processor: "whop", productId: productId || offer.whopProduct || "", productName: (productName || offer.name || "Poppy") + (installments === "whop" ? " · pick Splitit at checkout" : installments === "clarity" ? " · pick Clarity Pay at checkout" : ""), items: [{ type: "one_time", amount }], customerEmail: te || undefined });
-    if (!r.url) throw new Error(r.error || "Whop gave no link");
-    return { url: r.url, note: r.lifetime_note || "" };
-  }
-  if (isOb(offer) && (offer.id !== "life" || !te)) {
+  const inst = /^\d+$/.test(String(how)) && +how > 1;
+  if (isOb(offer) && how === "full" && (offer.id !== "life" || !te) && processor === "stripe") {
     const r = await api("/api/pay", { action: "create", mode: "same", offer: { kind: offer.id === "life" ? "life" : "year", amount }, minutes: 60, room: "cadence", note: name || "" });
     if (!r.url) throw new Error(r.error || "could not make the link");
     return { url: r.url, code: r.code || "", note: "group link, good for 60 minutes" };
   }
-  if (offer.id === "life") {
+  if (offer.id === "life" && how === "full" && processor === "stripe") {
     const r = await api("/api/lifetime", { action: "checkout", email: te, hosted: true, amount, clicked_by: "customer", name: name || "" });
     if (!r.url) throw new Error(r.error || "could not make the lifetime link");
     return { url: r.url, note: r.lifetime_note || "" };
   }
-  const r = await api("/api/paylink", { action: "link", processor: "stripe", productId: productId || offer.stripeProduct || "", productName: productName || offer.name || "", items: [{ type: "one_time", amount }], lifetimeCredits, customerEmail: te || undefined });
-  if (!r.url) throw new Error(r.error || "Stripe gave no link");
-  const notes = [r.lifetime_note, !(productId || offer.stripeProduct) ? "Custom name, no catalog product: it takes the money but switches nothing on in the app by itself." : "", r.access_warning ? "⚠️ " + r.access_warning : r.access_plan ? "✅ Unlocks " + r.access_plan + " by itself when paid" : ""].filter(Boolean);
+  const pid = productId != null ? productId : catalogId(offer, processor);
+  const items = itemsFor({ offer, amount, how, n, every, processor });
+  const pname = (productName || offer.name || "Poppy") + (note ? " · " + note : "") + (processor === "whop" && inst ? " · pick Splitit at checkout" : "");
+  const r = await api("/api/paylink", { action: "link", processor, productId: pid, productName: pname, items, lifetimeCredits, customerEmail: te || undefined });
+  if (!r.url) throw new Error(r.error || (processor === "whop" ? "Whop gave no link" : "Stripe gave no link"));
+  const notes = [r.lifetime_note, !pid && processor === "stripe" ? "Custom name, no catalog product: it takes the money but switches nothing on in the app by itself." : "", r.access_warning ? "⚠️ " + r.access_warning : r.access_plan ? "✅ Unlocks " + r.access_plan + " by itself when paid" : "", processor === "whop" && offer.id === "life" ? "Whop can't switch Lifetime on by itself: mark paid when it lands." : ""].filter(Boolean);
   return { url: r.url, note: notes.join(" · ") };
 }
 

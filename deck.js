@@ -107,8 +107,8 @@ export async function link() {
   if (!hasKey()) return toast("Connect Poppy first");
   setCall({ linkBusy: true, payErr: "" });
   try {
-    const inst = c.payPlan !== "full" ? c.payPlan : "";
-    const r = await makeLink({ offer: o, email: c.mode === "group" && !c.email ? "" : c.email, name: c.name, amount: price.due, processor: inst ? "whop" : "stripe", installments: inst });
+    const months = S.deck.plans[c.payPlan] ? S.deck.plans[c.payPlan].months : 1;
+    const r = await makeLink({ offer: o, email: c.mode === "group" && !c.email ? "" : c.email, name: c.name, amount: price.due, processor: months > 1 ? "whop" : "stripe", how: months > 1 ? String(months) : "full", note: c.payPlan === "clarity" ? "pick Clarity Pay at checkout" : "" });
     setCall({ linkBusy: false, payUrl: r.url, payNote: r.note || "", payFix: false }); toast("Link on the pay slide");
   } catch (e) { setCall({ linkBusy: false, payErr: String(e.message || e) }); }
 }

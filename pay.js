@@ -1,5 +1,5 @@
 import { h, S, content, setPay, money, money2, field, seg, copy, eyebrow, toast, render } from "./core.js";
-import { hasKey, bootProducts, searchCustomers, makeLink, clean } from "./poppy.js";
+import { hasKey, bootProducts, searchCustomers, makeLink, clean, catalogId } from "./poppy.js";
 
 const HOW = [["full", "Pay in full"], ["2", "2 payments"], ["3", "3 payments"], ["6", "6 payments"], ["monthly", "Monthly"], ["yearly", "Yearly"], ["custom", "Custom"]];
 const P = { products: null, hits: [], searching: false, busy: false, err: "", link: null };
@@ -39,10 +39,7 @@ async function make() {
   const name = p.name || offer.name;
   P.busy = true; P.err = ""; P.link = null; render();
   try {
-    if (p.how === "monthly" || p.how === "yearly" || p.how === "custom") throw new Error("Recurring and custom plans aren't wired yet. Use Pay in full, or 2 / 3 / 6 payments through Whop.");
-    const installments = m.n > 1;
-    const processor = installments ? "whop" : p.rail;
-    const r = await makeLink({ offer, email: p.email, name, amount: m.due, processor, installments: installments ? "whop" : "", productId: custom ? "" : (p.product || offer.stripeProduct || ""), productName: name });
+    const r = await makeLink({ offer, email: p.email, name, amount: m.due, processor: p.rail, how: p.how, n: p.n, every: p.every, productId: custom ? (p.product || "") : (p.product || undefined), productName: name, note: m.paid > 0 ? "remaining balance" : "" });
     P.link = r; toast(r.url ? "Link ready" : "Done");
   } catch (e) { P.err = String(e.message || e); }
   P.busy = false; render();
@@ -75,7 +72,7 @@ export function renderPay() {
         connected && p.rail === "stripe" ? h("div", { class: "field" }, h("label", {}, "Stripe product"),
           h("select", { onchange: (e) => setPay({ product: e.target.value }) },
             h("option", { value: "", selected: !p.product && p.offerId === "other" }, "None, just the name"),
-            (P.products.stripe || []).map(x => h("option", { value: x.id, selected: (p.product || (m.o && m.o.stripeProduct)) === x.id }, x.name || x.id)))) : null),
+            (P.products.stripe || []).map(x => h("option", { value: x.id, selected: (p.product || catalogId(m.o, "stripe")) === x.id }, x.name || x.id)))) : null),
       eyebrow("Pay with"),
       seg([["stripe", "Stripe · cards, Apple Pay"], ["whop", "Whop · PayPal, Klarna, Splitit"]], p.rail, (v) => { P.link = null; setPay({ rail: v }); }),
       eyebrow("How they pay"),
@@ -90,7 +87,7 @@ export function renderPay() {
     h("div", { class: "tp-name" }, (d.emoji[p.offerId] || "➕") + " " + name),
     h("div", { class: "tp-price" }, money2(m.each), h("small", {}, " " + label)),
     m.paid ? h("div", { class: "muted" }, `${money(m.total)} total · ${money(m.paid)} already paid`) : null,
-    h("div", { class: "muted" }, m.n > 1 ? "Whop · Splitit at checkout" : p.rail === "stripe" ? "Stripe · any card, Apple Pay" : "Whop · PayPal, Klarna, Splitit"),
+    h("div", { class: "muted" }, p.rail === "stripe" ? (m.n > 1 ? `Stripe · ${m.n} monthly charges` : "Stripe · any card, Apple Pay") : (m.n > 1 ? "Whop · Splitit at checkout" : "Whop · PayPal, Klarna, Splitit")),
     P.err ? h("div", { class: "st bad small" }, P.err) : null,
     connected
       ? h("button", { class: "presentBtn wide", disabled: P.busy, onclick: make }, P.busy ? "Making the link…" : url && P.link ? "🔗 Make a fresh link" : "🔗 Make the link")
