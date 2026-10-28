@@ -7,6 +7,9 @@ export const WHO = "killian";
 export const key = () => store.get("kc:key", "");
 export const hasKey = () => !!key();
 export function setKey(k) { store.set("kc:key", String(k || "").trim()); }
+// Vercel locks the per-deploy address (killian-cadence-<hash>-<team>.vercel.app); the project address is open.
+const salesBase = (u) => String(u || "").replace(/^https:\/\/killian-cadence-(?!api\.)[\w-]+\.vercel\.app\//, "https://killian-cadence-api.vercel.app/");
+try { const sv = localStorage.getItem("kc:sales"); if (sv && salesBase(sv) !== sv) localStorage.setItem("kc:sales", salesBase(sv)); } catch {}
 export function keyFromUrl() {
   try {
     const u = new URL(location.href); const k = u.searchParams.get("key");
@@ -14,7 +17,7 @@ export function keyFromUrl() {
     // Sales API proxy link from tools/deploy-proxy.sh: save it in this browser, then clean the address bar
     const su = u.searchParams.get("sales"), st = u.searchParams.get("salesToken");
     if (su && st && /^https:\/\/[\w.-]+\.vercel\.app\/api\/poppy-sales$/.test(su)) {
-      localStorage.setItem("kc:sales", su); localStorage.setItem("kc:salesToken", st);
+      localStorage.setItem("kc:sales", salesBase(su)); localStorage.setItem("kc:salesToken", st);
       u.searchParams.delete("sales"); u.searchParams.delete("salesToken");
       history.replaceState(null, "", u.pathname + (u.search || "") + u.hash); toast("Sales API connected");
     }

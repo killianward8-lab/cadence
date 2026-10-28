@@ -15,7 +15,8 @@ put POPPY_SALES_KEY "$KEY"
 put CADENCE_PROXY_TOKEN "$TOKEN"
 put CADENCE_ORIGIN "https://killianward8-lab.github.io"
 put CADENCE_CLOSER "killian@getpoppy.ai"
-URL=$(npx --yes vercel deploy --prod --yes 2>/dev/null | tail -1)
+npx --yes vercel deploy --prod --yes >/dev/null 2>&1
+URL="https://killian-cadence-api.vercel.app"   # the project address; per-deploy addresses are locked by Vercel
 echo
 echo "Deployed: $URL"
 echo "Now open this link once in Chrome (it saves the connection in your browser, then cleans the address bar):"
