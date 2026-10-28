@@ -53,7 +53,7 @@ const TIERS = {
   lifep: { planName: "Power User", planYear: 4788, credits: "16,000", plan: [["⚡", "16,000", "credits a month"], ["👥", "5", "team seats"], ["🏷️", "Unlimited", "brand profiles"], ["🤖", "APIs", "+ agents"], ["🧩", "All", "templates"]],
     pillars: [{ n: "Strategy", dl: [["2 × 90-min with a content coach", "strategy + build"], ["90-day plan", "planned, then reviewed"], ["Viral Content Academy", "every play, on video"]] },
       { n: "Build", dl: [["Your Poppy system", "built in your voice"], ["Boards for every brand", "clients included"], ["5 team seats", "unlimited brand profiles"]] },
-      { n: "Optimize", rep: true, dl: [["90-min AI session", "AI built into your content"], ["APIs, MCP + agents", "connected for you"], ["AI Prompt Vault", "copy-paste prompts"]] },
+      { n: "Optimize", rep: true, dl: [["90-min AI session", "AI built into your content"], ["APIs, MCP + agents", "connected for you"], ["The Poppy Vault", "prompts, videos, answers"]] },
       { n: "Own", big: "16,000", dl: [["Power User plan", "for life"], ["16,000 credits", "every month"], ["Every new feature", "no renewal, ever"]] }] },
 };
 // The Creator Cohort: lifetime plan + 4 live group calls (one a week), starting a week after they pay.
@@ -286,7 +286,7 @@ function compare() {
         rowsOf(t).map((v, i) => i === 1 ? h("div", { class: "cell calls" + (v ? "" : " no") }, v ? h("div", {}, v.map(x => h("span", {}, x))) : "–")
           : h("div", { class: "cell" + (v === "–" ? " no" : "") + (i === 4 && v === "Never" ? " good" : "") }, i === 4 && v === "Never" ? "✓ Never" : v)),
         h("div", { class: "pr" }, h("b", {}, Fe(t.price)), h("i", {}, t.per))); })),
-    h("p", { class: "foot" }, "Every plan includes the Viral Content Academy and the AI Prompt Vault."),
+    h("p", { class: "foot" }, "Every plan includes the Viral Content Academy and the Poppy Vault."),
     h("p", { class: "foot gu guar" }, "🛡️ 30-day money-back guarantee"),
     overlays());
 }
@@ -419,6 +419,7 @@ export function groupPeople() {
   return g.length > 1 ? g : null;
 }
 let chargeTimer = null, cardSeen = "";
+const rechecked = new Set();
 function pay() {
   const c = S.call, o = offer(), P = d().pay, due = dealPrice().due, life = isLife(), n = nm(), plan = planInfo(due);
   const plk = planKeyOf(c.offerId), ci = cardInfo(), people = groupPeople();
@@ -543,6 +544,8 @@ function pay() {
     if (!c.cardBusy && !ci && payEmail) setTimeout(() => lookupCard(payEmail), 0);
     right = ghost(P.finding);
   } else if (ci && ci.has && !c.showLinks && !(plan && !plan.native)) {
+    // a card saved before last4 was read: look it up once more (Link cards never have digits)
+    if (!ci.last4 && ci.kind !== "link" && !/\d{4}/.test(ci.label || "") && !rechecked.has(clean(payEmail))) { rechecked.add(clean(payEmail)); setTimeout(() => lookupCard(payEmail), 0); }
     right = [realCard(),
       h("button", { class: "pay" + (ui().glow ? " glow" : ""), disabled: !!c.payBusy, onclick: (e) => { stop(e); charge(); } }, (life ? P.lockLife : P.lock) + " · " + (plan ? plan.big : Fe(due)), h("span", { class: "ar" }, "→")),
       c.payErr ? h("em", { class: "bad" }, c.payErr) : null,

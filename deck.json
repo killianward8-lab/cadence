@@ -141,7 +141,7 @@
   "sayIt": {
     "cover": "Read the three facts out loud, slowly: when it started, when it renews, and what it renews at (their real number). Then: 'Since we're on the call, I can do one thing for you.' Click.",
     "anchor": "'Typically, if you were to hire someone to do this over a year, someone to script, write, do the research, everything Poppy does for you, we've made this hire before. It's at least $2,000 a month for that type of person, so you're looking at $24,000 over the course of a year.' Then: 'And if you were to upgrade through the software itself, it's an annual plan, so you could spend up to $5,000 just to have access.' Let it sit. Click.",
-    "offer": "The offer is up. Walk the lines in one breath. Then click once per bonus, one sentence each (tap the Academy picture to show it; on Life, tap the $1,188 to show our real plans page). The last click reveals the price. 'I have your card on file. Do I have permission to run it?' Then shut up.",
+    "offer": "The offer is up. Walk the lines in one breath. Then click once per bonus, one sentence each (tap the Academy picture to show it; tap the Vault, then its link, to open your real Vault page; on Life, tap the $1,188 to show our real plans page). The last click reveals the price. 'I have your card on file. Do I have permission to run it?' Then shut up.",
     "pay": "Card on file is the whole slide. Charge it, watch it go green. Links only if the card fails. Y · L · B on the bar flips the offer on every slide.",
     "gameplan": "'Totally fine. Here's exactly how to win with it this week.' Walk the three cards, then tap Send the game plan while they watch. (Paid somewhere the deck can't see? Press G.)",
     "celebrate": "'Account's live, email's coming, purple chat for anything. Welcome in.' Tap send the email while they watch.",
@@ -340,25 +340,28 @@
       {
         "k": "prompts",
         "tag": "Bonus 2",
-        "title": "The AI Prompt Vault",
-        "line": "Copy-paste AI prompts for content. They work in Poppy and any AI.",
-        "value": "1-on-1 clients only",
+        "title": "The Poppy Vault",
+        "line": "My prompts, the best videos and every answer, in one place.",
+        "value": "Only for clients",
         "art": {
           "e": "🔐",
           "bg": "linear-gradient(135deg,#6D5BFF,#2A1F6B)"
         },
         "pics": [
-          "assets/vault-prompts.jpg",
-          "assets/vault-boards.jpg"
+          "assets/vault-killian-hero.jpg",
+          "assets/vault-killian-videos.jpg"
         ],
         "tile": "assets/vault-tile-prompts.jpg",
-        "tileLabel": "The AI Prompt Vault",
-        "link": null,
+        "tileLabel": "The Poppy Vault",
+        "link": [
+          "https://getpoppy.ai/prompts/killian",
+          "getpoppy.ai/prompts/killian"
+        ],
         "points": [
-          "Hooks, YouTube titles, scripts, 30-second ads, breakdowns of why a video worked",
-          "Copy, paste, done: you never have to guess what to type",
-          "Prompting is the skill behind every AI tool. These make you good at it from day one",
-          "Plus the boards I build with and the best how-to videos"
+          "The prompts we use with every client, ready to copy",
+          "The videos that actually teach it, sorted by what you make",
+          "Straight answers, like how to make your credits last",
+          "A direct line to me: email or book a call"
         ]
       }
     ],
@@ -415,7 +418,7 @@
     },
     "pay": {
       "title": "Let's get you in",
-      "bonusLine": "🎁 Academy · AI Prompt Vault",
+      "bonusLine": "🎁 Academy · Poppy Vault",
       "included": "included",
       "todayLabel": "Today",
       "guarantee": "30-day money-back guarantee",
