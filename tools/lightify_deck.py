@@ -102,6 +102,10 @@ res += """
 .dk-guarban{background:linear-gradient(135deg,#E3F6EC,#D3F0E1);color:#14162A}
 :where(.dk-present) :where(button,input,textarea,select){font-family:Manrope,Inter,system-ui,sans-serif}
 .dk-present .dk-tools .dk-price{background:#FFFFFF;border-color:rgba(16,18,40,.12);box-shadow:0 14px 40px rgba(16,18,40,.18)}
+/* Mo's group bonus ladder on a white card */
+.cr-dot{background:#FFFFFF;border-color:rgba(16,18,40,.16)}
+.cr-rung.on .cr-rt span{color:#1E9E6A}
+.cr-rung:not(.on):not(.next) .cr-rt b{color:#8A8FA6}
 /* Joey's anchor slide, his light deck (:root.dkl) */
 .dk-anchor .receipt{background:#7c5cee0d;border:1px solid rgba(70,50,160,.14)}
 .dk-anchor .receipt>div{border-top:1px solid rgba(70,50,160,.112)}

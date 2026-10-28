@@ -445,7 +445,7 @@ function pay() {
       h("span", { class: "gb-l" }, "🎁 ", h("b", {}, "Group bonus")),
       h("span", { class: "gb-m" }, paidCount ? ["Everyone in gets ", h("b", {}, "+" + (Math.min(paidCount, 3) * 500).toLocaleString()), " credits/mo"] : ["Every person who joins = ", h("b", {}, "+500"), " credits/mo for all of you"]),
       h("span", { class: "gb-r" }, paidCount + "/" + people.length + " in ›")) : null,
-    people && ui().jackpot ? jackpot(people) : null,
+    people && ui().jackpot ? jackpot(people) : (jpClosed(), null),
     h("div", { class: "rc rc2" + (pls ? " has-plan" : "") },
       h("div", { class: "rc-top" }, h("img", { class: "rc-logo", src: "assets/poppy-mascot-hd.png", alt: "" }),
         h("div", {}, h("b", {}, o.name), h("small", {}, life ? "Your content system, every update, for good." : "Your content system, all year")),
@@ -589,15 +589,52 @@ async function differentCard() {
     setCall({ fixUrl: url, payErr: url ? "" : "Couldn't make a secure page for this one" });
   } catch (e) { setCall({ payErr: String(e.message || e) }); }
 }
+// Mo's group bonus (getpoppy.ai/mo/cadence, 2026-10-28): rocket climbs, credits count up, coins burst, ladder of names
+let jp = null; // { lv, at, n, from: {at, w, n}, changedAt, openedAt, coinAt } while the meter is open
+export const jpClosed = () => { jp = null; };
 function jackpot(people) {
-  const paidBy = S.call.paidBy || {}, inN = people.filter(p => paidBy[clean(p.email)]).length, cap = Math.min(people.length, 3), lv = Math.min(inN, cap);
-  const pts = [[7, 88], [36, 64], [63, 38], [88, 13]].slice(0, cap + 1), at = pts[Math.min(lv, cap)] || pts[pts.length - 1];
+  const paidBy = S.call.paidBy || {}, inP = people.filter(p => paidBy[clean(p.email)]), inN = inP.length, cap = Math.min(people.length, 3), lv = Math.min(inN, cap), total = Math.max(lv, 1) * 500;
+  const pts = [[7, 90], [38, 74], [64, 52], [88, 32]].slice(0, cap + 1), at = pts[Math.min(lv, cap)] || pts[pts.length - 1];
   const path = "M 0 100 L " + pts.map(([x, y]) => x + " " + y).join(" L ");
-  return h("div", { class: "jp cr lv" + (lv >= cap && cap > 1 ? 3 : Math.min(lv, 2)), onclick: (e) => { stop(e); setUI({ jackpot: false }); } },
-    h("div", { class: "cr-box" }, h("div", { class: "cr-sky" }, h("div", { class: "cr-stars" }), h("div", { class: "cr-live" }, h("i"), "LIVE · " + inN + " of " + people.length + " in"),
-      h("svg", { class: "cr-svg", viewBox: "0 0 100 100", preserveAspectRatio: "none", html: '<defs><clipPath id="crc"><rect x="0" y="0" height="100" width="' + (lv ? at[0] : 0) + '" style="transition:width 1.6s cubic-bezier(.3,1,.3,1)"></rect></clipPath></defs><path d="' + path + '" class="cr-ghost"></path><path d="' + path + '" class="cr-line" clip-path="url(#crc)"></path>' }),
-      h("div", { class: "cr-rocket", style: { left: at[0] + "%", top: at[1] + "%" } }, h("span", {}, "🚀")),
-      h("div", { class: "cr-mult" }, h("b", {}, "+" + (lv ? (Math.max(lv, 1) * 500).toLocaleString() : 0), h("small", {}, "/mo")), h("span", {}, lv ? "bonus credits for everyone in" : "the first person in unlocks +500")))));
+  const now = Date.now(), n = lv ? total : 0;
+  // this deck redraws everything on each change, so the meter remembers where it was and animates from there
+  if (!jp) jp = { lv, at, n, from: { at, w: lv ? at[0] : 0, n: 0 }, changedAt: now, openedAt: now, coinAt: lv ? now + 450 : 0 };
+  else if (jp.lv !== lv) jp = { ...jp, from: { at: jp.at, w: jp.lv ? jp.at[0] : 0, n: jp.n }, lv, at, n, changedAt: now, coinAt: lv > jp.lv ? now : jp.coinAt };
+  const fresh = now - jp.changedAt < 300, st = fresh ? jp.from : { at, w: lv ? at[0] : 0, n };
+  if (fresh) {
+    const t0 = jp.changedAt, a = jp.from.n, b = n;
+    setTimeout(() => {
+      document.querySelectorAll(".jp.cr .cr-rocket").forEach(r => { r.style.left = at[0] + "%"; r.style.top = at[1] + "%"; });
+      document.querySelectorAll(".jp.cr #crc rect").forEach(c => c.setAttribute("width", lv ? at[0] : 0));
+    }, 40);
+    const tick = () => {
+      const k = Math.min(1, (Date.now() - t0) / 1300), v = Math.round(a + (b - a) * (1 - Math.pow(1 - k, 3)));
+      document.querySelectorAll(".jp.cr .cr-mult b .n").forEach(el => { el.textContent = v.toLocaleString(); });
+      if (k < 1 && jp) setTimeout(tick, 16);
+    };
+    setTimeout(tick, 0);
+  }
+  if (jp.coinAt > now) setTimeout(() => { if (jp && ui().jackpot) render(); }, jp.coinAt - now + 10);
+  const coins = lv && jp.coinAt && now >= jp.coinAt && now - jp.coinAt < 1600, stay = now - jp.openedAt > 300;
+  const rungs = Array.from({ length: cap }).map((_, i) => cap - 1 - i).map(r => {
+    const who = inP[r], on = r < lv, next = r === lv;
+    return h("div", { class: "cr-rung" + (on ? " on" : next ? " next" : "") + (r ? "" : " last") + (on ? " lit" : "") },
+      h("div", { class: "cr-dot" }, on ? "✓" : ""),
+      h("div", { class: "cr-rt" }, h("b", {}, "+" + ((r + 1) * 500).toLocaleString(), h("small", {}, "/mo")),
+        h("span", {}, on ? firstName(who.name || who.email) + " is in" : next ? (r ? "the next one in" : "the first one in") : (r + 1) + " people in")));
+  });
+  return h("div", { class: "jp cr lv" + (lv >= cap && cap > 1 ? 3 : Math.min(lv, 2)) + (stay ? " stay" : ""), onclick: (e) => { stop(e); setUI({ jackpot: false }); } },
+    h("div", { class: "cr-box" },
+      h("div", { class: "cr-sky" }, h("div", { class: "cr-stars" }), h("div", { class: "cr-live" }, h("i"), "LIVE · " + inN + " of " + people.length + " in"),
+        h("svg", { class: "cr-svg", viewBox: "0 0 100 100", preserveAspectRatio: "none", html: '<defs><linearGradient id="crg" x1="0" x2="1"><stop offset="0" stop-color="#4ADE97" stop-opacity=".2"></stop><stop offset="1" stop-color="#4ADE97"></stop></linearGradient><clipPath id="crc"><rect x="0" y="0" height="100" width="' + st.w + '" style="transition:width 1.6s cubic-bezier(.3,1,.3,1)"></rect></clipPath></defs><path d="' + path + '" class="cr-ghost"></path><path d="' + path + '" class="cr-line" clip-path="url(#crc)"></path>' }),
+        h("div", { class: "cr-rocket", style: { left: st.at[0] + "%", top: st.at[1] + "%" } }, h("span", {}, "🚀")),
+        h("div", { class: "cr-mult" }, h("b", {}, "+", h("span", { class: "n" }, st.n.toLocaleString()), h("small", {}, "/mo")), h("span", {}, lv ? "bonus credits for everyone in" : "the first person in unlocks +500")),
+        coins ? h("div", { class: "jk-coins", style: { left: at[0] + "%", top: at[1] + "%" } }, Array.from({ length: 12 }).map((_, i) => h("i", { style: { "--a": i * 30 + "deg", "--d": (i % 3) * 60 + "ms" } }, i % 2 ? "🪙" : "✨"))) : null),
+      h("div", { class: "cr-alt cr-lad" }, h("div", { class: "cr-althead" }, "Bonus levels"), h("div", { class: "cr-rungs" }, rungs)),
+      h("div", { class: "cr-foot" },
+      h("div", { class: "cr-rule" }, "Each person who joins adds ", h("b", {}, "+500 credits a month"), ", for ", h("b", {}, "everyone"), " in the group."),
+      h("div", { class: "cr-players" }, people.map(p => { const on = !!paidBy[clean(p.email)]; return h("div", { class: "cr-p" + (on ? " on" : "") }, h("i", {}, on ? "✓" : (firstName(p.name || p.email) || "?")[0]), h("b", {}, firstName(p.name || p.email)), h("small", {}, on ? "in" : "not yet")); })),
+      h("div", { class: "cr-next" }, lv >= cap ? ["🎉 Everyone gets ", h("b", {}, "+" + total.toLocaleString() + "/mo")] : lv ? ["One more in → everyone gets ", h("b", {}, "+" + ((lv + 1) * 500).toLocaleString() + "/mo")] : ["First one in → ", h("b", {}, "+500/mo")]))));
 }
 
 // ---------- 4 · gameplan / celebrate ----------
