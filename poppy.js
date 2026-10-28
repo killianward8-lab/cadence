@@ -125,7 +125,10 @@ export async function findCard({ email, name, ob }) {
   const te = clean(email); if (!te) return { has: false, error: "no email" };
   if (ob) {
     const q = await api("/api/upgrade?email=" + encodeURIComponent(te)).catch(() => ({}));
-    if (q && q.trialing && q.has_card) return { has: true, label: q.card || "card on file", trialing: true, day: q.day, trialStart: q.trial_start, trialEnd: q.trial_end, via: "trial" };
+    if (q && q.trialing && q.has_card) {
+      const ci = q.card_info || {}, l4 = ci.last4 || (String(q.card || "").match(/(\d{4})(?!.*\d{4})/) || [])[1] || "";
+      return { has: true, label: q.card || "card on file", brand: ci.brand || (String(q.card || "").match(/visa|mastercard|amex|american express|discover/i) || [""])[0], last4: l4, exp: ci.exp || "", kind: ci.kind || "", linkEmail: ci.email || "", trialing: true, day: q.day, trialStart: q.trial_start, trialEnd: q.trial_end, via: "trial" };
+    }
   }
   const found = await api("/api/paylink?q=" + encodeURIComponent(te)).catch(() => ({}));
   let customers = (found.customers || found.data || []).filter(c => c && c.id);
@@ -138,7 +141,8 @@ export async function findCard({ email, name, ob }) {
     const pm = (r.pms || r.data || [])[0];
     if (pm && pm.id) {
       const card = pm.card || pm;
-      return { has: true, customerId: c.id, pm: pm.id, brand: card.brand || "card", last4: card.last4 || "", label: `${String(card.brand || "card").toUpperCase()} •• ${card.last4 || "????"}`, via: "stripe" };
+      const exp = pm.exp || (card.exp_month ? String(card.exp_month).padStart(2, "0") + "/" + String(card.exp_year || "").slice(-2) : "");
+      return { has: true, customerId: c.id, pm: pm.id, brand: card.brand || "card", last4: card.last4 || "", exp, kind: pm.type === "link" ? "link" : "card", label: `${String(card.brand || "card").toUpperCase()} •• ${card.last4 || "????"}`, via: "stripe" };
     }
   }
   return { has: false };

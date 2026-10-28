@@ -405,7 +405,7 @@ export function groupPeople() {
   const g = S.calls.filter(x => x.date === me.date && x.time === me.time && /group/i.test(x.type) && x.email);
   return g.length > 1 ? g : null;
 }
-let chargeTimer = null;
+let chargeTimer = null, cardSeen = "";
 function pay() {
   const c = S.call, o = offer(), P = d().pay, due = dealPrice().due, life = isLife(), n = nm(), plan = planInfo(due);
   const plk = planKeyOf(c.offerId), ci = cardInfo(), people = groupPeople();
@@ -449,14 +449,19 @@ function pay() {
     h("div", { class: "cc-top" }, h("span", { class: "chip" }), h("span", { class: "bm" }, " ")), h("div", { class: "cc-num" }, text),
     h("div", { class: "cc-bot" }, h("div", {}, h("span", {}, holder.toUpperCase()))), h("i", { class: "sweep" })));
   const realCard = () => {
-    const brand = String(ci.brand || ci.label || "").toLowerCase(), lk = /link/.test(brand);
+    const brand = String(ci.brand || ci.label || "").toLowerCase(), lk = ci.kind === "link" || /link/.test(brand);
     const bm = lk ? h("span", { class: "bm link" }, "link") : /visa/.test(brand) ? h("span", { class: "bm visa" }, "VISA") : /master/.test(brand) ? h("span", { class: "bm mc" }, h("i"), h("i")) : /amex|american/.test(brand) ? h("span", { class: "bm amex" }, "AMEX") : h("span", { class: "bm" }, (ci.brand || "POPPY").toUpperCase());
     const last4 = ci.last4 || (String(ci.label || "").match(/(\d{4})(?!.*\d{4})/) || [])[1] || "••••";
-    return h("div", { class: "float" }, h("div", { class: "cc" + (lk ? " is-link" : /visa/.test(brand) ? " is-visa" : /master/.test(brand) ? " is-mc" : /amex|american/.test(brand) ? " is-amex" : "") },
+    // the card rises in once per card, not on every redraw
+    const key = clean(payEmail) + ":" + last4, rise = cardSeen !== key; cardSeen = key;
+    const bName = lk ? "Link" : /visa/.test(brand) ? "Visa" : /master/.test(brand) ? "Mastercard" : /amex|american/.test(brand) ? "Amex" : /discover/.test(brand) ? "Discover" : "Card";
+    return h("div", { class: "float" + (rise ? " rise" : "") }, h("div", { class: "cc" + (lk ? " is-link" : /visa/.test(brand) ? " is-visa" : /master/.test(brand) ? " is-mc" : /amex|american/.test(brand) ? " is-amex" : "") },
       h("div", { class: "cc-top" }, h("span", { class: "chip" }), bm),
-      lk ? h("div", { class: "lk-mid" }, h("small", {}, "Saved with Link"), h("span", {}, payEmail)) : h("div", { class: "cc-num num" }, "•••• •••• •••• " + last4),
-      h("div", { class: "cc-bot" }, h("div", {}, h("span", {}, holder ? holder.toUpperCase() : "CARD ON FILE")), h("b", { class: "num" }, Fe(due))),
-      h("i", { class: "sweep" })));
+      lk ? h("div", { class: "lk-mid" }, h("small", {}, "Saved with Link"), h("span", {}, ci.linkEmail || payEmail)) : h("div", { class: "cc-num num" }, "•••• •••• •••• ", h("b", { class: "l4" }, last4)),
+      h("div", { class: "cc-bot" }, h("div", {}, h("span", {}, holder ? holder.toUpperCase() : "CARD ON FILE")),
+        !lk && ci.exp ? h("div", { class: "exp" }, h("small", {}, "EXPIRES"), h("span", {}, ci.exp)) : h("b", { class: "num" }, Fe(due))),
+      h("i", { class: "sweep" }), h("i", { class: "gloss" })),
+      h("p", { class: "cc-cap" }, "💳 ", lk ? "Link · " + (ci.linkEmail || payEmail) : bName + " ending in ", lk ? null : h("b", {}, last4), !lk && ci.exp ? " · expires " + ci.exp : ""));
   };
   const links = () => {
     if (hasKey() && !c.linkTried && !c.linkBusy && !(c.payUrl && c.whopUrl)) { c.linkTried = true; setTimeout(() => link(), 0); }

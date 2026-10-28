@@ -2275,6 +2275,22 @@ ul.core li.tap .tapi{display:none}
 .dk-pay.one .cc.paid .pd-mid span{color:rgba(255,255,255,.75)}
 .dk-pay.one .cc.paid .pd-bot,.dk-pay.one .cc.paylink .pl-link button.ghostbtn{color:#fff}
 .dk-crew .cards:has(> .cc:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+/* the card on file: Mo's dark card with a real shine (lightify turned the white streak dark) */
+.dk-pay.one .cc:not(.ghost):not(.paid):not(.is-mc):not(.is-amex):not(.is-link){background:linear-gradient(135deg,#1f1a36,#2e2654 55%,#4a3c86)}
+.dk-pay.one .cc:not(.ghost){box-shadow:0 1.6cqw 4cqw rgba(16,18,40,.38),0 0 0 1px rgba(255,255,255,.1) inset}
+.dk-pay.one .cc .sweep{width:30%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:cc-sweep 4.5s ease-in-out infinite}
+.dk-pay.one .cc.ghost .sweep{background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);animation-duration:1.6s}
+.dk-pay.one .cc .gloss{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(155deg,rgba(255,255,255,.2),rgba(255,255,255,0) 38%),radial-gradient(80% 60% at 100% 0%,rgba(167,139,250,.25),transparent 60%)}
+.dk-pay.one .cc .cc-num .l4{font-weight:800;color:#fff;letter-spacing:.08em}
+.dk-pay.one .cc .exp small{display:block;font:700 .55cqw Manrope;letter-spacing:.12em;color:rgba(255,255,255,.6)}
+.dk-pay.one .cc .exp span{font:700 1cqw Manrope;color:#fff}
+.dk-pay.one .float.rise .cc{animation:cc-rise .9s cubic-bezier(.2,.9,.25,1) both!important}
+@keyframes cc-rise{0%{opacity:0;transform:translateY(4cqw) rotate(-9deg) scale(.9)}60%{opacity:1}100%{opacity:1;transform:rotate(-2.5deg)}}
+.dk-pay.one .cc-cap{margin:1.1cqw 0 0;font:600 .95cqw Manrope;color:#4A5070;text-align:center}
+.dk-pay.one .cc-cap b{color:#14162A;letter-spacing:.06em}
+.dk-charging .cc{background:linear-gradient(135deg,#2b2250,#4b3a9e 45%,#9d7bf5 75%,#f5c64f 130%)}
+.dk-charging .cc .sweep{background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent)}
+.dk-pay.one .cc.paid .shine{background:linear-gradient(90deg,transparent,rgba(255,255,255,.25),transparent)}
 .dv{background:linear-gradient(180deg,#FFFFFF,#F4F5FA)}
 .dk-guarban{background:linear-gradient(135deg,#E3F6EC,#D3F0E1);color:#14162A}
 :where(.dk-present) :where(button,input,textarea,select){font-family:Manrope,Inter,system-ui,sans-serif}
