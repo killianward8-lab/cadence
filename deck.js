@@ -1,6 +1,6 @@
-import { h, $, S, content, save, render, setTab, setCall, offer, coachName, dealPrice, planMonths, money, fmtDay, firstName, todayISO, field, seg, copy, toast, eyebrow, uid } from "./core.js";
+import { h, $, S, content, save, render, setTab, setCall, offer, offerById, coachName, dealPrice, planMonths, money, fmtDay, firstName, todayISO, field, seg, copy, toast, eyebrow, uid } from "./core.js";
 import { hasKey, findCard, chargeCard, makeLink, isOb, clean } from "./poppy.js";
-import { renderSlide as renderMoSlide, slideList, slideId, step, jump } from "./slides.js";
+import { renderSlide as renderMoSlide, applyStep, slideList, slideId, step, jump, sayItKey, slideLabel, planInfo, planKeyOf, markPaidNow, compareIds, todayOf } from "./slides.js";
 
 export const SLIDES = [
   { id: "cover", label: "Cover" }, { id: "offer", label: "Offer" }, { id: "pay", label: "Pay" }, { id: "gameplan", label: "Gameplan" }, { id: "review", label: "Review" },
@@ -29,7 +29,7 @@ export function renderDeck() {
       h("div", { class: "cl-calls" }, days.length ? days.map(dt => h("div", { class: "cl-day" }, h("small", {}, dayLabel(dt)),
         upcoming.filter(x => x.date === dt && (!S.callQ || (x.name + " " + x.email).toLowerCase().includes(S.callQ.toLowerCase()))).map(x => {
           const [k, kl] = kind(x.type);
-          return h("button", { class: "cl-callrow" + (x.id === c.id ? " on" : ""), onclick: () => { setCall({ id: x.id, name: x.name, email: x.email, phone: x.phone || "", trialStart: x.trialStart, renews: x.renews, offerId: x.offerId || c.offerId, mode: /group/i.test(x.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "", showLinks: false, linkTried: false }); lookupCard(); } },
+          return h("button", { class: "cl-callrow" + (x.id === c.id ? " on" : ""), onclick: () => { pickCall(x); } },
             h("span", { class: "t" }, h("b", {}, x.time || "—"), h("i", { class: "kind " + k }, kl)),
             h("span", { class: "who" }, h("b", {}, x.name || "(no name)"), h("em", {}, x.email || "")),
             h("span", { class: "st" }, h("i", { class: "go" }, x.id === c.id ? "on deck" : "prep →")));
@@ -75,7 +75,7 @@ export function renderDeck() {
     h("h3", { class: "cl-fold", onclick: () => { S.briefOpen = !briefOpen; render(); } }, h("i", {}, briefOpen ? "▾" : "▸"), "Before you join", h("small", {}, [brief.brief && brief.brief.problem ? "problem" : "", brief.brief && brief.brief.flags.length ? `${brief.brief.flags.length} flags` : "", brief.sections.who ? brief.sections.who.split("\n")[0] : ""].filter(Boolean).join(" · "))),
     briefOpen ? h("div", { class: "cl-briefbody" }, h("p", {}, h("b", {}, "The problem: "), brief.sections.putOut), h("p", {}, h("b", {}, "To close: "), brief.sections.close)) : null) : null;
 
-  const labels = { cover: "cover", offer: "offer", pay: "pay", gameplan: "gameplan", celebrate: "celebrate", review: "review" };
+  const labels = new Proxy({}, { get: (_, id) => slideLabel(id) });
   const right = h("div", { class: "cl-main" },
     before,
     h("div", { class: "cl-bar" },
@@ -83,40 +83,55 @@ export function renderDeck() {
       h("button", { class: "cl-present", onclick: openPresent }, "▶ Present")),
     c.mode === "one" && !c.name ? h("p", { class: "cl-notes" }, h("b", {}, "Standard pitch: "), "no name yet, so the slides use your standard version. Fill in the call to make it theirs.") : null,
     h("div", { class: "dk-frame", onclick: (e) => { const r = e.currentTarget.getBoundingClientRect(); step(e.clientX - r.left > r.width / 2 ? 1 : -1); } }, renderMoSlide(S.slide)),
-    h("p", { class: "cl-notes" }, h("b", {}, "Say it: "), d.sayIt[slideId()] || ""));
+    h("p", { class: "cl-notes" }, h("b", {}, "Say it: "), d.sayIt[sayItKey()] || ""));
   return h("div", { class: "cl-grid" }, left, right);
 }
 
+// Load a call onto the deck (from "Your calls" or Pre-call).
+export function pickCall(x) {
+  setCall({ id: x.id, name: x.name, email: x.email, payEmail: "", phone: x.phone || "", trialStart: x.trialStart, renews: x.renews, renewAmount: x.renewAmount || "", renewInterval: x.renewInterval || "", trialCanceled: !!x.trialCanceled,
+    offerId: x.offerId || S.call.offerId || "renew", mode: /group/i.test(x.type) ? "group" : "one", list: "", today: "", paid: "", prices: {}, payBoth: false, compare: null, compareStar: "",
+    paidAt: 0, paidHow: "", paidBy: {}, paidNow: false, party: false, payUrl: "", whopUrl: "", payErr: "", payNote: "", payFix: false, fixUrl: "", cardInfo: null, cardFor: "", showLinks: false, linkTried: false });
+  S.ui = {}; lookupCard();
+}
+
 // ---------- money (card on file, charge, link) ----------
-export const cardInfo = () => (S.call.cardInfo && S.call.cardFor === clean(S.call.email)) ? S.call.cardInfo : null;
-export async function lookupCard() {
-  const c = S.call; if (!hasKey() || !c.email) return;
+const payEmailOf = () => S.call.payEmail || S.call.email || "";
+export const cardInfo = () => (S.call.cardInfo && S.call.cardFor === clean(payEmailOf())) ? S.call.cardInfo : null;
+export async function lookupCard(emailOverride) {
+  const c = S.call, em = typeof emailOverride === "string" && emailOverride ? emailOverride : payEmailOf();
+  if (!hasKey() || !em || c.cardBusy) return;
   setCall({ cardBusy: true, payErr: "" });
-  try { const info = await findCard({ email: c.email, name: c.name, ob: isOb(offer()) }); setCall({ cardInfo: info, cardFor: clean(c.email), card: !!info.has, cardBusy: false }); }
-  catch (e) { setCall({ cardInfo: { has: false, error: String(e.message || e) }, cardFor: clean(c.email), cardBusy: false }); }
+  try { const info = await findCard({ email: em, name: c.name, ob: isOb(offer()) }); setCall({ cardInfo: info, cardFor: clean(em), card: !!info.has, cardBusy: false }); }
+  catch (e) { setCall({ cardInfo: { has: false, error: String(e.message || e) }, cardFor: clean(em), cardBusy: false }); }
 }
 export async function charge() {
-  const c = S.call, o = offer(), price = dealPrice();
+  const c = S.call, o = offer(), price = dealPrice(), plan = planInfo(price.due), em = payEmailOf();
   if (!hasKey()) return toast("Connect Poppy first");
-  if (c.payPlan !== "full") return toast("Payment plans go through a Whop link, not the card. Make the link.");
-  if (!c.email) return toast("Add their email first");
-  if (!confirm(`Charge ${money(price.due)} to the card on file for ${c.email}?${S.practice ? " (Practice: nothing is charged)" : ""}`)) return;
+  if (plan && !plan.native) return toast("Whop and Clarity plans go through the link on the pay slide, not the card.");
+  if (!em) return toast("Add their email first");
+  const what = plan && plan.native ? `${plan.count} payments of ${money(plan.per)} (first one now)` : money(price.due);
+  if (!confirm(`Charge ${what} to the card on file for ${em}?${S.practice ? " (Practice: nothing is charged)" : ""}`)) return;
   setCall({ payBusy: true, payErr: "", chargeStep: 0, payFix: false });
   try {
-    const r = await chargeCard({ offer: o, email: c.email, name: c.name, amount: price.due, card: cardInfo() });
-    if (r.ok) { setTimeout(() => { setCall({ payBusy: false, paidNow: true, party: true, paidHow: r.practice ? "practice, nothing charged" : "card on file", payErr: "" }); toast(r.practice ? "Practice: charge skipped" : "Paid ✓"); }, 1500); }
-    else { setCall({ payBusy: false, payErr: r.error || "Card declined", payUrl: r.fix || c.payUrl, payFix: !!r.fix }); toast(r.error || "Declined"); }
+    const r = await chargeCard({ offer: o, email: em, name: c.name, amount: price.due, card: cardInfo(), plan: planKeyOf(o.id), installments: plan && plan.native ? plan.count : 0 });
+    if (r.ok) { setTimeout(() => { setCall({ payBusy: false }); markPaidNow(r.practice ? "practice, nothing charged" : "card on file"); toast(r.practice ? "Practice: charge skipped" : "Paid ✓"); }, 1500); }
+    else { setCall({ payBusy: false, payErr: r.error || "Card declined", fixUrl: r.fix || "", fixHello: false, payFix: true }); toast(r.error || "Declined"); }
   } catch (e) { setCall({ payBusy: false, payErr: String(e.message || e) }); }
 }
+// Stripe and Whop, every time (Stripe leads). Life plans: Stripe only, so the right plan is granted.
 export async function link() {
-  const c = S.call, o = offer(), price = dealPrice();
+  const c = S.call, o = offer(), price = dealPrice(), plan = planInfo(price.due), em = payEmailOf();
   if (!hasKey()) return toast("Connect Poppy first");
   setCall({ linkBusy: true, payErr: "" });
-  try {
-    const months = S.deck.plans[c.payPlan] ? S.deck.plans[c.payPlan].months : 1;
-    const r = await makeLink({ offer: o, email: c.mode === "group" && !c.email ? "" : c.email, name: c.name, amount: price.due, processor: months > 1 ? "whop" : "stripe", how: months > 1 ? String(months) : "full", note: c.payPlan === "clarity" ? "pick Clarity Pay at checkout" : "" });
-    setCall({ linkBusy: false, payUrl: r.url, payNote: r.note || "", payFix: false }); toast("Link on the pay slide");
-  } catch (e) { setCall({ linkBusy: false, payErr: String(e.message || e) }); }
+  const base = { offer: o, email: em, name: c.name, amount: price.due, plan: planKeyOf(o.id) };
+  const jobs = [];
+  if (!(plan && !plan.native)) jobs.push(makeLink({ ...base, processor: "stripe", how: "full" }).then(r => ({ payUrl: r.url, payNote: r.note || "" })).catch(e => ({ stripeErr: String(e.message || e) })));
+  if (!/^life./.test(o.id) && isOb(o)) jobs.push(makeLink({ ...base, processor: "whop", how: plan && plan.id === "whop" ? "6" : "full", note: c.payPlan === "clarity" ? "pick Clarity Pay at checkout" : "" }).then(r => ({ whopUrl: r.url })).catch(e => ({ whopErr: String(e.message || e) })));
+  else if (!isOb(o)) jobs.push(makeLink({ ...base, processor: "whop", how: plan ? String(plan.months || 6) : "full" }).then(r => ({ whopUrl: r.url })).catch(e => ({ whopErr: String(e.message || e) })));
+  const out = Object.assign({}, ...(await Promise.all(jobs)));
+  const err = !out.payUrl && !out.whopUrl ? (out.stripeErr || out.whopErr || "no link") : "";
+  setCall({ linkBusy: false, ...out, payErr: err });
 }
 function moneyBlock() {
   const c = S.call, ci = cardInfo(), live = hasKey();
@@ -235,58 +250,139 @@ export function renderSlide(i) {
 const stat = (l, v) => h("div", { class: "stat" }, h("small", {}, l), h("b", {}, v));
 
 // ---------- present mode ----------
-const PR = { draw: false, text: false, color: "#F5C64F", strokes: {}, texts: {}, music: false, track: 0 };
+const PR = { draw: false, text: false, color: "#F5C64F", strokes: {}, texts: {}, music: false, musicOff: false, track: 0, guar: false, near: false, pop: "", played: 0, counted: "" };
 const COLORS = ["#F5C64F", "#A78BFA", "#4ADE97", "#FF8FA3"];
-export function openPresent() { S.present = true; S.slide = 0; S.step = 0; S.zoom = null; render(); }
-export function closePresent() { S.present = false; PR.draw = PR.text = false; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); render(); }
+export function openPresent() { S.present = true; S.slide = 0; S.step = 0; S.ui = {}; render(); }
+export function closePresent() { S.present = false; PR.draw = PR.text = false; PR.pop = ""; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); render(); }
 export const go = (d) => step(d);
 export const toggleDraw = () => { PR.draw = !PR.draw; PR.text = false; render(); };
 export const toggleText = () => { PR.text = !PR.text; PR.draw = false; render(); };
 export const clearInk = () => { PR.strokes[S.slide] = []; PR.texts[S.slide] = []; render(); };
 export const setColor = (i) => { PR.color = COLORS[i]; render(); };
-export const toggleMusic = () => { PR.music = !PR.music; render(); };
+export const toggleMusic = () => { PR.music = !PR.music; PR.musicOff = !PR.music; render(); };
 export const nextTrack = () => { const n = (S.deck.music.playlists || []).filter(p => p.url).length; if (n) { PR.track = (PR.track + 1) % n; PR.music = true; render(); } };
-export const toggleParty = () => setCall({ party: !S.call.party });
-export const markPaid = () => { setCall({ paidNow: true, party: true, paidHow: "marked by hand" }); };
+export const toggleParty = () => { if (S.call.party || S.call.paidAt) setCall({ party: false }); else setCall({ party: true }); };
+export const markPaid = () => markPaidNow("marked by hand");
+export const toggleGuar = () => { PR.guar = !PR.guar; render(); };
+export const togglePop = (name) => { PR.pop = PR.pop === name ? "" : name; render(); };
+export function setOffer(id) {
+  if (id === "both") return setCall({ payBoth: true, compare: S.call.compare && S.call.compare.length >= 2 ? S.call.compare : ["renew", "life"], payUrl: "", whopUrl: "", linkTried: false });
+  setCall({ offerId: id, payBoth: false, list: "", today: "", payUrl: "", whopUrl: "", linkTried: false, payPlan: /^life./.test(id) || id === S.call.offerId ? S.call.payPlan : "full" });
+  if (S.slide >= slideList().length) S.slide = slideList().length - 1;
+}
 export function toggleFull() { try { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); } catch {} }
+export function openScreen() {
+  const w = window.open(location.pathname + "?screen=1", "cadence-screen", "popup,width=1280,height=760");
+  if (!w) toast("Allow pop-ups for this page to open the screen window"); else setTimeout(broadcast, 600);
+}
+// The screen window (?screen=1) shows the slides only and follows this tab.
+const chan = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("cadence-screen") : null;
+export function broadcast() { if (chan && S.present && !window.__cadenceScreen) try { chan.postMessage({ call: S.call, slide: S.slide, step: S.step || 0, ui: S.ui || {}, practice: S.practice, guar: PR.guar }); } catch {} }
+window.__cadenceBroadcast = broadcast;
+
+const OFFER_CHIP = { renew: ["💎", "Year"], life: ["💎", "Life"], lifec: ["🎨", "Creator"], lifecs: ["🏃", "Sprint"], lifep: ["⚡", "Power"] };
+function offerPop() {
+  const c = S.call, ob = ["renew", "life", "lifec", "lifecs", "lifep"].map(offerById).filter(Boolean);
+  const cmp = c.compare && c.compare.length ? c.compare : ["renew", "life"];
+  const lifeDeck = /^life./.test(c.offerId) && !c.payBoth;
+  const ways = lifeDeck ? [["full", "Pay in full"], ["whop", "6 months"], ["clarity", "12 months"]] : [["full", "Pay in full"], ["whop", "6 months"], ["clarity", "24 months"]];
+  return h("div", { class: "dk-songs dk-offerpop", onclick: (e) => e.stopPropagation() },
+    h("button", { class: "op-hide", onclick: () => { PR.pop = ""; openScreen(); } }, h("span", {}, "📺"), h("div", {}, h("b", {}, "Sharing this tab? They can see this menu"), h("small", {}, "Open the screen window and share that instead: slides only, it follows you"))),
+    h("b", {}, "Show one offer"),
+    h("div", { class: "op-list" }, ob.map(o => h("button", { class: !c.payBoth && c.offerId === o.id ? "on" : "", onclick: () => { PR.pop = ""; setOffer(o.id); } }, h("span", {}, o.name.replace("Power User for Life", "Power for Life")), h("em", {}, money(todayOf(o.id)))))),
+    h("b", {}, "Or compare"),
+    h("div", { class: "op-cmp" }, [["renew", "Year"], ["life", "Life"], ["lifec", "Creator"], ["lifep", "Power"]].map(([id, l]) => { const on = cmp.includes(id);
+      return h("button", { class: on ? "on" : "", onclick: () => { const next = on ? cmp.filter(x => x !== id) : [...cmp, id]; setCall({ compare: next }); } }, (on ? "✓ " : "") + l); })),
+    h("button", { class: "pick", disabled: cmp.length < 2, onclick: () => { PR.pop = ""; setCall({ payBoth: true, compare: cmp }); S.step = 0; render(); } }, `Show these ${cmp.length} side by side →`),
+    h("b", {}, "How they pay"),
+    h("div", { class: "seg2" }, ways.map(([id, l]) => h("button", { class: (c.payPlan || "full") === id ? "on" : "", onclick: () => setCall({ payPlan: id, payUrl: "", whopUrl: "", linkTried: false }) }, l))),
+    h("button", { class: "tiny", onclick: () => { PR.pop = "price"; render(); } }, "💲 Change the price"));
+}
+function pricePop() {
+  const c = S.call, paid = +c.paid || 0, cur = dealPrice().today;
+  let val = String(cur);
+  const set = () => { const v = Math.round(+String(val).replace(/[^\d.]/g, "")); if (v > 0) setCall({ today: String(v), prices: { ...(c.prices || {}), [c.offerId]: v }, payUrl: "", whopUrl: "", linkTried: false }); PR.pop = ""; render(); };
+  return h("div", { class: "dk-price", onclick: (e) => e.stopPropagation(), onkeydown: (e) => { e.stopPropagation(); if (e.key === "Enter") { e.preventDefault(); set(); } if (e.key === "Escape") { PR.pop = ""; render(); } } },
+    h("div", { class: "tiers" }, [["renew", [299, 349, 374, 399]], ["life", [750, 897, 997]], ["lifec", [1997, 2268]], ["lifep", [3997, 4788]]].filter(([id]) => id === c.offerId).flatMap(([, ps]) => ps).map(v => h("button", { class: v === cur ? "on" : "", onclick: () => { val = String(v); set(); } }, money(v)))),
+    h("label", {}, h("i", {}, "$"), h("input", { inputmode: "numeric", value: val, placeholder: "374", oninput: (e) => { val = e.target.value; }, onfocus: (e) => e.target.select() })),
+    paid > 0 ? h("small", {}, "minus " + money(paid) + " paid") : null,
+    h("button", { class: "set", onclick: set }, "Set"));
+}
+function introPop() {
+  const c = S.call, first = firstName(c.name) || "them";
+  let phone = c.phone || "", msg = `Hey ${firstName(c.name) || "there"}, it's Killian from Poppy. This is my number, text me any time you're stuck or want a hand with your content.`;
+  const usLike = (p) => /^\+?(1|44)/.test(String(p).replace(/[^\d+]/g, ""));
+  const go = (how) => { const num = String(phone).replace(/[^\d+]/g, ""); if (!num) return toast("Type their number first"); const url = how === "wa" ? `https://wa.me/${num.replace(/^\+/, "")}?text=${encodeURIComponent(msg)}` : `sms:${num}&body=${encodeURIComponent(msg)}`; window.open(url, "_blank", "noopener"); PR.pop = ""; render(); };
+  return h("div", { class: "dk-intro", onclick: (e) => e.stopPropagation(), onkeydown: (e) => e.stopPropagation() },
+    h("div", { class: "row" }, h("b", {}, `💬 Text ${first} my number`), h("button", { class: "x", onclick: () => { PR.pop = ""; render(); } }, "×")),
+    h("input", { value: phone, placeholder: "their phone, with country code", oninput: (e) => { phone = e.target.value; } }),
+    h("textarea", { rows: 4, oninput: (e) => { msg = e.target.value; } }, msg),
+    h("div", { class: "row btns" }, h("button", { class: usLike(phone) ? "go" : "", onclick: () => go("sms") }, "📱 Text"), h("button", { class: usLike(phone) ? "" : "go", onclick: () => go("wa") }, "🟢 WhatsApp")),
+    h("small", {}, (phone ? (usLike(phone) ? "US / Canada / UK: text from your phone number." : "Outside US / Canada / UK: WhatsApp, never a text.") : "No number on file, type it above.") + " Opens your app with this typed, you hit Enter."));
+}
 
 export function renderPresent() {
   const p = $("#present");
   p.hidden = !S.present;
   if (!S.present) { p.innerHTML = ""; p.className = "dk-present"; return; }
-  const key = slideId() + ":" + (S.call.party ? "p" : "g");
-  p.className = "dk-present" + (PR.draw ? " drawing" : "") + (PR.text ? " editing" : "");
-  p.onclick = (e) => { if (PR.draw || PR.text) return; if (e.target.closest(".dk-tools, .musicdock, button, a, .path, .bonus, .bx-wrap, .dk-label")) return; step(e.clientX > innerWidth / 2 ? 1 : -1); };
+  const screen = !!window.__cadenceScreen;
+  const id = slideId(), key = id + ":" + (S.call.party || S.call.paidAt ? "p" : "g");
+  p.className = "dk-present" + (PR.draw ? " drawing" : "") + (PR.text ? " editing" : "") + (PR.guar ? " guar-on" : "") + (PR.near ? " near" : "") + (screen ? " screen" : "");
+  p.onclick = (e) => { if (screen || PR.draw || PR.text) return; if (PR.pop) { PR.pop = ""; return render(); } if (e.target.closest(".dk-tools, .musicdock, button, a, input, textarea, .path, .bonus, .bx-wrap, .dk-label, .col, .st.tap, .tap, .proof")) return; step(e.clientX > innerWidth / 2 ? 1 : -1); };
+  p.onmousemove = (e) => { const near = e.clientY > innerHeight - 120; if (near !== PR.near) { PR.near = near; p.classList.toggle("near", near); } };
+  p.onmouseleave = () => { PR.near = false; p.classList.remove("near"); };
   let stage = p.querySelector(".dk-stage");
-  if (!stage) { p.innerHTML = ""; stage = h("div", { class: "dk-stage" }); p.append(stage, h("div", { class: "dk-dots" }), h("div", { class: "dk-tools" })); }
-  // Like Mo's: a straight cut between slides (the motion lives inside each slide).
+  if (!stage) { p.innerHTML = ""; stage = h("div", { class: "dk-stage" }); p.append(stage, h("div", { class: "dk-dots" }), h("div", { class: "dk-tools v2" })); }
   const slide = renderMoSlide(S.slide); slide.dataset.key = key;
   stage.querySelectorAll(".dk-slide, .dk-ink, .dk-label").forEach(el => el.remove());
   stage.append(slide, ...inkLayer(stage));
-  p.querySelector(".dk-dots").replaceWith(h("div", { class: "dk-dots" }, slideList().map((_, i) => h("i", { class: i === S.slide ? "on" : "" }))));
-  const n = 5;
+  // the amount counts up on the paid card, once per payment
+  const cu = stage.querySelector("[data-countup]");
+  if (cu) { const to = +cu.dataset.countup || 0, tag = String(S.call.paidAt) + ":" + to;
+    if (PR.counted === tag) cu.textContent = money(to);
+    else { PR.counted = tag; const t0 = performance.now(); const tick = (t) => { const k = Math.min(1, (t - t0) / 900), v = Math.round(to * (1 - Math.pow(1 - k, 3))); cu.textContent = money(v); if (k < 1 && cu.isConnected) requestAnimationFrame(tick); }; requestAnimationFrame(tick); setTimeout(() => { if (cu.isConnected) cu.textContent = money(to); }, 1100); } }
+  // poppers + a small cheer when a payment lands, never twice
+  if (!screen && S.call.paidAt && PR.played !== S.call.paidAt) { PR.played = S.call.paidAt; try { const a = new Audio("assets/music/popper-yay.mp3"); a.volume = 0.6; a.play().catch(() => {}); } catch {} }
   const lists = (S.deck.music.playlists || []).filter(x => x.url);
-  p.querySelector(".dk-tools").replaceWith(h("div", { class: "dk-tools" + (PR.draw || PR.text ? " open" : "") },
+  if (lists.length && !PR.musicOff && ["pay", "gameplan", "celebrate"].includes(id)) PR.music = true;
+  p.querySelector(".dk-dots").replaceWith(h("div", { class: "dk-dots" }, slideList().map((_, i) => h("i", { class: i === S.slide ? "on" : "" }))));
+  const n = slideList().length, c = S.call;
+  const [chipIc, chipName] = c.payBoth ? ["⚖️", "Both"] : (OFFER_CHIP[c.offerId] || ["💎", (S.deck.short || {})[c.offerId] || "Offer"]);
+  const stop = (fn) => (e) => { e.stopPropagation(); fn(); };
+  p.querySelector(".dk-tools").replaceWith(screen ? h("div", { class: "dk-tools v2", hidden: true }) : h("div", { class: "dk-tools v2" + (PR.draw || PR.text || PR.pop ? " open" : "") },
     h("div", { class: "grp nav" },
-      h("button", { class: "ic", disabled: S.slide === 0 && !(S.step > 0), title: "← back", onclick: (e) => { e.stopPropagation(); step(-1); } }, "‹"),
+      h("button", { class: "ic", disabled: S.slide === 0 && !(S.step > 0), title: "← back", onclick: stop(() => step(-1)) }, "‹"),
       h("span", { class: "cnt" }, String(S.slide + 1), h("small", {}, "/" + n)),
-      h("button", { class: "ic", disabled: S.slide === n - 1, title: "→ next", onclick: (e) => { e.stopPropagation(); step(1); } }, "›")),
+      h("button", { class: "ic", disabled: S.slide === n - 1, title: "→ next", onclick: stop(() => step(1)) }, "›")),
     h("div", { class: "grp" },
-      h("button", { class: PR.draw ? "on" : "", title: "D", onclick: (e) => { e.stopPropagation(); toggleDraw(); } }, h("span", {}, "✏️"), "Draw"),
-      PR.draw ? h("span", { class: "dk-colors" }, COLORS.map((col, i) => h("i", { style: { background: col }, class: col === PR.color ? "on" : "", title: String(i + 1), onclick: (e) => { e.stopPropagation(); setColor(i); } }))) : null,
-      h("button", { class: PR.text ? "on" : "", title: "E", onclick: (e) => { e.stopPropagation(); toggleText(); } }, h("span", {}, "✍️"), "Text"),
-      (PR.strokes[S.slide] || []).length || (PR.texts[S.slide] || []).length ? h("button", { title: "C", onclick: (e) => { e.stopPropagation(); clearInk(); } }, "clear") : null),
+      h("button", { class: "ic" + (PR.draw ? " on" : ""), title: "D · draw on the slide", onclick: stop(toggleDraw) }, "✏️"),
+      PR.draw ? h("span", { class: "dk-colors" }, COLORS.map((col, i) => h("i", { style: { background: col }, class: col === PR.color ? "on" : "", title: String(i + 1), onclick: stop(() => setColor(i)) }))) : null,
+      h("button", { class: "ic" + (PR.text ? " on" : ""), title: "E · type on the slide", onclick: stop(toggleText) }, "✍️"),
+      (PR.strokes[S.slide] || []).length || (PR.texts[S.slide] || []).length ? h("button", { class: "ic", title: "C · clear", onclick: stop(clearInk) }, "⌫") : null,
+      h("button", { class: "ic" + (PR.pop === "intro" ? " on" : ""), title: "I · text them my number (my own Messages or WhatsApp)", onclick: stop(() => togglePop("intro")) }, "💬"),
+      PR.pop === "intro" ? introPop() : null,
+      h("button", { class: "ic" + (PR.guar ? " on" : ""), title: "S · show the 30-day guarantee on the slide", onclick: stop(toggleGuar) }, "🛡️")),
     h("div", { class: "grp" },
-      h("button", { class: PR.music ? "on" : "", title: lists.length ? "M" : "Add playlists in deck.json → music", onclick: (e) => { e.stopPropagation(); lists.length ? toggleMusic() : toast("Add a Spotify playlist link in deck.json → music"); } }, h("span", {}, "🎵"), "Music"),
-      h("button", { class: "ic", title: lists.length > 1 ? "N · next playlist" : "your songs", onclick: (e) => { e.stopPropagation(); nextTrack(); } }, "🎧")),
-    h("div", { class: "grp offer" }, h("span", { class: "lbl" }, "Offer"), offerSeg()),
-    h("div", { class: "grp seg", title: "payment plan · P / W / K" }, Object.entries(S.deck.plans).map(([id, pl]) => h("button", { class: S.call.payPlan === id ? "on" : "", onclick: (e) => { e.stopPropagation(); setCall({ payPlan: id }); } }, pl.label))),
+      h("button", { class: "ic" + (PR.music ? " on" : ""), title: lists.length ? "M · music" : "Add Spotify playlists in deck.json → music", onclick: stop(() => lists.length ? toggleMusic() : toast("Add a Spotify playlist link in deck.json → music")) }, "🎵"),
+      h("button", { class: "ic", title: "your songs", onclick: stop(nextTrack) }, "🎧")),
+    h("div", { class: "grp", title: "the offer · Y / L / B" },
+      h("button", { class: "offer-chip" + (PR.pop === "offer" || PR.pop === "price" ? " on" : ""), onclick: stop(() => togglePop("offer")) }, h("span", {}, chipIc), chipName, h("b", {}, c.payBoth ? compareIds().length + " plans" : money(dealPrice().due)), h("i", {}, "▾")),
+      PR.pop === "offer" ? offerPop() : PR.pop === "price" ? pricePop() : null),
     h("div", { class: "grp" },
-      h("button", { class: S.call.party ? "on" : "", title: "G · party", onclick: (e) => { e.stopPropagation(); toggleParty(); } }, "🎉"),
-      h("button", { class: "ic", title: "F · fullscreen", onclick: (e) => { e.stopPropagation(); toggleFull(); } }, "⛶"),
-      h("button", { class: "ic", title: "Esc · close", onclick: (e) => { e.stopPropagation(); closePresent(); } }, "✕"))));
+      h("button", { class: "ic" + (c.party || c.paidAt ? " on" : ""), title: "G · the celebration", onclick: stop(toggleParty) }, "🎉"),
+      h("button", { class: "ic screen", title: "O · open the screen window to share (slides only, no controls)", onclick: stop(openScreen) }, "📺"),
+      h("button", { class: "ic", title: "F · fullscreen", onclick: stop(toggleFull) }, "⛶"),
+      h("button", { class: "ic", title: "Esc · close", onclick: stop(closePresent) }, "✕"))));
   const old = p.querySelector(".musicdock"); if (old) old.remove();
-  if (PR.music && lists.length) p.append(h("div", { class: "musicdock" }, h("iframe", { src: embedUrl(lists[PR.track % lists.length].url), width: "300", height: "80", frameborder: "0", allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture", loading: "lazy" })));
+  if (!screen && PR.music && lists.length) p.append(h("div", { class: "musicdock" }, h("iframe", { src: embedUrl(lists[PR.track % lists.length].url), width: "300", height: "80", frameborder: "0", allow: "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture", loading: "lazy" })));
+  if (!screen) broadcast();
+}
+export function applyScreenState(m) {
+  if (!m || !m.call || typeof m.slide !== "number") return;
+  const sameSlide = S.present && m.slide === S.slide && JSON.stringify(m.call) === JSON.stringify(S.call) && JSON.stringify(m.ui || {}) === JSON.stringify(S.ui || {}) && !!m.guar === PR.guar;
+  S.step = m.step || 0;
+  if (sameSlide) return applyStep(); // only the step moved: flip classes so the animation plays
+  S.call = m.call; S.slide = m.slide; S.ui = m.ui || {}; S.practice = m.practice; PR.guar = !!m.guar; S.present = true; render();
 }
 const embedUrl = (u) => { const m = String(u).match(/open\.spotify\.com\/(playlist|album|track)\/([A-Za-z0-9]+)/); return m ? `https://open.spotify.com/embed/${m[1]}/${m[2]}?theme=0` : u; };
 

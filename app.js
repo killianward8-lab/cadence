@@ -2,8 +2,8 @@
 import { $, S, store, content, save, setRender, setTab, beginEdit, endEdit, resetEdits, download, toast, BUILD } from "./core.js";
 import { renderScript } from "./script.js";
 import { renderObjections } from "./objections.js";
-import { renderDeck, renderPresent, openPresent, closePresent, go, toggleDraw, toggleText, clearInk, setColor, toggleMusic, nextTrack, toggleParty, toggleFull, togglePractice, SLIDES, PRESENT } from "./deck.js";
-import { jump } from "./slides.js";
+import { renderDeck, renderPresent, openPresent, closePresent, go, toggleDraw, toggleText, clearInk, setColor, toggleMusic, nextTrack, toggleParty, toggleFull, togglePractice, PRESENT, setOffer, toggleGuar, togglePop, openScreen, applyScreenState } from "./deck.js";
+import { jump, slideList } from "./slides.js";
 import { renderPrecall } from "./precall.js";
 import { renderPay } from "./pay.js";
 import { keyFromUrl, hasKey, setKey, refreshCalls } from "./poppy.js";
@@ -17,6 +17,12 @@ async function boot() {
     return;
   }
   keyFromUrl();
+  if (new URLSearchParams(location.search).has("screen")) {
+    window.__cadenceScreen = true; document.body.classList.add("screen-mode"); document.title = "Poppy";
+    const ch = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("cadence-screen") : null;
+    if (ch) ch.onmessage = (e) => applyScreenState(e.data);
+    S.present = true; render(); return;
+  }
   const edits = store.get("kc:content", null);
   if (edits && edits.stages && edits.objections) S.edits = edits;
   if (!content().offers.some(o => o.id === S.call.offerId)) S.call.offerId = content().offers[0].id;
@@ -81,8 +87,13 @@ function onKey(e) {
     if (e.key === "ArrowRight" || e.key === " ") return go(1);
     if (e.key === "ArrowLeft") return go(-1);
     if (PRESENT.draw && /^[1-4]$/.test(e.key)) return setColor(+e.key - 1);
-    if (/^[1-9]$/.test(e.key) && +e.key <= SLIDES.length) return jump(+e.key - 1);
-    if (k === "o") { const ids = content().offers.map(x => x.id); S.call.offerId = ids[(ids.indexOf(S.call.offerId) + 1) % ids.length]; S.call.list = S.call.today = ""; save(); return render(); }
+    if (/^[1-9]$/.test(e.key) && +e.key <= slideList().length) return jump(+e.key - 1);
+    if (k === "y") return setOffer("renew");
+    if (k === "l") return setOffer("life");
+    if (k === "b") return setOffer("both");
+    if (k === "s") return toggleGuar();
+    if (k === "i") return togglePop("intro");
+    if (k === "o") return openScreen();
     for (const [id, p] of Object.entries(S.deck.plans)) if (k === p.key.toLowerCase()) { S.call.payPlan = id; save(); return render(); }
     if (k === "d") return toggleDraw();
     if (k === "e") return toggleText();

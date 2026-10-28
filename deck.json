@@ -8,7 +8,10 @@
     "power": "Power",
     "vcs": "VCS",
     "yvcs": "YT VCS",
-    "build": "Build"
+    "build": "Build",
+    "lifec": "Creator",
+    "lifecs": "Sprint",
+    "lifep": "Power"
   },
   "emoji": {
     "renew": "📅",
@@ -18,7 +21,10 @@
     "power": "⚡",
     "vcs": "🎬",
     "yvcs": "📺",
-    "build": "🤖"
+    "build": "🤖",
+    "lifec": "🎨",
+    "lifecs": "🏃",
+    "lifep": "⚡"
   },
   "plans": {
     "full": {
@@ -131,12 +137,20 @@
     "sub": "Account's live. The email with the Academy and your resources is on its way."
   },
   "sayIt": {
-    "cover": "Read the three facts out loud, slowly: when it started, when it renews, what it renews at. Then: 'Since we're on the call, I can do one thing for you.' Click.",
-    "offer": "Name it, read the four lines. Then click: bonus one, bonus two, bonus three, one at a time, a sentence each. Last click: the price. Stop talking.",
-    "pay": "'I have your card on file. Do I have your permission to run it?' Then silence. Tap Lock it in and watch it go green. No card: the link is on the slide.",
+    "cover": "Read the three facts out loud, slowly: when it started, when it renews, and what it renews at (their real number). Then: 'Since we're on the call, I can do one thing for you.' Click.",
+    "offer": "The offer is up. Walk the lines in one breath. Then click once per bonus, one sentence each (tap the Academy picture to show it; on Life, tap the $1,188 to show our real plans page). The last click reveals the price. 'I have your card on file. Do I have permission to run it?' Then shut up.",
+    "pay": "Card on file is the whole slide. Charge it, watch it go green. Links only if the card fails. Y · L · B on the bar flips the offer on every slide.",
     "gameplan": "'Totally fine. Here's exactly how to win with it this week.' Walk the three cards, then tap Send the game plan while they watch. (Paid somewhere the deck can't see? Press G.)",
     "celebrate": "'Account's live, email's coming, purple chat for anything. Welcome in.' Tap send the email while they watch.",
-    "review": "'One last thing, it would mean the world to me. How was today? Scan that with your phone, 30 seconds.' Stay on the slide while they do it."
+    "review": "'One last thing, it would mean the world to me. How was today? Scan that with your phone, 30 seconds.' Stay on the slide while they do it.",
+    "compare": "Read across, not down: credits, the coaching calls, seats, brands, renewal. Point at the gold column. One click shows the prices. Tap a column to make it the one.",
+    "intro": "Read the headline, then point left: 'this is how most people use AI, a prompt, it's wrong, try again.' Then right: 'this is what we build with you today, all talking to each other.' Then: 'today you leave with one, for life.' Click.",
+    "introSprint": "The why before the what: 'Most people post. Few get paid from it. That takes four things: get seen, build trust, scale it, then turn it into money. That's the next 30 days, one call a week, with these coaches.' Click.",
+    "pillars": "One click per step, one breath each. Nothing about money here. When they're all open: 'what questions do you have?', answer everything, tie down, ask permission to show the plan.",
+    "coaches": "Put a face on every call. Point at each coach and the weeks they run.",
+    "plan": "Show them the plan they actually get. Read the credits and the seats, point at 'for life'. Then: 'let me show you what this normally costs, and what it is today.' Click.",
+    "normal": "Let the cards land one by one. 'This is the plan the normal way, every year, renews on your card. Five years.' Tap 'charged again every year' for our plans page. Then: 'here's what it is today.' Click.",
+    "deal": "The number, then silence. 'Today it's this, once, and you never pay for it again.' Then stop talking."
   },
   "dig": [
     [
@@ -255,15 +269,15 @@
     "_help": "The onboarding deck (Poppy for the year / Poppy for Life), copied from Mo's. Edit words here.",
     "taglines": {
       "renew": "Your content system, running all year.",
-      "life": "Pay once. Yours for life."
+      "life": "Your content system, for life."
     },
-    "bonusHead": "🎁 Plus 3 bonuses, today only",
+    "bonusHead": "🎁 Plus 2 bonuses, today only",
     "bonuses": [
       {
         "k": "vca",
         "tag": "Bonus 1",
         "title": "The Viral Content Academy",
-        "line": "Our video course on making content that goes viral and brings you clients.",
+        "line": "Our course on turning views into money, plus the Skool community.",
         "value": "Normally $997",
         "note": "We put $30,000 into building it with our top creators.",
         "art": {
@@ -274,6 +288,8 @@
           "assets/vca-classroom.jpg",
           "assets/vca-lesson.jpg"
         ],
+        "tile": "assets/vca-classroom.jpg",
+        "tileLabel": "Academy + community",
         "link": [
           "https://www.skool.com/getpoppyai",
           "skool.com/getpoppyai"
@@ -287,43 +303,25 @@
       {
         "k": "prompts",
         "tag": "Bonus 2",
-        "title": "The Poppy Vault",
-        "line": "My prompts, the best videos and every answer, in one place.",
-        "value": "Only for clients",
+        "title": "The AI Prompt Vault",
+        "line": "Copy-paste AI prompts for content. They work in Poppy and any AI.",
+        "value": "1-on-1 clients only",
         "art": {
           "e": "🔐",
           "bg": "linear-gradient(135deg,#6D5BFF,#2A1F6B)"
         },
         "pics": [
-          "assets/vault-hero.jpg",
-          "assets/vault-videos.jpg"
+          "assets/vault-prompts.jpg",
+          "assets/vault-boards.jpg"
         ],
-        "link": [
-          "https://getpoppy.ai/prompts",
-          "getpoppy.ai/prompts"
-        ],
-        "points": [
-          "The prompts we use with every client, ready to copy",
-          "The videos that actually teach it",
-          "Every answer to every question, in one place"
-        ]
-      },
-      {
-        "k": "credits",
-        "tag": "Bonus 3",
-        "title": "5,000 bonus credits",
-        "line": "1,000 extra every month for your first 5 months.",
-        "value": "Today only",
-        "art": {
-          "e": "⚡",
-          "bg": "linear-gradient(135deg,#4ADE97,#13603D)"
-        },
-        "pics": [],
+        "tile": "assets/vault-tile-prompts.jpg",
+        "tileLabel": "The AI Prompt Vault",
         "link": null,
         "points": [
-          "1,000 extra credits a month",
-          "For your first 5 months",
-          "On top of everything in the plan"
+          "Hooks, YouTube titles, scripts, 30-second ads, breakdowns of why a video worked",
+          "Copy, paste, done: you never have to guess what to type",
+          "Prompting is the skill behind every AI tool. These make you good at it from day one",
+          "Plus the boards I build with and the best how-to videos"
         ]
       }
     ],
@@ -345,23 +343,42 @@
     "today": {
       "small": "⚡ Today, on this call",
       "renewSub": "${monthly} a month to go viral",
-      "lifeSub": "then $0 every year",
-      "em": "✓ Poppy + 3 bonuses"
+      "lifeSub": "never renews",
+      "em": "✓ Poppy + 2 bonuses",
+      "emLife": "✓ Poppy for Life + 2 bonuses"
     },
     "proof": {
       "faces": [
-        "https://getpoppy.ai/killian/cadence/malu.jpg",
-        "https://getpoppy.ai/killian/cadence/charan.jpg",
-        "https://getpoppy.ai/killian/cadence/christian.jpg",
-        "https://getpoppy.ai/killian/cadence/linden.jpg"
+        [
+          "assets/face-simon.jpg",
+          "Simon Squibb"
+        ],
+        [
+          "assets/face-vanessa.jpg",
+          "Vanessa Lau"
+        ],
+        [
+          "assets/face-dan.jpg",
+          "Dan Martell"
+        ],
+        [
+          "assets/linden.jpg",
+          "Linden Chasteen"
+        ],
+        [
+          "assets/face-jason.jpg",
+          "Jason Cooperson"
+        ]
       ],
-      "stars": "★★★★★",
-      "creators": "13,000+ creators",
+      "line": "13,000+ creators",
+      "sub": "already using Poppy",
+      "tp": "4.9",
+      "reviews": "468 reviews",
       "guarantee": "🛡️ 30-day money-back guarantee"
     },
     "pay": {
       "title": "Let's get you in",
-      "bonusLine": "🎁 Academy · Poppy Vault · Bonus credits",
+      "bonusLine": "🎁 Academy · AI Prompt Vault",
       "included": "included",
       "todayLabel": "Today",
       "guarantee": "30-day money-back guarantee",
@@ -431,6 +448,7 @@
       "sms": "{name}, a quick review on today would mean the world to me 🙏 {url}",
       "url": "https://www.trustpilot.com/evaluate/getpoppy.ai",
       "scan": "Scan with your camera"
-    }
+    },
+    "plansProof": "Our plans, as they are on the upgrade page today. Starter is $1,188 every year. Poppy for Life is once."
   }
 }

@@ -1,5 +1,5 @@
 // Shared helpers and state for Killian's Cadence. No imports here.
-export const BUILD = "20261027-2342";
+export const BUILD = "20261028-0138";
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const h = (tag, attrs = {}, ...kids) => {
@@ -85,9 +85,12 @@ export function resetEdits() { S.edits = null; S.editing = false; store.del("kc:
 
 // The current price for the deck: today's price, minus what they already paid, with manual overrides.
 export function dealPrice() {
-  const o = offer();
-  const list = S.call.list !== "" && S.call.list != null ? +S.call.list : o.list;
-  const today = S.call.today !== "" && S.call.today != null ? +S.call.today : o.today;
+  const o = offer(), c = S.call, renewAmt = +c.renewAmount || 0;
+  const set = +(c.prices || {})[o.id] || 0;
+  const defToday = set > 0 ? set : (o.id === "renew" && renewAmt > 0 && c.renewInterval !== "month") ? Math.max(50, renewAmt - 25) : o.today;
+  const defList = o.id === "renew" && renewAmt > 0 ? renewAmt : o.list;
+  const list = c.list !== "" && c.list != null ? +c.list : defList;
+  const today = c.today !== "" && c.today != null ? +c.today : defToday;
   const paid = +S.call.paid || 0;
   return { list, today, paid, due: Math.max(today - paid, 0) };
 }

@@ -11,7 +11,7 @@
     "months": "12",
     "who": "On the $1 trial, on the onboarding call, going to use it anyway",
     "proof": "general",
-    "stack": "Everything we built today, yours all year\nHooks, scripts and captions in your voice, in minutes\nBuilt from what's already going viral in your niche\nUnlimited boards, every template, our support team",
+    "stack": "The content system we just built you, yours all year\nTrained on your voice, your brand and your past content\nBuilt from what's already going viral in your niche\nUnlimited boards, every template, our support team",
     "notes": "The ethical bribe. Price is yours: $374 is the default, $350 when you feel it, never under $299 without asking. Charge the card on file, never a link unless there is no card. It's $31 a month to go viral."
   },
   {
@@ -26,8 +26,56 @@
     "months": "",
     "who": "Wants to never think about a renewal again",
     "proof": "general",
-    "stack": "Pay once. Never see a Poppy renewal again\n4,000 credits every month, forever\nUnlimited boards and every template\n5 brand profiles and 2 team seats",
+    "stack": "The content system we just built you, yours for life\n4,000 credits a month, double what you have now\n5 brand profiles for clients, 2 seats for your team\nGrandfathered: prices go up, yours never does",
     "notes": "Flat $997 on the lifetime rail (Qazi's rule): Basic for life + the Starter half = 4,000 credits a month, 2 seats, 5 brand profiles, same as Meets. Sold against $1,188 every year for Starter."
+  },
+  {
+    "id": "lifec",
+    "name": "Creator for Life",
+    "deck": "ob",
+    "list": 2268,
+    "today": 2268,
+    "range": "$2,268",
+    "coaches": [],
+    "calls": "1",
+    "months": "",
+    "who": "Wants more credits, seats and a coach in their corner, paid once",
+    "proof": "general",
+    "stack": "Pay once. Never see a Poppy renewal again\n8,000 credits every month, forever\n3 team seats, 10 brand profiles, the landing page builder\nOne strategy call with a content coach",
+    "notes": "Creator for Life: the Creator plan (8,000 credits a month, 3 seats, 10 brand profiles) for life at the plan's yearly price, once, plus one strategy call with a content coach."
+  },
+  {
+    "id": "lifecs",
+    "name": "30-Day Content Sprint",
+    "deck": "ob",
+    "list": 2268,
+    "today": 2268,
+    "range": "$2,268",
+    "coaches": [
+      "charan",
+      "christian"
+    ],
+    "calls": "4",
+    "months": "",
+    "who": "Wants the Creator plan for life and a month of coaching on every stage: short form, long form, ads, conversion",
+    "proof": "general",
+    "stack": "The Creator plan for life, never a renewal\n4 weekly group coaching calls: short form, long form, ads, conversion\n8,000 credits every month, forever\n3 team seats, 10 brand profiles, the landing page builder",
+    "notes": "Creator for Life once, plus four weekly group coaching calls: short form (Charan), long form + ads (Christian), conversion (Charan)."
+  },
+  {
+    "id": "lifep",
+    "name": "Power User for Life",
+    "deck": "ob",
+    "list": 4788,
+    "today": 4788,
+    "range": "$4,788",
+    "coaches": [],
+    "calls": "2",
+    "months": "",
+    "who": "Agencies and teams: the most credits, every seat, two strategy calls, paid once",
+    "proof": "general",
+    "stack": "Pay once. Never see a Poppy renewal again\n16,000 credits every month, forever\n5 team seats, unlimited brand profiles, APIs, chatbots and agents\nTwo strategy calls with a content coach",
+    "notes": "Power User for Life: the Power User plan for life at the plan's yearly price, once, plus two strategy calls with a content coach."
   },
   {
     "id": "starter",
@@ -252,7 +300,6 @@
     "today": 7500,
     "range": "$5k to $15k",
     "coaches": [
-      "malu",
       "charan",
       "christian"
     ],
@@ -272,7 +319,7 @@
       "A brand deal pitch + media kit system (only if brand deals came up)",
       "An email sequence in your voice (only if email or a list came up)"
     ],
-    "notes": "Done WITH you, not done for you: they post. Client commits to ~20 Reels a month + 25 DMs a day. Coach: Malu for UGC/creators, Charan for coaches, Christian for general builds (ads, webinars, programs). What changes from $5k to $15k: [fill in]."
+    "notes": "Done WITH you, not done for you: they post. Client commits to ~20 Reels a month + 25 DMs a day. Coach: Charan for coaches, Christian for general builds (ads, webinars, programs). What changes from $5k to $15k: [fill in]."
   },
   {
     "id": "yvcs",

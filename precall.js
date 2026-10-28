@@ -1,6 +1,6 @@
 import { h, S, save, render, setTab, setCall, uid, todayISO, copy, toast, store } from "./core.js";
 import { hasKey, setKey, live, refreshCalls } from "./poppy.js";
-import { lookupCard } from "./deck.js";
+import { pickCall } from "./deck.js";
 
 // Pre-call briefs live in this browser only (kc:calls). Live ones come from Poppy (poppy.js).
 export const blankCall = () => ({
@@ -9,7 +9,7 @@ export const blankCall = () => ({
   sections: { confirmed: "", reach: "", who: "", putOut: "", usePoppy: "", close: "", soFar: "" }, open: {},
 });
 const update = (c, patch) => { Object.assign(c, patch); save(); render(); };
-const toDeck = (c) => { setCall({ id: c.id, name: c.name, email: c.email, phone: c.phone || "", trialStart: c.trialStart, renews: c.renews, offerId: c.offerId || "renew", mode: /group/i.test(c.type) ? "group" : "one", paidNow: false, party: false, payUrl: "", payErr: "", payNote: "", payFix: false, cardInfo: null, cardFor: "", showLinks: false, linkTried: false }); setTab("deck"); lookupCard(); };
+const toDeck = (c) => { pickCall(c); setTab("deck"); };
 const dayLabel = (d) => { const t = todayISO(); if (d === t) return "Today"; const tm = new Date(t + "T12:00:00"); tm.setDate(tm.getDate() + 1); return d === tm.toISOString().slice(0, 10) ? "Tomorrow" : d; };
 
 export function renderPrecall() {

@@ -41,7 +41,7 @@ export default async function handler(req, res) {
   if (!path.startsWith("/") || !ALLOW.some(([m, re]) => m === req.method && re.test(path))) return res.status(403).json({ error: "not_allowed", message: "that call is not allowed through the proxy", path });
 
   const body = req.method === "POST" ? (typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {})) : undefined;
-  if (body && typeof body === "object" && !/^\/mock\//.test(path)) {
+  if (body && typeof body === "object" && !/^\/mock\//.test(path) && !/\/void$/.test(path)) {
     body.metadata = { ...(body.metadata || {}), closer: process.env.CADENCE_CLOSER || "killian@getpoppy.ai", via: "cadence" };
   }
   const headers = { Authorization: `Bearer ${key}`, "Content-Type": "application/json" };

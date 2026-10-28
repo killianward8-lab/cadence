@@ -76,7 +76,7 @@ export function mapCall(c, zone) {
     date, time: c.time || "", type, name: c.name || "", email: c.email || "", phone: c.phone || "",
     bio: brand.business || brief.business || "", calendar: c.title || "", instagram: (c.links && c.links.instagram) || "",
     confirmed: c.confirmed ? "yes" : "no", score: c.score != null ? `${c.score}/10` : "", late: false,
-    trialStart: trial.ends ? minus(trial.ends, 7) : "", renews: renew.at || trial.ends || "", renewAmount: renew.amount || "", offerId: "renew",
+    trialStart: trial.ends ? minus(trial.ends, 7) : "", renews: renew.at || trial.ends || "", renewAmount: renew.amount || "", renewInterval: renew.interval || "", trialCanceled: !!trial.canceled, offerId: "renew",
     join: c.join || "", notOnCalendar: !!c.notOnCalendar, channel: c.channel || "", sop: c.sop || [],
     brief: { problem: notes.problem || "", flags: brief.flags || [], lines: brief.lines || [] },
     sections, open: {},
@@ -135,12 +135,13 @@ export async function findCard({ email, name, ob }) {
 }
 
 // Charge the card on file. Mirrors Mo's page: the route depends on the offer.
-export async function chargeCard({ offer, email, name, amount, card }) {
+export async function chargeCard({ offer, email, name, amount, card, plan = "", installments = 0 }) {
   const te = clean(email); amount = Math.round(+amount || 0);
   if (!te) throw new Error("add their email first");
   if (!amount) throw new Error("the amount is 0");
   let U;
-  if (isOb(offer) && offer.id === "life") U = await api("/api/lifetime", { action: "charge", email: te, source: "call", credit_to: REP_EMAIL, amount });
+  if (isOb(offer) && /^life/.test(offer.id)) U = await api("/api/lifetime", { action: "charge", email: te, source: "call", credit_to: REP_EMAIL, amount, ...(plan ? { plan } : {}), ...(installments ? { installments } : {}) });
+  else if (isOb(offer) && card && card.trialing === false) U = await api("/api/revive", { action: "charge_year", email: te, price: amount, closer: "Killian" });
   else if (isOb(offer)) U = await api("/api/upgrade", { email: te, bonus: Math.max(0, Math.min(349, 399 - amount)), source: "call", clicked_by: "onboarder", offer_shown: true });
   else if (isPlan(offer)) U = await api("/api/plan-upgrade", { action: "charge", email: te, plan: offer.id, name: name || "", clicked_by: "onboarder" });
   else {
@@ -152,7 +153,7 @@ export async function chargeCard({ offer, email, name, amount, card }) {
   if (U && U.no_card) return { ok: false, noCard: true, error: "no card on file" };
   if (declined || (U && U.ok === false)) {
     let fix = U.pay_url || (U.invoice && U.invoice.pay_url) || "";
-    if (!fix && offer.id === "life") fix = (await api("/api/lifetime", { action: "checkout", email: te, hosted: true, amount, clicked_by: "customer", name: name || "" }).catch(() => ({}))).url || "";
+    if (!fix && /^life/.test(offer.id)) fix = (await api("/api/lifetime", { action: "checkout", email: te, hosted: true, amount, clicked_by: "customer", name: name || "", ...(plan ? { plan } : {}) }).catch(() => ({}))).url || "";
     if (!fix) fix = ((await api("/api/cardfix?email=" + encodeURIComponent(te)).catch(() => ({}))).fix || {}).pay_url || "";
     return { ok: false, declined: true, error: U.error || (U.declined ? "Card declined: " + U.declined : "Card declined"), fix };
   }
@@ -185,10 +186,24 @@ export function itemsFor({ offer, amount, how = "full", n = 1, every = "month", 
 }
 
 // Make a pay link. OB group link via /api/pay, Life via the hosted checkout, everything else via /api/paylink.
-export async function makeLink({ offer, email, name, amount, processor = "stripe", how = "full", n = 1, every = "month", productId, productName = "", note = "", lifetimeCredits }) {
+export async function makeLink({ offer, email, name, amount, processor = "stripe", how = "full", n = 1, every = "month", productId, productName = "", note = "", lifetimeCredits, plan = "" }) {
   const te = clean(email); amount = Math.round(+amount || 0);
   if (!amount) throw new Error("the amount is 0");
   const inst = /^\d+$/.test(String(how)) && +how > 1;
+  // Creator / Power for Life: always the Lifetime checkout with the plan, so the right plan is granted.
+  if (/^life./.test(offer.id) && processor === "stripe") {
+    if (!te) throw new Error("add their email first: Life plans need the account email");
+    const r = await api("/api/lifetime", { action: "checkout", email: te, hosted: true, amount, clicked_by: "customer", name: name || "", ...(plan ? { plan } : {}) });
+    if (!r.url) throw new Error(r.error || "could not make the lifetime link");
+    return { url: r.url, note: r.lifetime_note || "" };
+  }
+  if (isOb(offer) && processor === "whop") {
+    const life = offer.id === "life";
+    if (life && !te) throw new Error("Whop Life links need their email");
+    const r = await api("/api/paylink", { action: "link", processor: "whop", productId: life ? "lifetime" : "plan:basic", productName: (offer.name || "Poppy") + (inst ? " · pick Splitit at checkout" : "") + (note ? " · " + note : ""), items: [{ type: "one_time", amount, ...(life ? {} : { term: "12" }) }], customerEmail: te || undefined });
+    if (!r.url) throw new Error(r.error || "Whop gave no link");
+    return { url: r.url, note: life ? "Whop can't switch Lifetime on by itself: tap ✓ They paid when it lands." : "" };
+  }
   if (isOb(offer) && how === "full" && (offer.id !== "life" || !te) && processor === "stripe") {
     const r = await api("/api/pay", { action: "create", mode: "same", offer: { kind: offer.id === "life" ? "life" : "year", amount }, minutes: 60, room: "cadence", note: name || "" });
     if (!r.url) throw new Error(r.error || "could not make the link");

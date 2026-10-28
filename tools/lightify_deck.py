@@ -10,6 +10,8 @@ MAP = {
   "#f5c64f": "#B7791F", "#f8d46c": "#E0B74A", "#f0b93a": "#D19A2A", "#e9c46a": "#B7791F", "#bdf5d9": "#1E9E6A",
   "#4ade97": "#1E9E6A", "#6ef2b3": "#4CCB95", "#2fd487": "#1E9E6A", "#9fd9bd": "#1E9E6A", "#00d66f": "#1E9E6A",
   "#ff8e80": "#D94C4C", "#ff8fa3": "#D94C4C",
+  "#08070c": "#F7F7FC", "#06070c": "#F7F7FC", "#14100a": "#F7F3E8", "#06050a": "#FFFFFF", "#12101c": "#FFFFFF", "#14111e": "#FFFFFF",
+  "#1a1628": "#E6E7F2", "#181428": "#EDEBFA", "#2a2340": "#EEEFF7", "#121520": "#FFFFFF", "#0a0c12": "#F4F5FA", "#121020": "#F4F5FA",
   "#2b2250": "#5B4BD6", "#4b3a9e": "#6D5CE0", "#9d7bf5": "#A58CF7", "#2a2252": "#F1F0FA", "#16122c": "#FFFFFF", "#0e2a1f": "#1E9E6A", "#145c3e": "#2AB27C", "#0c1512": "#1E9E6A", "#13261f": "#2AB27C", "#1f4a38": "#4CCB95",
 }
 def hexmap(m):
@@ -30,6 +32,23 @@ def rgba(m):
 res = re.sub(r"#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?\b", hexmap, css)
 res = re.sub(r"rgba\((\d+),(\d+),(\d+),([.\d]+)\)", rgba, res)
 res = re.sub(r"#fff\b(?![0-9a-fA-F])", "#14162A", res)
+# pale text colours meant for dark panels -> readable on light (text only, backgrounds untouched)
+TEXT = {}
+for k in "fbe08a ffe7a3 f5d98a ffc48a".split(): TEXT[k] = "#B7791F"
+for k in "e9e3ff ede7ff e9e6fa e4dcff d9d0ff d9d3f5 e6e3f5 e8e5f5".split(): TEXT[k] = "#2A2F48"
+for k in "c9c5dd c9c5e0 cfc8ee".split(): TEXT[k] = "#4A5070"
+for k in "b8f5d4 7cf0b8 7bf0b6 7fd9ae 9fe8c4 8fd9b4 e9fff4".split(): TEXT[k] = "#1E9E6A"
+for k in "ffb4a8 ffb4c2 e9c6c0".split(): TEXT[k] = "#D94C4C"
+TEXT["c9beff"] = "#5546C9"; TEXT["ffb46a"] = "#C2410C"
+res = re.sub(r"((?<![-\w])color:\s*)#([0-9a-fA-F]{6})\b", lambda m: m.group(1) + TEXT.get(m.group(2).lower(), "#" + m.group(2)), res)
+# gradient text (gold / lilac headline words) needs deeper stops on white
+def deepen(m):
+  body = m.group(2)
+  if "clip:text" not in body: return m.group(0)
+  for a, b in (("#fbe08a", "#D9A12E"), ("#e9b53a", "#A86E12"), ("#f8d46c", "#C98A1E"), ("#E0B74A", "#C98A1E"), ("#c9bcff", "#7A68F0"), ("#8b7bff", "#5546C9"), ("#ffb4a8", "#E8665A"), ("#ffe29a", "#D9A12E")):
+    body = re.sub(a, b, body, flags=re.I)
+  return m.group(1) + "{" + body + "}"
+res = re.sub(r"([^{}]*)\{([^{}]*)\}", deepen, res)
 res += """
 /* light touch-ups */
 .dk-slide{background:#F7F7FC;color:#14162A}
@@ -60,6 +79,13 @@ res += """
 .dk-welcome button,.dk-welcome a,.dk-gp .send a{color:#fff}
 .dk-review .acts button{color:#fff}
 .dk-pay.one .pay{color:#1a1428!important}
+.dk-pay.one .cc.paid .pd-mid span{color:rgba(255,255,255,.75)}
+.dk-pay.one .cc.paid .pd-bot,.dk-pay.one .cc.paylink .pl-link button.ghostbtn{color:#fff}
+.dk-crew .cards:has(> .cc:nth-child(2):last-child){grid-template-columns:repeat(2,minmax(0,1fr))}
+.dv{background:linear-gradient(180deg,#FFFFFF,#F4F5FA)}
+.dk-guarban{background:linear-gradient(135deg,#E3F6EC,#D3F0E1);color:#14162A}
+:where(.dk-present) :where(button,input,textarea,select){font-family:Manrope,Inter,system-ui,sans-serif}
+.dk-present .dk-tools .dk-price{background:#FFFFFF;border-color:rgba(16,18,40,.12);box-shadow:0 14px 40px rgba(16,18,40,.18)}
 """
 (root / "deck-light.css").write_text(res, encoding="utf-8")
 print("deck-light.css", len(res))
