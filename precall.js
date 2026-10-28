@@ -14,7 +14,7 @@ const dayLabel = (d) => { const t = todayISO(); if (d === t) return "Today"; con
 
 export function renderPrecall() {
   const view = store.get("kc:pcview", "cards");
-  const calls = [...S.calls].sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
+  const calls = [...S.calls].sort((a, b) => String(a.startAt || a.date).localeCompare(String(b.startAt || b.date)));
   const today = calls.filter(c => c.date === todayISO());
   const confirmedN = today.filter(c => c.confirmed === "yes").length;
   if (hasKey() && !live.busy && !live.error && Date.now() - live.at > 10 * 60e3) refreshCalls().then(ok => ok && render());

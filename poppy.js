@@ -29,7 +29,7 @@ export const live = { at: store.get("kc:live:at", 0), error: "", busy: false };
 
 export async function refreshCalls(force = false) {
   if (!hasKey()) return false;
-  if (!force && Date.now() - live.at < 10 * 60e3 && S.calls.some(c => c.live)) return true;
+  if (!force && Date.now() - live.at < 10 * 60e3 && S.calls.some(c => c.live) && S.calls.filter(c => c.live).every(c => c.startAt)) return true;
   live.busy = true; live.error = "";
   try {
     const r = await fetch(`${API}/api/precall?who=${WHO}&tz=${encodeURIComponent(tz())}&key=${encodeURIComponent(key())}`, { credentials: "omit" });
@@ -50,6 +50,12 @@ export async function refreshCalls(force = false) {
 const TYPES = { group: "Group onboarding", ob: "1-on-1 onboarding", ob1: "1-on-1 onboarding", onboard: "1-on-1 onboarding", close: "Closing call", closing: "Closing call", set: "Set", triage: "Closing call" };
 const dayOf = (iso, zone) => {
   try { return new Intl.DateTimeFormat("en-CA", { timeZone: zone, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(iso)); } catch { return String(iso).slice(0, 10); }
+};
+// Poppy's "time" label is US Eastern; show the call in this computer's own time instead.
+const localTime = (iso, zone) => {
+  try { const p = new Intl.DateTimeFormat("en-US", { timeZone: zone, hour: "numeric", minute: "2-digit", hour12: true }).formatToParts(new Date(iso));
+    const g = (t) => (p.find(x => x.type === t) || {}).value || ""; const m = g("minute");
+    return g("hour") + (m && m !== "00" ? ":" + m : "") + g("dayPeriod").toLowerCase(); } catch { return ""; }
 };
 const minus = (iso, days) => { const d = new Date(String(iso).slice(0, 10) + "T12:00:00"); if (isNaN(d)) return ""; d.setDate(d.getDate() - days); return d.toISOString().slice(0, 10); };
 const line = (...parts) => parts.filter(Boolean).join(" · ");
@@ -83,7 +89,7 @@ export function mapCall(c, zone) {
   };
   return {
     id: "live:" + String(c.email || c.name || uid()).toLowerCase() + ":" + date, live: true,
-    date, time: c.time || "", type, name: c.name || "", email: c.email || "", phone: c.phone || "",
+    date, time: (c.startAt && localTime(c.startAt, zone)) || c.time || "", etTime: c.time || "", startAt: c.startAt || "", type, name: c.name || "", email: c.email || "", phone: c.phone || "",
     bio: brand.business || brief.business || "", calendar: c.title || "", instagram: (c.links && c.links.instagram) || "",
     confirmed: c.confirmed ? "yes" : "no", score: c.score != null ? `${c.score}/10` : "", late: false,
     trialStart: trial.ends ? minus(trial.ends, 7) : "", renews: renew.at || trial.ends || "", renewAmount: renew.amount || "", renewInterval: renew.interval || "", trialCanceled: !!trial.canceled, offerId: "renew",

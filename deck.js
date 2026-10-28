@@ -15,7 +15,7 @@ export function renderDeck() {
   const moneyF = (label, key, val, ph = "") => h("label", { class: "cl-f money" }, h("small", {}, label), h("i", {}, "$"), h("input", { inputmode: "numeric", value: val, placeholder: ph, onchange: (e) => setCall({ [key]: e.target.value }) }));
 
   // 1 · your calls (or the practice call)
-  const upcoming = [...S.calls].filter(x => x.date >= todayISO()).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time)).slice(0, 8);
+  const upcoming = [...S.calls].filter(x => x.date >= todayISO()).sort((a, b) => String(a.startAt || a.date).localeCompare(String(b.startAt || b.date))).slice(0, 8);
   const days = [...new Set(upcoming.map(x => x.date))];
   const dayLabel = (dt) => { const t = todayISO(); if (dt === t) return "Today"; const tm = new Date(t + "T12:00:00"); tm.setDate(tm.getDate() + 1); return dt === tm.toISOString().slice(0, 10) ? "Tomorrow" : dt; };
   const kind = (t) => /group/i.test(t) ? ["group", "Group OB"] : /1-on-1/i.test(t) ? ["ob", "1-on-1 OB"] : /clos/i.test(t) ? ["close", "Closing"] : ["set", "Set"];
