@@ -2242,3 +2242,24 @@ ul.core li.tap .tapi{display:none}
 .dk-present .dk-tools{white-space:nowrap;flex-wrap:nowrap}
 .dk-present .dk-tools .seg{display:inline-flex;flex-wrap:nowrap;border:0}
 .dk-present .dk-tools .grp.offer .seg{margin-left:0}
+/* Joey's anchor slide (getpoppy.ai/joey/cadence .dk-price.anchor, renamed: .dk-price is the presenter price box here) */
+.dk-anchor{display:grid;grid-template-columns:1.1fr 1fr;gap:4cqw;align-items:center}
+.dk-anchor .dk-l{display:flex;flex-direction:column}
+.dk-anchor h2{font-size:3.8cqw}
+.dk-anchor .receipt{display:flex;flex-direction:column;margin-top:2cqw;border-radius:1.6cqw;background:#ffffff0b;border:1px solid rgba(255,255,255,.1);padding:.4cqw 2cqw}
+.dk-anchor .receipt>div{display:flex;justify-content:space-between;align-items:baseline;gap:2cqw;padding:1cqw 0;border-top:1px solid rgba(255,255,255,.08)}
+.dk-anchor .receipt>div:first-child{border-top:0}
+.dk-anchor .receipt span{font-size:1.5cqw;color:#c9c4e6}
+.dk-anchor .receipt b{font:700 1.9cqw Sora;color:#f4f2ff}
+.dk-anchor .dk-r{display:flex;justify-content:center}
+.dk-anchor .today{display:flex;flex-direction:column;align-items:center;gap:.7cqw;padding:3cqw 5cqw;border-radius:2.4cqw;background:#f5c64f17;border:1px solid rgba(245,198,79,.5);text-align:center}
+.dk-anchor .today small{font:800 1.3cqw Manrope;letter-spacing:.16em;text-transform:uppercase;color:#f5c64f}
+.dk-anchor .today b{font:800 8cqw Sora;letter-spacing:-.05em;color:#f5c64f;line-height:1}
+.dk-anchor .today em{font-style:normal;font-size:1.5cqw;color:#c9c4e6}
+.dk-anchor .receipt b{color:#c9c4e6}
+.dk-anchor .today b{font-size:9cqw}
+.dk-anchor .dk-r{flex-direction:column;align-items:center;gap:1.6cqw}
+.dk-anchor .alt{display:flex;align-items:baseline;justify-content:center;flex-wrap:wrap;gap:.4cqw 1.2cqw;padding:1.4cqw 2.4cqw;border-radius:1.6cqw;background:#ffffff0b;border:1px solid rgba(255,255,255,.12);text-align:center}
+.dk-anchor .alt small{width:100%;font:800 1.1cqw Manrope;letter-spacing:.14em;text-transform:uppercase;color:#c9c4e6}
+.dk-anchor .alt b{font:800 3.2cqw Sora;letter-spacing:-.03em;color:#f4f2ff}
+.dk-anchor .alt em{font-style:normal;font-size:1.35cqw;color:#c9c4e6}

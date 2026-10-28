@@ -1,5 +1,5 @@
 // Shared helpers and state for Killian's Cadence. No imports here.
-export const BUILD = "20261028-2019";
+export const BUILD = "20261028-2125";
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const h = (tag, attrs = {}, ...kids) => {

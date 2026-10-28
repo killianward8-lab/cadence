@@ -102,6 +102,30 @@ res += """
 .dk-guarban{background:linear-gradient(135deg,#E3F6EC,#D3F0E1);color:#14162A}
 :where(.dk-present) :where(button,input,textarea,select){font-family:Manrope,Inter,system-ui,sans-serif}
 .dk-present .dk-tools .dk-price{background:#FFFFFF;border-color:rgba(16,18,40,.12);box-shadow:0 14px 40px rgba(16,18,40,.18)}
+/* Joey's anchor slide, his light deck (:root.dkl) */
+.dk-anchor .receipt{background:#7c5cee0d;border:1px solid rgba(70,50,160,.14)}
+.dk-anchor .receipt>div{border-top:1px solid rgba(70,50,160,.112)}
+.dk-anchor .receipt span{color:#6f61bc}
+.dk-anchor .receipt b{color:#14121e}
+.dk-anchor .today small{color:#e4910c}
+.dk-anchor .today b{color:#e4910c}
+.dk-anchor .today em{color:#6f61bc}
+.dk-anchor .receipt b{color:#6f61bc}
+.dk-anchor .alt{background:#7c5cee0d;border:1px solid rgba(70,50,160,.168)}
+.dk-anchor .alt small{color:#6f61bc}
+.dk-anchor .alt b{color:#14121e}
+.dk-anchor .alt em{color:#6f61bc}
+.dk-anchor .receipt{background:#fff;border-color:#ece9f6}
+.dk-anchor .receipt b{color:#2b2c3a}
+.dk-anchor .receipt>div.ck b{color:#1ea464}
+.dk-anchor .alt{flex-direction:column;align-items:center;gap:.2cqw;padding:1.4cqw 3cqw;background:#fff;border-color:#ece9f6}
+.dk-anchor .alt small{width:auto;color:#5b5772}
+.dk-anchor .alt b{font-size:3cqw;color:#2b2c3a}
+.dk-anchor .alt em{color:#6e6a85}
+.dk-anchor .receipt span{color:#3f3b55}
+.dk-anchor .today{background:#fff;border:1.5px solid rgba(245,166,35,.5);box-shadow:0 1cqw 2.6cqw #f5a6231f}
+.dk-anchor .today small{color:#c77700}
+.dk-anchor .today em{color:#5b5772}
 """
 (root / "deck-light.css").write_text(res, encoding="utf-8")
 print("deck-light.css", len(res))

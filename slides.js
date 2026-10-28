@@ -77,7 +77,7 @@ const COACHES = {
 const tierDeck = () => !S.call.payBoth && isLifeId(S.call.offerId) && (S.call.offerId === "lifecoh" ? cohortTier() : TIERS[S.call.offerId]);
 export function slideList() {
   const t = tierDeck();
-  const mid = t ? ["intro", "pillars", ...(t.weeks && !t.cohort ? ["coaches"] : []), "plan", "normal", "deal"] : ["offer"];
+  const mid = t ? ["intro", "pillars", ...(t.weeks && !t.cohort ? ["coaches"] : []), "plan", "normal", "deal"] : ["anchor", "offer"];
   const paid = !!S.call.paidAt || S.call.party;
   return ["cover", ...mid, "pay", paid ? "celebrate" : "gameplan", "review"];
 }
@@ -134,7 +134,7 @@ const wrap = (cls, body) => h("div", { class: "dk-slide " + cls },
 export function renderSlide(i = S.slide) {
   const id = slideId(i);
   const map = {
-    cover: () => wrap("cover", cover()), offer: () => wrap("", S.call.payBoth ? compare() : isOb() ? offerOb() : offerOther()),
+    cover: () => wrap("cover", cover()), anchor: () => wrap("", anchor()), offer: () => wrap("", S.call.payBoth ? compare() : isOb() ? offerOb() : offerOther()),
     intro: () => wrap("", intro()), pillars: () => wrap("", pillars()), coaches: () => wrap("", coaches()), plan: () => wrap("", planSlide()),
     normal: () => wrap("", normal()), deal: () => wrap("", deal()), pay: () => wrap("", pay()),
     gameplan: () => wrap("center gp", gameplan()), celebrate: () => wrap("center party", party()), review: () => wrap("", review()),
@@ -142,7 +142,7 @@ export function renderSlide(i = S.slide) {
   return (map[id] || map.cover)();
 }
 export const sayItKey = () => { const id = slideId(); if (id === "offer" && S.call.payBoth) return "compare"; if (id === "intro" && tierDeck() && tierDeck().weeks) return tierDeck().cohort ? "introCohort" : "introSprint"; return id; };
-export const slideLabel = (id) => ({ cover: "cover", offer: "offer", intro: "problem", pillars: "pillars", coaches: "coaches", plan: "plan", normal: "normally", deal: "today", pay: "pay", gameplan: "gameplan", celebrate: "celebrate", review: "review" })[id] || id;
+export const slideLabel = (id) => ({ cover: "cover", anchor: "anchor", offer: "offer", intro: "problem", pillars: "pillars", coaches: "coaches", plan: "plan", normal: "normally", deal: "today", pay: "pay", gameplan: "gameplan", celebrate: "celebrate", review: "review" })[id] || id;
 
 // ---------- popovers shared by several slides ----------
 function overlays() {
@@ -215,6 +215,19 @@ function cover() {
     h("h1", {}, n ? `${n}, here's where you're at.` : "Here's where you're at."),
     c.deal ? h("div", { class: "pills" }, c.deal.split("\n").filter(Boolean).slice(0, 4).map(s => h("span", {}, s))) : null,
     h("p", { class: "bridge" }, "Since we're on the call, I can do one thing for you →"));
+}
+
+// ---------- anchor: what it costs to hire (Joey's slide) ----------
+function anchor() {
+  const a = d().anchor || {}, n = nm();
+  return h("div", { class: "dk-anchor" },
+    h("div", { class: "dk-l" },
+      h("p", { class: "dk-eye" }, a.eye),
+      h("h2", {}, n ? `${n}, ${a.head.charAt(0).toLowerCase() + a.head.slice(1)}` : a.head),
+      h("div", { class: "receipt" }, (a.rows || []).map(([k, v]) => h("div", { class: v === "✓" ? "ck" : "" }, h("span", {}, k), h("b", {}, v))))),
+    h("div", { class: "dk-r" },
+      h("div", { class: "today" }, h("small", {}, a.bigLabel), h("b", {}, a.big), h("em", {}, a.bigSub)),
+      a.alt ? h("div", { class: "alt" }, h("small", {}, a.altLabel), h("b", {}, a.alt), h("em", {}, a.altSub)) : null));
 }
 
 // ---------- 2 · offer (Year / Life) ----------
