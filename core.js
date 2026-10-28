@@ -1,5 +1,5 @@
 // Shared helpers and state for Killian's Cadence. No imports here.
-export const BUILD = "20261028-0438";
+export const BUILD = "20261028-1804";
 
 export const $ = (sel, root = document) => root.querySelector(sel);
 export const h = (tag, attrs = {}, ...kids) => {
@@ -63,7 +63,13 @@ export const S = {
   pay: Object.assign({ offerId: "life", name: "", rail: "stripe", how: "full", total: "", paid: "", who: "", n: 2, every: "month" }, store.get("kc:pay", {})),
   renderers: {},
 };
-export const content = () => S.edits || S.repo;
+// Saved edits keep working when the repo gains a new offer: missing offers are added from the repo copy.
+const merged = new WeakSet();
+export const content = () => {
+  const e = S.edits; if (!e) return S.repo;
+  if (!merged.has(e) && S.repo && Array.isArray(e.offers)) { const have = new Set(e.offers.map(o => o.id)); S.repo.offers.forEach(o => { if (!have.has(o.id)) e.offers.push(JSON.parse(JSON.stringify(o))); }); merged.add(e); }
+  return e;
+};
 export function save() {
   store.set("kc:tab", S.tab); store.set("kc:stage", S.stage); store.set("kc:vars", S.vars); store.set("kc:call", S.call);
   store.set("kc:obj", S.obj); store.set("kc:cat", S.cat); store.set("kc:practice", S.practice); store.set("kc:calls", S.calls);

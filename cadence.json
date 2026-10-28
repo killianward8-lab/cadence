@@ -2572,6 +2572,21 @@
       "notes": "Creator for Life once, plus four weekly group coaching calls: short form (Charan), long form + ads (Christian), conversion (Charan)."
     },
     {
+      "id": "lifecoh",
+      "name": "Creator Cohort",
+      "deck": "ob",
+      "list": 2500,
+      "today": 2500,
+      "range": "$2,500",
+      "coaches": [],
+      "calls": "4",
+      "months": "",
+      "who": "Wants Poppy for life plus a month of live group coaching on every platform: short-form, long-form, paid ads, funnels",
+      "proof": "general",
+      "stack": "Poppy for life: the Starter or Creator plan, their pick. Pay once, never renew\n4 live group calls, one a week: short-form, long-form, paid ads, funnels\nStarts one week after they join\nThe Viral Content Academy: the full course, plus our prompts and template boards",
+      "notes": "$2,500 one time, or monthly payments. Each buyer's cohort starts 7 days after they pay. Calls: week 1 short-form, week 2 long-form, week 3 paid ads, week 4 funnels. Starter for life = plain lifetime charge; Creator for life = plan creator."
+    },
+    {
       "id": "lifep",
       "name": "Power User for Life",
       "deck": "ob",
@@ -2961,5 +2976,5 @@
     }
   ],
   "offv": 33,
-  "updated": 1793146657504
+  "updated": 1793207006130
 }

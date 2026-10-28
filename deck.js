@@ -280,9 +280,9 @@ const chan = typeof BroadcastChannel !== "undefined" ? new BroadcastChannel("cad
 export function broadcast() { if (chan && S.present && !window.__cadenceScreen) try { chan.postMessage({ call: S.call, slide: S.slide, step: S.step || 0, ui: S.ui || {}, practice: S.practice, guar: PR.guar }); } catch {} }
 window.__cadenceBroadcast = broadcast;
 
-const OFFER_CHIP = { renew: ["💎", "Year"], life: ["💎", "Life"], lifec: ["🎨", "Creator"], lifecs: ["🏃", "Sprint"], lifep: ["⚡", "Power"] };
+const OFFER_CHIP = { renew: ["💎", "Year"], life: ["💎", "Life"], lifec: ["🎨", "Creator"], lifecs: ["🏃", "Sprint"], lifecoh: ["👥", "Cohort"], lifep: ["⚡", "Power"] };
 function offerPop() {
-  const c = S.call, ob = ["renew", "life", "lifec", "lifecs", "lifep"].map(offerById).filter(Boolean);
+  const c = S.call, ob = ["renew", "life", "lifec", "lifecs", "lifecoh", "lifep"].map(offerById).filter(Boolean);
   const cmp = c.compare && c.compare.length ? c.compare : ["renew", "life"];
   const lifeDeck = /^life./.test(c.offerId) && !c.payBoth;
   const ways = lifeDeck ? [["full", "Pay in full"], ["whop", "6 months"], ["clarity", "12 months"]] : [["full", "Pay in full"], ["whop", "6 months"], ["clarity", "24 months"]];
@@ -294,6 +294,8 @@ function offerPop() {
     h("div", { class: "op-cmp" }, [["renew", "Year"], ["life", "Life"], ["lifec", "Creator"], ["lifep", "Power"]].map(([id, l]) => { const on = cmp.includes(id);
       return h("button", { class: on ? "on" : "", onclick: () => { const next = on ? cmp.filter(x => x !== id) : [...cmp, id]; setCall({ compare: next }); } }, (on ? "✓ " : "") + l); })),
     h("button", { class: "pick", disabled: cmp.length < 2, onclick: () => { PR.pop = ""; setCall({ payBoth: true, compare: cmp }); S.step = 0; render(); } }, `Show these ${cmp.length} side by side →`),
+    c.offerId === "lifecoh" && !c.payBoth ? [h("b", {}, "Cohort plan, their pick"),
+      h("div", { class: "seg2" }, [["starter", "Starter for life"], ["creator", "Creator for life"]].map(([id, l]) => h("button", { class: (c.cohortPlan === "starter" ? "starter" : "creator") === id ? "on" : "", onclick: () => setCall({ cohortPlan: id, payUrl: "", whopUrl: "", linkTried: false }) }, l)))] : null,
     h("b", {}, "How they pay"),
     h("div", { class: "seg2" }, ways.map(([id, l]) => h("button", { class: (c.payPlan || "full") === id ? "on" : "", onclick: () => setCall({ payPlan: id, payUrl: "", whopUrl: "", linkTried: false }) }, l))),
     h("button", { class: "tiny", onclick: () => { PR.pop = "price"; render(); } }, "💲 Change the price"));
@@ -303,7 +305,7 @@ function pricePop() {
   let val = String(cur);
   const set = () => { const v = Math.round(+String(val).replace(/[^\d.]/g, "")); if (v > 0) setCall({ today: String(v), prices: { ...(c.prices || {}), [c.offerId]: v }, payUrl: "", whopUrl: "", linkTried: false }); PR.pop = ""; render(); };
   return h("div", { class: "dk-price", onclick: (e) => e.stopPropagation(), onkeydown: (e) => { e.stopPropagation(); if (e.key === "Enter") { e.preventDefault(); set(); } if (e.key === "Escape") { PR.pop = ""; render(); } } },
-    h("div", { class: "tiers" }, [["renew", [299, 349, 374, 399]], ["life", [750, 897, 997]], ["lifec", [1997, 2268]], ["lifep", [3997, 4788]]].filter(([id]) => id === c.offerId).flatMap(([, ps]) => ps).map(v => h("button", { class: v === cur ? "on" : "", onclick: () => { val = String(v); set(); } }, money(v)))),
+    h("div", { class: "tiers" }, [["renew", [299, 349, 374, 399]], ["life", [750, 897, 997]], ["lifec", [1997, 2268]], ["lifecoh", [1997, 2500]], ["lifep", [3997, 4788]]].filter(([id]) => id === c.offerId).flatMap(([, ps]) => ps).map(v => h("button", { class: v === cur ? "on" : "", onclick: () => { val = String(v); set(); } }, money(v)))),
     h("label", {}, h("i", {}, "$"), h("input", { inputmode: "numeric", value: val, placeholder: "374", oninput: (e) => { val = e.target.value; }, onfocus: (e) => e.target.select() })),
     paid > 0 ? h("small", {}, "minus " + money(paid) + " paid") : null,
     h("button", { class: "set", onclick: set }, "Set"));

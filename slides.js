@@ -12,10 +12,12 @@ const ui = () => (S.ui = S.ui || {});
 const setUI = (patch) => { Object.assign(ui(), patch); render(); };
 const stop = (e) => e && e.stopPropagation();
 const nm = () => (S.call.mode === "one" && S.call.name ? firstName(S.call.name) : "");
-const isLifeId = (id) => /^(lifec|lifecs|lifep)$/.test(id || "");
+const isLifeId = (id) => /^(lifec|lifecs|lifep|lifecoh)$/.test(id || "");
 const isLife = () => /^life/.test(S.call.offerId || "");
 const isOb = () => offer().deck === "ob";
-export const planKeyOf = (id) => ({ lifec: "creator", lifecs: "creator", lifep: "power" })[id] || "";
+// Cohort: Starter or Creator for life, their pick. Starter = the plain lifetime (no plan name sent).
+export const cohortStarter = () => S.call.cohortPlan === "starter";
+export const planKeyOf = (id) => id === "lifecoh" ? (cohortStarter() ? "" : "creator") : ({ lifec: "creator", lifecs: "creator", lifep: "power" })[id] || "";
 const fmtShort = (iso) => { if (!iso) return ""; const t = new Date(String(iso).slice(0, 10) + "T12:00:00"); return isNaN(t) ? iso : t.toLocaleDateString("en-US", { month: "short", day: "numeric" }); };
 const QR = (url, size = 420) => "https://api.qrserver.com/v1/create-qr-code/?size=" + size + "x" + size + "&margin=0&color=0B0A12&bgcolor=FFFFFF&data=" + encodeURIComponent(url);
 
@@ -54,16 +56,28 @@ const TIERS = {
       { n: "Optimize", rep: true, dl: [["90-min AI session", "AI built into your content"], ["APIs, MCP + agents", "connected for you"], ["AI Prompt Vault", "copy-paste prompts"]] },
       { n: "Own", big: "16,000", dl: [["Power User plan", "for life"], ["16,000 credits", "every month"], ["Every new feature", "no renewal, ever"]] }] },
 };
-const PILL = { Strategy: ["🧭", "#A78BFA"], Build: ["🛠️", "#60A5FA"], Optimize: ["⚡", "#34D399"], Own: ["💎", "#F5C64F"], "Short form": ["📱", "#A78BFA"], "Long form": ["🎬", "#60A5FA"], Ads: ["📣", "#F472B6"], Conversion: ["💰", "#34D399"] };
+// The Creator Cohort: lifetime plan + 4 live group calls (one a week), starting a week after they pay.
+function cohortTier() {
+  const st = cohortStarter(), planName = st ? "Starter" : "Creator", credits = st ? "4,000" : "8,000";
+  return { planName, planYear: st ? 1188 : 2268, credits, weeks: true, cohort: true,
+    plan: st ? [["⚡", "4,000", "credits a month"], ["👥", "2", "team seats"], ["🏷️", "5", "brand profiles"], ["🧩", "All", "templates"]]
+      : [["⚡", "8,000", "credits a month"], ["👥", "3", "team seats"], ["🏷️", "10", "brand profiles"], ["🎬", "Landing", "page builder"], ["🧩", "All", "templates"]],
+    pillars: [{ n: "Short-form", wk: "Week 1", dl: [["Viral hooks", "from your niche"], ["A week of posts", "in your voice"]] },
+      { n: "Long-form", wk: "Week 2", dl: [["A YouTube video", "title, hook, outline"], ["Trust that sells", "so they're ready to buy"]] },
+      { n: "Paid ads", wk: "Week 3", dl: [["3 ad scripts", "from your winners"], ["A feedback loop", "every ad beats the last"]] },
+      { n: "Funnels", wk: "Week 4", dl: [["Your funnel mapped", "from post to purchase"], ["Views into buyers", "a page to send them to"]] },
+      { n: "Own", wk: "Forever", big: credits, dl: [[planName + " plan", "for life"], [credits + " credits", "every month"], ["The Academy", "course, prompts, boards"]] }] };
+}
+const PILL = { "Short-form": ["📱", "#A78BFA"], "Long-form": ["🎬", "#60A5FA"], "Paid ads": ["📣", "#F472B6"], Funnels: ["💰", "#34D399"], Strategy: ["🧭", "#A78BFA"], Build: ["🛠️", "#60A5FA"], Optimize: ["⚡", "#34D399"], Own: ["💎", "#F5C64F"], "Short form": ["📱", "#A78BFA"], "Long form": ["🎬", "#60A5FA"], Ads: ["📣", "#F472B6"], Conversion: ["💰", "#34D399"] };
 const COACHES = {
   charan: { id: "charan", name: "Charan Singh", handle: "@trainwithcharan", followers: "50K", photo: "assets/charan.jpg", lines: ["Content strategist at The School of Hard Knockz", "Helps brands, businesses and creators post with clarity", "Builds your content system with you, 1:1"] },
   christian: { id: "christian", name: "Christian Santos", handle: "@christiangotvision", followers: "", photo: "assets/christian.jpg", lines: ["Built the Poppy systems on this deck: ads, VSLs, webinars, YouTube, LinkedIn", "Took a client from 2K to 10K TikTok followers in one month, first video past 100K", "Runs your build 1:1, call by call, until it's producing"] },
 };
 
-const tierDeck = () => !S.call.payBoth && isLifeId(S.call.offerId) && TIERS[S.call.offerId];
+const tierDeck = () => !S.call.payBoth && isLifeId(S.call.offerId) && (S.call.offerId === "lifecoh" ? cohortTier() : TIERS[S.call.offerId]);
 export function slideList() {
   const t = tierDeck();
-  const mid = t ? ["intro", "pillars", ...(t.weeks ? ["coaches"] : []), "plan", "normal", "deal"] : ["offer"];
+  const mid = t ? ["intro", "pillars", ...(t.weeks && !t.cohort ? ["coaches"] : []), "plan", "normal", "deal"] : ["offer"];
   const paid = !!S.call.paidAt || S.call.party;
   return ["cover", ...mid, "pay", paid ? "celebrate" : "gameplan", "review"];
 }
@@ -127,7 +141,7 @@ export function renderSlide(i = S.slide) {
   };
   return (map[id] || map.cover)();
 }
-export const sayItKey = () => { const id = slideId(); if (id === "offer" && S.call.payBoth) return "compare"; if (id === "intro" && tierDeck() && tierDeck().weeks) return "introSprint"; return id; };
+export const sayItKey = () => { const id = slideId(); if (id === "offer" && S.call.payBoth) return "compare"; if (id === "intro" && tierDeck() && tierDeck().weeks) return tierDeck().cohort ? "introCohort" : "introSprint"; return id; };
 export const slideLabel = (id) => ({ cover: "cover", offer: "offer", intro: "problem", pillars: "pillars", coaches: "coaches", plan: "plan", normal: "normally", deal: "today", pay: "pay", gameplan: "gameplan", celebrate: "celebrate", review: "review" })[id] || id;
 
 // ---------- popovers shared by several slides ----------
@@ -309,7 +323,8 @@ function deepOverlay() {
 function pillars() {
   const t = tierDeck(), st = S.step || 0;
   return h("div", { class: "dk-p4" },
-    h("div", { class: "mh" }, t.weeks ? [h("p", { class: "dk-eye gold" }, "The 30-Day Content Sprint"), h("h2", {}, "30 days with us. ", h("span", {}, "Then it's yours for life."))]
+    h("div", { class: "mh" }, t.cohort ? [h("p", { class: "dk-eye gold" }, "The Creator Cohort · starts a week after you join"), h("h2", {}, "4 live calls, one a week. ", h("span", {}, "Poppy for life."))]
+      : t.weeks ? [h("p", { class: "dk-eye gold" }, "The 30-Day Content Sprint"), h("h2", {}, "30 days with us. ", h("span", {}, "Then it's yours for life."))]
       : [h("p", { class: "dk-eye gold" }, "Only on this call"), h("h2", {}, "We build the system ", h("span", {}, "around your business."))]),
     h("div", { class: "steps" + (t.pillars.length === 3 ? " three" : t.pillars.length === 5 ? " five" : "") }, t.pillars.map((p, i) => {
       const open = i < st, [ic, ac] = PILL[p.n] || ["✦", "#A78BFA"], deep = deepFor(p), coach = COACHES[p.coachId];
@@ -350,7 +365,8 @@ function normal() {
 }
 function deal() {
   const t = tierDeck(), o = offer(), due = dealPrice().due, five = t.planYear * 5, keep = Math.max(0, five - due), plan = planInfo(due);
-  const inc = t.weeks ? [["🎓", "4 weekly group coaching calls", "short form · long form · ads · conversion"], ["💎", t.credits + " credits a month", "the " + t.planName + " plan, for life"]]
+  const inc = t.cohort ? [["🎓", "4 live group calls, one a week", "short-form · long-form · paid ads · funnels"], ["📅", "Starts a week after you join", "so you're set up before call 1"], ["💎", t.credits + " credits a month", "the " + t.planName + " plan, for life"]]
+    : t.weeks ? [["🎓", "4 weekly group coaching calls", "short form · long form · ads · conversion"], ["💎", t.credits + " credits a month", "the " + t.planName + " plan, for life"]]
     : t.pillars.map(p => [(PILL[p.n] || ["✦"])[0], p.big ? t.credits + " credits a month" : p.dl[0][0], p.big ? "the " + t.planName + " plan, for life" : p.dl[0][1]]);
   return h("div", { class: "dk-px" },
     h("div", { class: "l" }, h("p", { class: "dk-eye gold" }, "Today, on this call"), h("h2", {}, o.name + ".", h("br"), h("span", {}, "Paid once.")),
@@ -400,7 +416,8 @@ function pay() {
 
   const pls = { sprint: [["Short form", "Short form", "Week 1 · group call"], ["Long form", "Long form", "Week 2 · group call"], ["Ads", "Ads", "Week 3 · group call"], ["Conversion", "Conversion", "Week 4 · group call"], ["Own", "8,000 credits a month", "the Creator plan, for life"]],
     creator: [["Strategy", "90-min call with a content coach", "strategy + build"], ["Build", "Your Poppy system", "built in your voice · 3 seats · 10 brands"], ["Own", "8,000 credits a month", "the Creator plan, for life"]],
-    power: [["Strategy", "2 × 90-min calls with a content coach", "strategy + build, then reviewed"], ["Build", "Your Poppy system", "built in your voice · 5 seats · unlimited brands"], ["Optimize", "90-min AI session", "AI audit · APIs, MCP + agents"], ["Own", "16,000 credits a month", "the Power User plan, for life"]] }[c.offerId === "lifecs" ? "sprint" : plk] || null;
+    cohort: [["Short-form", "Short-form", "Week 1 · live call"], ["Long-form", "Long-form", "Week 2 · live call"], ["Paid ads", "Paid ads", "Week 3 · live call"], ["Funnels", "Funnels", "Week 4 · live call"], ["Own", (cohortStarter() ? "4,000" : "8,000") + " credits a month", "the " + (cohortStarter() ? "Starter" : "Creator") + " plan, for life · calls start a week after you join"]],
+    power: [["Strategy", "2 × 90-min calls with a content coach", "strategy + build, then reviewed"], ["Build", "Your Poppy system", "built in your voice · 5 seats · unlimited brands"], ["Optimize", "90-min AI session", "AI audit · APIs, MCP + agents"], ["Own", "16,000 credits a month", "the Power User plan, for life"]] }[c.offerId === "lifecs" ? "sprint" : c.offerId === "lifecoh" ? "cohort" : plk] || null;
   const paidCount = people ? people.filter(p => (c.paidBy || {})[clean(p.email)]).length : 0;
   const left = h("div", { class: "l" },
     S.practice ? h("span", { class: "pr-tag" }, "🧪 PRACTICE · test money") : null,
@@ -419,7 +436,7 @@ function pay() {
       h("div", { class: "rc-top" }, h("img", { class: "rc-logo", src: "assets/poppy-mascot-hd.png", alt: "" }),
         h("div", {}, h("b", {}, o.name), h("small", {}, life ? "Your content system, every update, for good." : "Your content system, all year")),
         h("em", { class: "rc-pill" + (life ? " gold" : "") }, life ? "Lifetime" : "12 months")),
-      pls ? h("div", { class: "rc-pls" + (c.offerId === "lifecs" ? " sprint" : plk === "creator" ? " three" : "") }, pls.map(([k, b, s]) =>
+      pls ? h("div", { class: "rc-pls" + (c.offerId === "lifecs" || c.offerId === "lifecoh" ? " sprint" : plk === "creator" ? " three" : "") }, pls.map(([k, b, s]) =>
         h("div", { class: "pl2", style: { "--ac": (PILL[k] || [0, "#A78BFA"])[1] } }, h("span", { class: "ic" }, (PILL[k] || ["✦"])[0]), h("div", {}, h("b", {}, b), h("span", {}, s)))))
         : h("div", { class: "rc-bon" }, h("small", {}, "+ 2 bonuses, today only"), h("div", { class: "tiles" }, d().bonuses.map(b =>
           h("div", { class: "tile" }, h("div", { class: "pic" }, h("img", { src: b.tile, alt: "" }), h("span", { class: "art", style: { background: b.art.bg } }, b.art.e)),

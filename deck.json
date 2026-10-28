@@ -11,7 +11,8 @@
     "build": "Build",
     "lifec": "Creator",
     "lifecs": "Sprint",
-    "lifep": "Power"
+    "lifep": "Power",
+    "lifecoh": "Cohort"
   },
   "emoji": {
     "renew": "📅",
@@ -24,7 +25,8 @@
     "build": "🤖",
     "lifec": "🎨",
     "lifecs": "🏃",
-    "lifep": "⚡"
+    "lifep": "⚡",
+    "lifecoh": "👥"
   },
   "plans": {
     "full": {
@@ -150,7 +152,8 @@
     "coaches": "Put a face on every call. Point at each coach and the weeks they run.",
     "plan": "Show them the plan they actually get. Read the credits and the seats, point at 'for life'. Then: 'let me show you what this normally costs, and what it is today.' Click.",
     "normal": "Let the cards land one by one. 'This is the plan the normal way, every year, renews on your card. Five years.' Tap 'charged again every year' for our plans page. Then: 'here's what it is today.' Click.",
-    "deal": "The number, then silence. 'Today it's this, once, and you never pay for it again.' Then stop talking."
+    "deal": "The number, then silence. 'Today it's this, once, and you never pay for it again.' Then stop talking.",
+    "introCohort": "The why before the what: 'Most people post. Few get paid from it. That takes four things: get seen, build trust, scale it, then turn it into money. That's your cohort: four live calls, one a week, starting a week after you join.' Click."
   },
   "dig": [
     [
