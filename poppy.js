@@ -11,6 +11,13 @@ export function keyFromUrl() {
   try {
     const u = new URL(location.href); const k = u.searchParams.get("key");
     if (k) { setKey(k); u.searchParams.delete("key"); history.replaceState(null, "", u.pathname + (u.search || "") + u.hash); toast("Poppy connected"); }
+    // Sales API proxy link from tools/deploy-proxy.sh: save it in this browser, then clean the address bar
+    const su = u.searchParams.get("sales"), st = u.searchParams.get("salesToken");
+    if (su && st && /^https:\/\/[\w.-]+\.vercel\.app\/api\/poppy-sales$/.test(su)) {
+      localStorage.setItem("kc:sales", su); localStorage.setItem("kc:salesToken", st);
+      u.searchParams.delete("sales"); u.searchParams.delete("salesToken");
+      history.replaceState(null, "", u.pathname + (u.search || "") + u.hash); toast("Sales API connected");
+    }
   } catch {}
 }
 const tz = () => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Dublin"; } catch { return "Europe/Dublin"; } };
